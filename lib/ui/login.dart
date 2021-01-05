@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   //text controllers:-----------------------------------------------------------
-  TextEditingController _userEmailController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   //stores:---------------------------------------------------------------------
@@ -160,16 +160,16 @@ class _LoginScreenState extends State<LoginScreen> {
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
           iconColor: Colors.black54,
-          textController: _userEmailController,
+          textController: _usernameController,
           inputAction: TextInputAction.next,
           autoFocus: false,
           onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
+            _store.setUserId(_usernameController.text);
           },
           onFieldSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
           },
-          errorText: _store.formErrorStore.userEmail,
+          errorText: _store.formErrorStore.username,
         );
       },
     );
@@ -283,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     // Clean up the controller when the Widget is removed from the Widget tree
-    _userEmailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();

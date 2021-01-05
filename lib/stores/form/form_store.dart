@@ -1,6 +1,5 @@
 import 'package:swallowing_app/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:validators/validators.dart';
 
 part 'form_store.g.dart';
 
@@ -22,7 +21,7 @@ abstract class _FormStore with Store {
 
   void _setupValidations() {
     _disposers = [
-      reaction((_) => userEmail, validateUserEmail),
+      reaction((_) => username, validateUsername),
       reaction((_) => password, validatePassword),
       reaction((_) => confirmPassword, validateConfirmPassword)
     ];
@@ -30,7 +29,7 @@ abstract class _FormStore with Store {
 
   // store variables:-----------------------------------------------------------
   @observable
-  String userEmail = '';
+  String username = '';
 
   @observable
   String password = '';
@@ -46,23 +45,23 @@ abstract class _FormStore with Store {
 
   @computed
   bool get canLogin =>
-      !formErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
+      !formErrorStore.hasErrorsInLogin && username.isNotEmpty && password.isNotEmpty;
 
   @computed
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
-      userEmail.isNotEmpty &&
+      username.isNotEmpty &&
       password.isNotEmpty &&
       confirmPassword.isNotEmpty;
 
   @computed
   bool get canForgetPassword =>
-      !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
+      !formErrorStore.hasErrorInForgotPassword && username.isNotEmpty;
 
   // actions:-------------------------------------------------------------------
   @action
   void setUserId(String value) {
-    userEmail = value;
+    username = value;
   }
 
   @action
@@ -76,13 +75,11 @@ abstract class _FormStore with Store {
   }
 
   @action
-  void validateUserEmail(String value) {
+  void validateUsername(String value) {
     if (value.isEmpty) {
-      formErrorStore.userEmail = "Email can't be empty";
-    } else if (!isEmail(value)) {
-      formErrorStore.userEmail = 'Please enter a valid email address';
+      formErrorStore.username = "Username can't be empty";
     } else {
-      formErrorStore.userEmail = null;
+      formErrorStore.username = null;
     }
   }
 
@@ -102,7 +99,7 @@ abstract class _FormStore with Store {
     if (value.isEmpty) {
       formErrorStore.confirmPassword = "Confirm password can't be empty";
     } else if (value != password) {
-      formErrorStore.confirmPassword = "Password doen't match";
+      formErrorStore.confirmPassword = "Password does't match";
     } else {
       formErrorStore.confirmPassword = null;
     }
@@ -149,7 +146,7 @@ abstract class _FormStore with Store {
 
   void validateAll() {
     validatePassword(password);
-    validateUserEmail(userEmail);
+    validateUsername(username);
   }
 }
 
@@ -157,7 +154,7 @@ class FormErrorStore = _FormErrorStore with _$FormErrorStore;
 
 abstract class _FormErrorStore with Store {
   @observable
-  String userEmail;
+  String username;
 
   @observable
   String password;
@@ -166,12 +163,12 @@ abstract class _FormErrorStore with Store {
   String confirmPassword;
 
   @computed
-  bool get hasErrorsInLogin => userEmail != null || password != null;
+  bool get hasErrorsInLogin => username != null || password != null;
 
   @computed
   bool get hasErrorsInRegister =>
-      userEmail != null || password != null || confirmPassword != null;
+      username != null || password != null || confirmPassword != null;
 
   @computed
-  bool get hasErrorInForgotPassword => userEmail != null;
+  bool get hasErrorInForgotPassword => username != null;
 }
