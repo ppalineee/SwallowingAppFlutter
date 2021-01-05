@@ -1,10 +1,10 @@
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/routes.dart';
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
+import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
+import 'package:swallowing_app/routes.dart';
+import 'package:swallowing_app/stores/language/language_store.dart';
+import 'package:swallowing_app/stores/post/post_store.dart';
+import 'package:swallowing_app/stores/theme/theme_store.dart';
+import 'package:swallowing_app/utils/locale/app_localization.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

@@ -1,6 +1,6 @@
-import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:swallowing_app/data/local/constants/db_constants.dart';
+import 'package:swallowing_app/models/post/post.dart';
+import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
 class PostDataSource {

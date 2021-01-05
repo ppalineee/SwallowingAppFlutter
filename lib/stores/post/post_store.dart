@@ -1,7 +1,7 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/post/post_list.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
-import 'package:boilerplate/utils/dio/dio_error_util.dart';
+import 'package:swallowing_app/data/repository.dart';
+import 'package:swallowing_app/models/post/post_list.dart';
+import 'package:swallowing_app/stores/error/error_store.dart';
+import 'package:swallowing_app/utils/dio/dio_error_util.dart';
 import 'package:mobx/mobx.dart';
 
 part 'post_store.g.dart';

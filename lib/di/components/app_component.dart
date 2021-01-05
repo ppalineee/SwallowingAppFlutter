@@ -1,8 +1,8 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/di/modules/local_module.dart';
-import 'package:boilerplate/di/modules/netwok_module.dart';
-import 'package:boilerplate/di/modules/preference_module.dart';
-import 'package:boilerplate/main.dart';
+import 'package:swallowing_app/data/repository.dart';
+import 'package:swallowing_app/di/modules/local_module.dart';
+import 'package:swallowing_app/di/modules/network_module.dart';
+import 'package:swallowing_app/di/modules/preference_module.dart';
+import 'package:swallowing_app/main.dart';
 import 'package:inject/inject.dart';
 
 import 'app_component.inject.dart' as g;

@@ -1,20 +1,20 @@
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/routes.dart';
-import 'package:boilerplate/stores/form/form_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/utils/device/device_utils.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
-import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
-import 'package:boilerplate/widgets/progress_indicator_widget.dart';
-import 'package:boilerplate/widgets/rounded_button_widget.dart';
-import 'package:boilerplate/widgets/textfield_widget.dart';
+import 'package:swallowing_app/constants/assets.dart';
+import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
+import 'package:swallowing_app/routes.dart';
+import 'package:swallowing_app/stores/form/form_store.dart';
+import 'package:swallowing_app/utils/device/device_utils.dart';
+import 'package:swallowing_app/utils/locale/app_localization.dart';
+import 'package:swallowing_app/widgets/app_icon_widget.dart';
+import 'package:swallowing_app/widgets/empty_app_bar_widget.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
+import 'package:swallowing_app/widgets/rounded_button_widget.dart';
+import 'package:swallowing_app/widgets/textfield_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../stores/theme/theme_store.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -62,17 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         children: <Widget>[
           MediaQuery.of(context).orientation == Orientation.landscape
-            ? Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: _buildLeftSide(),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: _buildRightSide(),
-                  ),
-                ],
+              ? Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: _buildLeftSide(),
+              ),
+              Expanded(
+                flex: 1,
+                child: _buildRightSide(),
+              ),
+            ],
           ) : Center(child: _buildRightSide()),
           Observer(
             builder: (context) {

@@ -1,4 +1,4 @@
-import 'package:boilerplate/models/post/post.dart';
+import 'package:swallowing_app/models/post/post.dart';
 
 class PostList {
   final List<Post> posts;

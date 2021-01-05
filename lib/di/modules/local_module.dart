@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/constants/db_constants.dart';
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
-import 'package:boilerplate/data/network/apis/posts/post_api.dart';
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/utils/encryption/xxtea.dart';
+import 'package:swallowing_app/data/local/constants/db_constants.dart';
+import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
+import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
+import 'package:swallowing_app/data/repository.dart';
+import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
+import 'package:swallowing_app/utils/encryption/xxtea.dart';
 import 'package:inject/inject.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-import 'netwok_module.dart';
+import 'network_module.dart';
 
 @module
 class LocalModule extends NetworkModule {

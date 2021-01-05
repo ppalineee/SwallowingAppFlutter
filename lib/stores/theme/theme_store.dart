@@ -1,5 +1,5 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
+import 'package:swallowing_app/data/repository.dart';
+import 'package:swallowing_app/stores/error/error_store.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 

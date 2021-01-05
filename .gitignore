@@ -9,6 +9,9 @@
 .buildlog/
 .history
 .svn/
+*.inject.summary
+*.inject.dart
+*.g.dart
 
 # IntelliJ related
 *.iml
