@@ -1,13 +1,12 @@
-import 'package:swallowing_app/constants/assets.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:swallowing_app/constants/colors.dart';
+import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/stores/form/form_store.dart';
 import 'package:swallowing_app/utils/device/device_utils.dart';
 import 'package:swallowing_app/utils/locale/app_localization.dart';
-import 'package:swallowing_app/widgets/app_icon_widget.dart';
-import 'package:swallowing_app/widgets/empty_app_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
-import 'package:swallowing_app/widgets/rounded_button_widget.dart';
 import 'package:swallowing_app/widgets/textfield_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       primary: true,
-      appBar: EmptyAppBar(),
       body: _buildBody(),
     );
   }
@@ -61,19 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Material(
       child: Stack(
         children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: _buildLeftSide(),
-              ),
-              Expanded(
-                flex: 1,
-                child: _buildRightSide(),
-              ),
-            ],
-          ) : Center(child: _buildRightSide()),
+          _buildMainContent(),
           Observer(
             builder: (context) {
               return _store.success
@@ -94,44 +80,86 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLeftSide() {
-    return SizedBox.expand(
-      child: Image.asset(
-        Assets.carBackground,
-        fit: BoxFit.cover,
-      ),
-    );
+  Widget _buildMainContent() {
+    return CupertinoPageScaffold(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: AppColors.deepblue,
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildAppName(),
+                  SizedBox(
+                    height: 55,
+                  ),
+                  _buildLogInForm()
+                ],
+              ),
+            ),
+          ),
+        )
+      );
   }
 
-  Widget _buildRightSide() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
-            SizedBox(height: 24.0),
-            _buildUserIdField(),
-            _buildPasswordField(),
-            _buildForgotPasswordButton(),
-            _buildSignInButton()
-          ],
+  Widget _buildAppName() {
+      return Text(
+          "Swallowing\n   Therapy",
+          style: TextStyle(
+              fontFamily: FontFamily.roboto,
+              fontWeight: FontWeight.w300,
+              color: AppColors.white,
+              fontSize: 45,
+              decoration: TextDecoration.none
+          ),
+      );
+  }
+  Widget _buildLogInForm() {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(15, 10, 15, 20),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            children: [
+              _buildUsernameField(),
+              _buildPasswordField(),
+            ],
+          ),
         ),
-      ),
+        SizedBox(
+          height: 40,
+        ),
+        SizedBox(
+          width: 300,
+          child: _buildPatientSignInBtn(),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          width: 300,
+          child: _buildGuestSignInBtn(),
+        )
+      ],
     );
   }
 
-  Widget _buildUserIdField() {
+  Widget _buildUsernameField() {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_email'),
+          hint: 'ชื่อผู้ใช้',
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
-          iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
+          iconColor: Colors.black54,
           textController: _userEmailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -151,11 +179,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_password'),
+          hint: 'รหัสผ่าน',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
           icon: Icons.lock,
-          iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
+          iconColor: Colors.black54,
           textController: _passwordController,
           focusNode: _passwordFocusNode,
           errorText: _store.formErrorStore.password,
@@ -167,36 +195,59 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordButton() {
-    return Align(
-      alignment: FractionalOffset.centerRight,
-      child: FlatButton(
-        padding: EdgeInsets.all(0.0),
-        child: Text(
-          AppLocalizations.of(context).translate('login_btn_forgot_password'),
-          style: Theme.of(context)
-              .textTheme
-              .caption
-              .copyWith(color: Colors.orangeAccent),
+  Widget _buildPatientSignInBtn() {
+    return  FlatButton(
+        height: 40,
+        color: AppColors.babyblue,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: AppColors.babyblue,
+              width: 3,
+              style: BorderStyle.solid),
+          borderRadius: BorderRadius.circular(8),
         ),
-        onPressed: () {},
-      ),
+        onPressed: () async {
+          if (_store.canLogin) {
+            DeviceUtils.hideKeyboard(context);
+            _store.login();
+          } else {
+            _showErrorMessage('Please fill in all fields');
+          }
+        },
+        child: Text(
+          "เข้าสู่ระบบ",
+          style: TextStyle(
+            fontFamily: FontFamily.kanit,
+            color: AppColors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+          ),
+        )
     );
   }
 
-  Widget _buildSignInButton() {
-    return RoundedButtonWidget(
-      buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.orangeAccent,
-      textColor: Colors.white,
-      onPressed: () async {
-        if (_store.canLogin) {
-          DeviceUtils.hideKeyboard(context);
-          _store.login();
-        } else {
-          _showErrorMessage('Please fill in all fields');
-        }
-      },
+  Widget _buildGuestSignInBtn() {
+    return FlatButton(
+        height: 40,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: AppColors.babyblue,
+              width: 3,
+              style: BorderStyle.solid),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        onPressed: () {
+          print("Guest log in");
+        },
+        child: Text(
+          "เข้าสู่ระบบโดยไม่มีบัญชีผู้ใช้",
+          style: TextStyle(
+            fontFamily: FontFamily.kanit,
+            color: AppColors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+          ),
+        )
     );
   }
 

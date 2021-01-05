@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:swallowing_app/constants/font_family.dart';
+import 'package:swallowing_app/constants/colors.dart';
+
+import '../constants/colors.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final IconData icon;
@@ -48,14 +52,28 @@ class TextFieldWidget extends StatelessWidget {
         autofocus: autoFocus,
         textInputAction: inputAction,
         obscureText: this.isObscure,
-        maxLength: 25,
+        maxLines: 1,
         keyboardType: this.inputType,
-        style: Theme.of(context).textTheme.body1,
+        style: TextStyle(
+          fontFamily: FontFamily.kanit,
+          color: AppColors.black,
+          fontSize: 18,
+        ),
         decoration: InputDecoration(
             hintText: this.hint,
-            hintStyle:
-                Theme.of(context).textTheme.body1.copyWith(color: hintColor),
+            hintStyle: TextStyle(
+              fontFamily: FontFamily.kanit,
+              color: Colors.black45,
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            ),
             errorText: errorText,
+            errorStyle: TextStyle(
+              fontFamily: FontFamily.kanit,
+              color: AppColors.red,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
             counterText: '',
             icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
       ),
