@@ -11,9 +11,7 @@ import 'package:swallowing_app/widgets/textfield_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../stores/theme/theme_store.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,9 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   //text controllers:-----------------------------------------------------------
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
-  //stores:---------------------------------------------------------------------
-  ThemeStore _themeStore;
 
   //focus node:-----------------------------------------------------------------
   FocusNode _passwordFocusNode;
@@ -43,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _themeStore = Provider.of<ThemeStore>(context);
   }
 
   @override
@@ -252,8 +246,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget navigate(BuildContext context) {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
+    SharedPreferences.getInstance().then((preference) {
+      preference.setBool(Preferences.is_logged_in, true);
+      print('is_logged_in: ${preference.getBool(Preferences.is_logged_in)}');
+      print('auth_token: ${preference.getString(Preferences.auth_token)}');
     });
 
     Future.delayed(Duration(milliseconds: 0), () {

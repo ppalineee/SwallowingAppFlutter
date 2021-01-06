@@ -33,32 +33,39 @@ class SettingScreen extends StatelessWidget {
           color: AppColors.lightgray,
           width: MediaQuery.of(context).size.width,
         ),
-        ListTile(
-          contentPadding: EdgeInsets.only(left: 50),
-          selected: true,
-          selectedTileColor: AppColors.white,
-          leading: Icon(
-            Icons.sensor_door,
-            color: AppColors.gray,
-            size: 25,
-          ),
-          title: Text(
-            'ออกจากระบบ',
-            style: TextStyle(fontSize: 17, color: AppColors.black),
-          ),
-          onTap: (){
-            SharedPreferences.getInstance().then((preference) {
-              // TODO: removeAuthToken
-              preference.setBool(Preferences.is_logged_in, false);
-              Future.delayed(Duration(milliseconds: 0), () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    Routes.login, (Route<dynamic> route) => false);
-              });
-            });
-          } ,
-        ),
+        _buildSignOutBtn(context)
       ]
     );
   }
+  
+  Widget _buildSignOutBtn(context) {
+    return ListTile(
+      contentPadding: EdgeInsets.only(left: 50),
+      selected: true,
+      selectedTileColor: AppColors.white,
+      leading: Icon(
+        Icons.sensor_door,
+        color: AppColors.gray,
+        size: 25,
+      ),
+      title: Text(
+        'ออกจากระบบ',
+        style: TextStyle(fontSize: 17, color: AppColors.black),
+      ),
+      onTap: (){
+        SharedPreferences.getInstance().then((preference) {
+          // TODO: removeAuthToken
 
+          preference.setBool(Preferences.is_logged_in, false);
+          print('is_logged_in: ${preference.getBool(Preferences.is_logged_in)}');
+          print('auth_token: ${preference.getString(Preferences.auth_token)}');
+
+          Future.delayed(Duration(milliseconds: 0), () {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.login, (Route<dynamic> route) => false);
+          });
+        });
+      } ,
+    );
+  }
 }
