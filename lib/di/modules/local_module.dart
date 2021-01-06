@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:swallowing_app/data/local/constants/db_constants.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
+import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/repository.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/utils/encryption/xxtea.dart';
@@ -76,8 +77,9 @@ class LocalModule extends NetworkModule {
   @singleton
   Repository provideRepository(
     PostApi postApi,
+    LoginApi loginApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
   ) =>
-      Repository(postApi, preferenceHelper, postDataSource);
+      Repository(postApi, loginApi, preferenceHelper, postDataSource);
 }

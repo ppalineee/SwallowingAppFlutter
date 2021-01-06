@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
 import 'exceptions/network_exceptions.dart';
 
 class RestClient {
@@ -19,9 +17,11 @@ class RestClient {
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw NetworkException(
             message: "Error fetching data from server", statusCode: statusCode);
+      } if (statusCode == 400) {
+        throw NetworkException(
+            message: response.body, statusCode: statusCode);
       }
 
-      print(res);
       return _decoder.convert(res);
     });
   }
@@ -37,7 +37,11 @@ class RestClient {
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw NetworkException(
             message: "Error fetching data from server", statusCode: statusCode);
+      } if (statusCode == 400) {
+        throw NetworkException(
+            message: response.body, statusCode: statusCode);
       }
+
       return _decoder.convert(res);
     });
   }

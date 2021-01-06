@@ -6,6 +6,7 @@ import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swallowing_app/routes.dart';
+import 'package:swallowing_app/utils/authtoken_utils.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -18,15 +19,6 @@ class SettingScreen extends StatelessWidget {
   }
 
   Widget _buildBody(context) {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        _buildMainContent(context),
-      ],
-    );
-  }
-
-  Widget _buildMainContent(context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -44,26 +36,27 @@ class SettingScreen extends StatelessWidget {
       selected: true,
       selectedTileColor: AppColors.white,
       leading: Icon(
-        Icons.sensor_door,
-        color: AppColors.gray,
+        Icons.logout,
+        color: Colors.black45,
         size: 25,
       ),
       title: Text(
         'ออกจากระบบ',
         style: TextStyle(fontSize: 17, color: AppColors.black),
       ),
-      onTap: (){
-        SharedPreferences.getInstance().then((preference) {
-          // TODO: removeAuthToken
+      onTap: () async {
+        AuthToken _authToken = Provider.of<AuthToken>(context, listen: false);
+        await _authToken.logoutPatient();
 
+        SharedPreferences.getInstance().then((preference) {
           preference.setBool(Preferences.is_logged_in, false);
           print('is_logged_in: ${preference.getBool(Preferences.is_logged_in)}');
           print('auth_token: ${preference.getString(Preferences.auth_token)}');
+        });
 
-          Future.delayed(Duration(milliseconds: 0), () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.login, (Route<dynamic> route) => false);
-          });
+        Future.delayed(Duration(milliseconds: 0), () {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.login, (Route<dynamic> route) => false);
         });
       } ,
     );

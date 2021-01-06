@@ -1,3 +1,4 @@
+import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/constants/endpoints.dart';
 import 'package:swallowing_app/data/network/dio_client.dart';
@@ -78,6 +79,11 @@ class NetworkModule extends PreferenceModule {
   @singleton
   PostApi providePostApi(DioClient dioClient, RestClient restClient) =>
       PostApi(dioClient, restClient);
+
+  @provide
+  @singleton
+  LoginApi provideLoginApi(RestClient restClient) =>
+      LoginApi(restClient);
 // Api Providers End:---------------------------------------------------------
 
 }

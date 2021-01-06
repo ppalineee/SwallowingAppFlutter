@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:swallowing_app/utils/authtoken_utils.dart';
 
 part 'form_store.g.dart';
 
@@ -77,7 +80,7 @@ abstract class _FormStore with Store {
   @action
   void validateUsername(String value) {
     if (value.isEmpty) {
-      formErrorStore.username = "Username can't be empty";
+      formErrorStore.username = "กรุณาระบุชื่อผู้ใช้";
     } else {
       formErrorStore.username = null;
     }
@@ -86,9 +89,7 @@ abstract class _FormStore with Store {
   @action
   void validatePassword(String value) {
     if (value.isEmpty) {
-      formErrorStore.password = "Password can't be empty";
-    } else if (value.length < 6) {
-      formErrorStore.password = "Password must be at-least 6 characters long";
+      formErrorStore.password = "กรุณาระบุรหัสผ่าน";
     } else {
       formErrorStore.password = null;
     }
@@ -111,20 +112,22 @@ abstract class _FormStore with Store {
   }
 
   @action
-  Future login() async {
+  Future login(BuildContext context) async {
     loading = true;
-
-    Future.delayed(Duration(milliseconds: 2000)).then((future) {
+    try {
+      AuthToken _authToken = Provider.of<AuthToken>(context, listen: false);
+      await _authToken.loginPatient(username, password);
       loading = false;
       success = true;
-    }).catchError((e) {
+    } catch(e) {
       loading = false;
       success = false;
-      errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
-          ? "Username and password doesn't match"
-          : "Something went wrong, please check your internet connection and try again";
-      print(e);
-    });
+      if (e.message.contains("wrong username or password")) {
+        formErrorStore.username = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      } else {
+        errorStore.errorMessage = "เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย";
+      }
+    }
   }
 
   @action

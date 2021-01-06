@@ -203,9 +203,9 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () async {
           if (_store.canLogin) {
             DeviceUtils.hideKeyboard(context);
-            _store.login();
+            _store.login(context);
           } else {
-            _showErrorMessage('Please fill in all fields');
+            _showErrorMessage('whyy');
           }
         },
         child: Text(

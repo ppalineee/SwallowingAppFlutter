@@ -16,6 +16,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:inject/inject.dart';
 import 'package:provider/provider.dart';
+import 'package:swallowing_app/utils/authtoken_utils.dart';
 
 // global instance for app component
 AppComponent appComponent;
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
   final PostStore _postStore = PostStore(appComponent.getRepository());
   final LanguageStore _languageStore =
       LanguageStore(appComponent.getRepository());
+  final AuthToken _authToken = AuthToken(appComponent.getRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<PostStore>(create: (_) => _postStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
+        Provider<AuthToken>(create: (_) => _authToken),
       ],
       child: Observer(
         name: 'global-observer',
