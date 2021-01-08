@@ -10,43 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/text_button_widget.dart';
 
-class TestScreen extends StatelessWidget {
+class TestScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar('แบบทดสอบ', true),
-      body: _buildBody(context),
-    );
-  }
-
-  Widget _buildBody(context) {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        _buildMainContent(context),
-      ],
-    );
-  }
-
-  Widget _buildMainContent(context) {
-    return Stack(
-        children: <Widget>[
-          Container(
-            color: AppColors.lightgray,
-            width: MediaQuery.of(context).size.width,
-          ),
-          TestWidget(),
-        ]
-    );
-  }
+  _TestScreenState createState() => _TestScreenState();
 }
 
-class TestWidget extends StatefulWidget {
-  @override
-  _TestWidgetState createState() => _TestWidgetState();
-}
-
-class _TestWidgetState extends State<TestWidget> {
+class _TestScreenState extends State<TestScreen> {
   List<int> _score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   List<String> _question = ['ปัญหาการกลืนทำให้น้ำหนักตัวของฉันลดลง',
                             'ปัญหาการกลืนของฉันรบกวนการออกไปรับประทานอาหารนอกบ้าน',
@@ -59,7 +28,35 @@ class _TestWidgetState extends State<TestWidget> {
                             'ฉันไอเมื่อรับประทานอาหาร',
                             'การกลืนทําให้ฉันรู้สึกเครียด'];
 
+  @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBar('แบบทดสอบ', true),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: <Widget>[
+        _buildMainContent(),
+      ],
+    );
+  }
+
+  Widget _buildMainContent() {
+    return Stack(
+        children: <Widget>[
+          Container(
+            color: AppColors.lightgray,
+            width: MediaQuery.of(context).size.width,
+          ),
+          _buildTestWidget(),
+        ]
+    );
+  }
+
+  Widget _buildTestWidget() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: 12,
