@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:swallowing_app/utils/authtoken_utils.dart';
+import 'package:swallowing_app/utils/authtoken_util.dart';
 
 part 'form_store.g.dart';
 

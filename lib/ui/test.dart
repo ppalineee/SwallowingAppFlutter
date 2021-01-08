@@ -42,8 +42,6 @@ class TestScreen extends StatelessWidget {
 }
 
 class TestWidget extends StatefulWidget {
-  TestWidget({Key key}) : super(key: key);
-
   @override
   _TestWidgetState createState() => _TestWidgetState();
 }
@@ -68,7 +66,7 @@ class _TestWidgetState extends State<TestWidget> {
       itemBuilder: (context, index) {
         if (index == 0) return _buildTestInfo();
         if (index == 11) return _buildSubmitButton();
-        else return _buildEachQuestion(index-1);
+        else return _buildQuestion(index-1);
       },
     );
   }
@@ -115,7 +113,7 @@ class _TestWidgetState extends State<TestWidget> {
     );
   }
 
-  Widget _buildEachQuestion(int index) {
+  Widget _buildQuestion(int index) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
@@ -146,6 +144,7 @@ class _TestWidgetState extends State<TestWidget> {
                           child: Radio(
                             value: 0,
                             groupValue: _score[index],
+                            activeColor: AppColors.deepblue,
                             onChanged: (int value) {
                               setState(() {
                                 _score[index] = value;
@@ -170,6 +169,7 @@ class _TestWidgetState extends State<TestWidget> {
                           child: Radio(
                             value: 1,
                             groupValue: _score[index],
+                            activeColor: AppColors.deepblue,
                             onChanged: (int value) {
                               setState(() {
                                 _score[index] = value;
@@ -194,6 +194,7 @@ class _TestWidgetState extends State<TestWidget> {
                           child: Radio(
                             value: 2,
                             groupValue: _score[index],
+                            activeColor: AppColors.deepblue,
                             onChanged: (int value) {
                               setState(() {
                                 _score[index] = value;
@@ -218,6 +219,7 @@ class _TestWidgetState extends State<TestWidget> {
                           child: Radio(
                             value: 3,
                             groupValue: _score[index],
+                            activeColor: AppColors.deepblue,
                             onChanged: (int value) {
                               setState(() {
                                 _score[index] = value;
@@ -242,6 +244,7 @@ class _TestWidgetState extends State<TestWidget> {
                           child: Radio(
                             value: 4,
                             groupValue: _score[index],
+                            activeColor: AppColors.deepblue,
                             onChanged: (int value) {
                               setState(() {
                                 _score[index] = value;
@@ -280,58 +283,8 @@ class _TestWidgetState extends State<TestWidget> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  insetPadding: EdgeInsets.all(10),
-                  backgroundColor: AppColors.deepblue,
-                  elevation: 5,
-                  content: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width-100,
-                      maxHeight: 310,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: InkResponse(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Icon(Icons.close, color: AppColors.white, size: 26),
-                          ),
-                        ),
-                        Text(
-                          'คะแนนของคุณ',
-                          style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 19),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            margin: EdgeInsets.all(25),
-                            width: 150,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(15)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(calculateTotalScore(_score).toString(), style: TextStyle(color: AppColors.deepblue, fontSize: 40, fontWeight: FontWeight.w500)),
-                                Text('  / 40', style: TextStyle(color: AppColors.deepblue, fontSize: 23))
-                              ],
-                            ),
-                          )
-                        ),
-                        Text(
-                          'หากคุณได้รับคะแนนรวมของแบบประเมิน EAT-10 ตั้งแต่ 3 คะแนนขึ้นไป คุณอาจมีปัญหาการกลืนที่ไม่มีประสิทธิภาพและไม่ปลอดภัย แนะนำให้คุณนำผลการประเมิน EAT-10 ไปพบแพทย์',
-                          style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: 16),
-                        ),
-                      ],
-                    )
-                  )
-                );
+                int score = _calculateTotalScore(_score);
+                return _buildResultPopUp(score);
               }
           );
         }
@@ -339,7 +292,62 @@ class _TestWidgetState extends State<TestWidget> {
     );
   }
 
-  int calculateTotalScore(_score) {
+  Widget _buildResultPopUp(int score) {
+    return AlertDialog(
+        insetPadding: EdgeInsets.all(10),
+        backgroundColor: AppColors.deepblue,
+        elevation: 5,
+        content: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width-100,
+              maxHeight: 310,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(Icons.close, color: AppColors.white, size: 26),
+                  ),
+                ),
+                Text(
+                  'คะแนนของคุณ',
+                  style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w500, fontSize: 19),
+                ),
+                Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      margin: EdgeInsets.all(25),
+                      width: 150,
+                      height: 70,
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(15)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(score.toString(), style: TextStyle(color: AppColors.deepblue, fontSize: 40, fontWeight: FontWeight.w500)),
+                          Text('  / 40', style: TextStyle(color: AppColors.deepblue, fontSize: 23))
+                        ],
+                      ),
+                    )
+                ),
+                Text(
+                  'หากคุณได้รับคะแนนรวมของแบบประเมิน EAT-10 ตั้งแต่ 3 คะแนนขึ้นไป คุณอาจมีปัญหาการกลืนที่ไม่มีประสิทธิภาพและไม่ปลอดภัย แนะนำให้คุณนำผลการประเมิน EAT-10 ไปพบแพทย์',
+                  style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w300, fontSize: 16),
+                ),
+              ],
+            )
+        )
+    );
+  }
+
+  int _calculateTotalScore(_score) {
     int totalScore = 0;
     for (var i = 0; i < 10; i++) {
       totalScore += _score[i];

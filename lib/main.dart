@@ -17,7 +17,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:inject/inject.dart';
 import 'package:provider/provider.dart';
-import 'package:swallowing_app/utils/authtoken_utils.dart';
+import 'package:swallowing_app/utils/authtoken_util.dart';
 
 // global instance for app component
 AppComponent appComponent;
