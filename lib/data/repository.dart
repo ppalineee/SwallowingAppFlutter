@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
+import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
+import 'package:swallowing_app/models/profile.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/login_api.dart';
 import 'network/apis/posts/post_api.dart';
@@ -15,12 +17,13 @@ class Repository {
   // api objects
   final PostApi _postApi;
   final LoginApi _loginApi;
+  final ProfileApi _profileApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._loginApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._loginApi, this._profileApi, this._sharedPrefsHelper, this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -34,6 +37,16 @@ class Repository {
 
   Future<void> logoutPatient() async {
     _sharedPrefsHelper.removeAuthToken();
+  }
+
+  // Profile:-----------------------------------------------------------------
+  Future<Profile> getPatientProfile() async {
+    try {
+      var token = await _sharedPrefsHelper.authToken;
+      return await _profileApi.getPatientProfile(token);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   // Post: ---------------------------------------------------------------------

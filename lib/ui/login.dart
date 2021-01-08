@@ -204,8 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
           if (_store.canLogin) {
             DeviceUtils.hideKeyboard(context);
             _store.login(context);
-          } else {
-            _showErrorMessage('whyy');
           }
         },
         child: Text(

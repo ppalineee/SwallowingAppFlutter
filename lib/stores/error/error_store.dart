@@ -12,7 +12,7 @@ abstract class _ErrorStore with Store {
   // constructor:---------------------------------------------------------------
   _ErrorStore() {
     _disposers = [
-      reaction((_) => errorMessage, reset, delay: 200),
+      reaction((_) => errorMessage, reset, delay: 2000),
     ];
   }
 
@@ -20,6 +20,7 @@ abstract class _ErrorStore with Store {
   @observable
   String errorMessage = '';
 
+  @observable
 
   // actions:-------------------------------------------------------------------
   @action
