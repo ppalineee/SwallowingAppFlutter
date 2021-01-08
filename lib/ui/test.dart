@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:swallowing_app/constants/colors.dart';
-import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swallowing_app/stores/profile_store.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 import 'package:swallowing_app/widgets/text_button_widget.dart';
 
 class TestScreen extends StatefulWidget {
@@ -16,6 +17,8 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  ProfileStore _profileStore;
+
   List<int> _score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   List<String> _question = ['ปัญหาการกลืนทำให้น้ำหนักตัวของฉันลดลง',
                             'ปัญหาการกลืนของฉันรบกวนการออกไปรับประทานอาหารนอกบ้าน',
@@ -29,6 +32,17 @@ class _TestScreenState extends State<TestScreen> {
                             'การกลืนทําให้ฉันรู้สึกเครียด'];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _profileStore = Provider.of<ProfileStore>(context);
+
+    if (!_profileStore.loading) {
+      _profileStore.getPatientProfile();
+      _score = _profileStore.score;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar('แบบทดสอบ', true),
@@ -40,6 +54,14 @@ class _TestScreenState extends State<TestScreen> {
     return Stack(
       children: <Widget>[
         _buildMainContent(),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: _profileStore.loading || !_profileStore.success,
+              child: CustomProgressIndicatorWidget(),
+            );
+          },
+        )
       ],
     );
   }
