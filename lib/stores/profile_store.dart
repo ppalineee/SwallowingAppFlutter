@@ -29,6 +29,9 @@ abstract class _ProfileStore with Store {
   Profile profile;
 
   @observable
+  List<int> score;
+
+  @observable
   bool success = false;
 
   @computed
@@ -42,6 +45,12 @@ abstract class _ProfileStore with Store {
 
     future.then((profile) {
       this.profile = profile;
+      if (this.profile.score.isEmpty) {
+        this.score = [0,0,0,0,0,0,0,0,0,0];
+      } else {
+        this.score = this.profile.score;
+      }
+      print(this.profile.score);
       success = true;
     }).catchError((error) {
       errorStore.errorMessage = error.message;

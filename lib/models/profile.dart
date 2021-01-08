@@ -5,6 +5,7 @@ class Profile {
   String gender;
   String birthdate;
   String therapist;
+  List<int> score;
 
   Profile({
     this.hnNumber,
@@ -12,7 +13,8 @@ class Profile {
     this.lastName,
     this.gender,
     this.birthdate,
-    this.therapist
+    this.therapist,
+    this.score
   });
 
   factory Profile.fromJSON(Map<String, dynamic> json) {
@@ -22,7 +24,8 @@ class Profile {
         lastName: json['lastname'],
         gender: (json['HN'] == 'นาย') ? 'ชาย' : 'หญิง',
         birthdate: json['birthdate'],
-        therapist: json['therapist']
+        therapist: json['therapist'],
+        score: json['score'].cast<int>()
     );
   }
 
