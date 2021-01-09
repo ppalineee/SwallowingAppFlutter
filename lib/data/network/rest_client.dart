@@ -14,6 +14,8 @@ class RestClient {
       final String res = response.body;
       final int statusCode = response.statusCode;
 
+      print('status code: $statusCode');
+
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw NetworkException(
             message: "Error fetching data from server", statusCode: statusCode);
@@ -33,6 +35,8 @@ class RestClient {
         .then((http.Response response) {
       final String res = response.body;
       final int statusCode = response.statusCode;
+
+      print('status code: $statusCode');
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw NetworkException(

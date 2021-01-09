@@ -50,11 +50,21 @@ abstract class _ProfileStore with Store {
       } else {
         this.score = this.profile.score;
       }
-      print(this.profile.score);
+      print('score: ${this.score}');
+      print('profile score: ${this.profile.score}');
       success = true;
     }).catchError((error) {
-      errorStore.errorMessage = error.message;
+      print('error: $error');
+      errorStore.errorMessage = error;
       success = false;
     });
+  }
+
+  @action
+  Future submitTestScore(List<int> score) async {
+    bool submitSuccess = await _repository.submitTestScore(score).catchError((error) => {});
+    if (submitSuccess) {
+      this.profile.score = score;
+    }
   }
 }

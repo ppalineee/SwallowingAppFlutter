@@ -299,6 +299,7 @@ class _TestScreenState extends State<TestScreen> {
           fontSize: 18,
           color: AppColors.white),
         onPressed: () {
+          _profileStore.submitTestScore(_score);
           showDialog(
               context: context,
               builder: (BuildContext context) {

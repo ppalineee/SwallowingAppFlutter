@@ -5,6 +5,7 @@ import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart'
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
+import 'package:swallowing_app/data/network/apis/test_api.dart';
 import 'package:swallowing_app/data/repository.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/utils/encryption/xxtea.dart';
@@ -80,8 +81,9 @@ class LocalModule extends NetworkModule {
     PostApi postApi,
     LoginApi loginApi,
     ProfileApi profileApi,
+    TestApi testApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
   ) =>
-      Repository(postApi, loginApi, profileApi, preferenceHelper, postDataSource);
+      Repository(postApi, loginApi, profileApi, testApi, preferenceHelper, postDataSource);
 }

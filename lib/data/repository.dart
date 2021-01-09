@@ -9,6 +9,7 @@ import 'package:swallowing_app/models/profile.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/login_api.dart';
 import 'network/apis/posts/post_api.dart';
+import 'network/apis/test_api.dart';
 
 class Repository {
   // data source object
@@ -18,12 +19,13 @@ class Repository {
   final PostApi _postApi;
   final LoginApi _loginApi;
   final ProfileApi _profileApi;
+  final TestApi _testApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._loginApi, this._profileApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._loginApi, this._profileApi, this._testApi, this._sharedPrefsHelper, this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -46,6 +48,16 @@ class Repository {
       return await _profileApi.getPatientProfile(token);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  // Test:-----------------------------------------------------------------
+  Future<bool> submitTestScore(List<int> score) async {
+    try {
+      var token = await _sharedPrefsHelper.authToken;
+      return await _testApi.submitTestScore(token, score);
+    } catch (e) {
+      return false;
     }
   }
 
