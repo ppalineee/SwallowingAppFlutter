@@ -108,7 +108,7 @@ class AssignmentListScreen extends StatelessWidget {
                             Expanded(
                               child: Container(
                                 alignment: Alignment.centerLeft,
-                                child: Text('หัวข้อ ${index}', style: TextStyle(fontSize: 15)),
+                                child: Text('หัวข้อ $index', style: TextStyle(fontSize: 15)),
                               ),
                             ),
                             Container(
