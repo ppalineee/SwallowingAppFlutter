@@ -18,7 +18,7 @@ class TestApi {
         },
         body: jsonEncode(
             <String, dynamic>{'score': score})
-      ).then((dynamic res) => (res == 'Update Patient Score completed') ? true : false);
+      ).then((dynamic res) => true);
     } catch (e) {
       return false;
     }

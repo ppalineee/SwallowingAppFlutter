@@ -24,9 +24,6 @@ class RestClient {
             message: response.body, statusCode: statusCode);
       }
 
-      if (res.runtimeType == String) {
-        return res;
-      }
       return _decoder.convert(res);
     });
   }
@@ -49,9 +46,6 @@ class RestClient {
             message: response.body, statusCode: statusCode);
       }
 
-      if (res.runtimeType == String) {
-        return res;
-      }
       return _decoder.convert(res);
     });
   }
