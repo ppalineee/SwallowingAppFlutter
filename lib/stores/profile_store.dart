@@ -55,11 +55,6 @@ abstract class _ProfileStore with Store {
       print('profile score: ${this.profile.score}');
       success = true;
     }).catchError((error) {
-      if (error is NetworkException) {
-        errorStore.errorMessage = error.message;
-      } else {
-        errorStore.errorMessage = error;
-      }
       success = false;
     });
   }

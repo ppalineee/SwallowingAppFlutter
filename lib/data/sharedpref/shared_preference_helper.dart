@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swallowing_app/models/profile.dart';
 import 'constants/preferences.dart';
 
 class SharedPreferenceHelper {
@@ -9,7 +11,7 @@ class SharedPreferenceHelper {
   // constructor
   SharedPreferenceHelper(this._sharedPreference);
 
-  // General Methods: ----------------------------------------------------------
+  // AuthToken: ----------------------------------------------------------------
   Future<String> get authToken async {
     return _sharedPreference.then((preference) {
       return preference.getString(Preferences.auth_token);
@@ -31,6 +33,33 @@ class SharedPreferenceHelper {
   Future<bool> get isLoggedIn async {
     return _sharedPreference.then((preference) {
       return preference.getString(Preferences.auth_token) ?? false;
+    });
+  }
+
+  // PatientProfile: -----------------------------------------------------------
+  Future<Profile> get patientProfile async {
+    return _sharedPreference.then((preference) {
+      final String profileStr = preference.getString(Preferences.patient_profile);
+      if (profileStr != null) {
+        Map<String, dynamic> profileMap = jsonDecode(profileStr) as Map<String, dynamic>;
+        if (profileMap != null) {
+          final Profile profile = Profile.fromMap(profileMap);
+          return profile;
+        }
+      }
+      return null;
+    });
+  }
+
+  Future<void> savePatientProfile(Profile profile) async {
+    return _sharedPreference.then((preference) {
+      preference.setString(Preferences.patient_profile, jsonEncode(profile));
+    });
+  }
+
+  Future<void> removePatientProfile() async {
+    return _sharedPreference.then((preference) {
+      preference.remove(Preferences.patient_profile);
     });
   }
 

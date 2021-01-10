@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
+import 'package:swallowing_app/models/jwt_token.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
@@ -31,7 +32,9 @@ class Repository {
   Future<void> loginPatient(username, password) async {
     try {
       var json = await _loginApi.loginPatient(username, password);
-      _sharedPrefsHelper.saveAuthToken(json.token);
+      await _sharedPrefsHelper.saveAuthToken(json.token);
+      Profile profile =  await _profileApi.getPatientProfile(json.token);
+      await _sharedPrefsHelper.savePatientProfile(profile);
     } catch (e) {
       rethrow;
     }
@@ -39,18 +42,17 @@ class Repository {
 
   Future<void> logoutPatient() async {
     _sharedPrefsHelper.removeAuthToken();
+    _sharedPrefsHelper.removePatientProfile();
   }
 
   // Profile:-----------------------------------------------------------------
   Future<Profile> getPatientProfile() async {
     try {
-      var token = await _sharedPrefsHelper.authToken;
-      return await _profileApi.getPatientProfile(token);
+      return await _sharedPrefsHelper.patientProfile;
     } catch (e) {
       rethrow;
     }
   }
-
   // Test:-----------------------------------------------------------------
   Future<bool> submitTestScore(List<int> score) async {
     try {

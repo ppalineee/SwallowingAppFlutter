@@ -248,6 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
       preference.setBool(Preferences.is_logged_in, true);
       print('is_logged_in: ${preference.getBool(Preferences.is_logged_in)}');
       print('auth_token: ${preference.getString(Preferences.auth_token)}');
+      print('profile: ${preference.getString(Preferences.patient_profile)}');
     });
 
     Future.delayed(Duration(milliseconds: 0), () {

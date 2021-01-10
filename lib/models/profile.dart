@@ -28,4 +28,26 @@ class Profile {
         score: json['score'].cast<int>()
     );
   }
+
+  factory Profile.fromMap(Map<String, dynamic> json) {
+    return Profile(
+        hnNumber: json['hnNumber'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        gender: json['gender'],
+        birthdate: json['birthdate'],
+        therapist: json['therapist'],
+        score: json['score'].cast<int>()
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "hnNumber": hnNumber,
+    "firstName": firstName,
+    "lastName": lastName,
+    "gender": gender,
+    "birthdate": birthdate,
+    "therapist": therapist,
+    "score": score
+  };
 }
