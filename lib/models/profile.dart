@@ -18,17 +18,14 @@ class Profile {
   });
 
   factory Profile.fromJSON(Map<String, dynamic> json) {
-    var scoreListFromJson = json['score'] as List;
-    List<int> scoreList = scoreListFromJson.map((i) => int.parse(i)).toList();
-
     return Profile(
         hnNumber: json['HN'],
         firstName: json['firstname'],
         lastName: json['lastname'],
-        gender: (json['HN'] == 'นาย') ? 'ชาย' : 'หญิง',
+        gender: (json['title'] == 'นาย') ? 'ชาย' : 'หญิง',
         birthdate: json['birthdate'],
         therapist: json['therapist'],
-        score: scoreList
+        score: json['score'].cast<int>()
     );
   }
 }
