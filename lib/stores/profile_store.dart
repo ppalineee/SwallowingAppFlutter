@@ -1,4 +1,3 @@
-import 'package:swallowing_app/data/network/exceptions/network_exceptions.dart';
 import 'package:swallowing_app/data/repository.dart';
 import 'package:swallowing_app/models/profile.dart';
 import 'package:swallowing_app/stores/error/error_store.dart';
@@ -51,8 +50,6 @@ abstract class _ProfileStore with Store {
       } else {
         this.score = this.profile.score;
       }
-      print('score: ${this.score}');
-      print('profile score: ${this.profile.score}');
       success = true;
     }).catchError((error) {
       success = false;

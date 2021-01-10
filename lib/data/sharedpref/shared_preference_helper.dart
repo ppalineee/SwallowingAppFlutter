@@ -63,6 +63,17 @@ class SharedPreferenceHelper {
     });
   }
 
+  Future<void> updatePatientScore(List<int> score) async {
+    return _sharedPreference.then((preference) {
+      final String profileStr = preference.getString(Preferences.patient_profile);
+      Map<String, dynamic> profileMap = jsonDecode(profileStr) as Map<String, dynamic>;
+      final Profile profile = Profile.fromMap(profileMap);
+      profile.score = score;
+      preference.setString(Preferences.patient_profile, jsonEncode(profile));
+    });
+  }
+
+
   // Theme:------------------------------------------------------
   Future<bool> get isDarkMode {
     return _sharedPreference.then((prefs) {

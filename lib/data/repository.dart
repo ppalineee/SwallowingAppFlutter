@@ -53,11 +53,16 @@ class Repository {
       rethrow;
     }
   }
+
   // Test:-----------------------------------------------------------------
   Future<bool> submitTestScore(List<int> score) async {
     try {
       var token = await _sharedPrefsHelper.authToken;
-      return await _testApi.submitTestScore(token, score);
+      bool submitSuccess = await _testApi.submitTestScore(token, score);
+      if (submitSuccess) {
+        _sharedPrefsHelper.updatePatientScore(score);
+      }
+      return submitSuccess;
     } catch (e) {
       return false;
     }
