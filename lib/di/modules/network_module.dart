@@ -1,3 +1,4 @@
+import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
@@ -96,6 +97,11 @@ class NetworkModule extends PreferenceModule {
   @singleton
   TestApi provideTestApi(RestClient restClient) =>
       TestApi(restClient);
+
+  @provide
+  @singleton
+  ArticleApi provideArticleApi(RestClient restClient) =>
+      ArticleApi(restClient);
   // Api Providers End:---------------------------------------------------------
 
 }

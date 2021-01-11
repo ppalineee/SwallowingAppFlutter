@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:swallowing_app/data/local/constants/db_constants.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
+import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
@@ -82,8 +83,9 @@ class LocalModule extends NetworkModule {
     LoginApi loginApi,
     ProfileApi profileApi,
     TestApi testApi,
+    ArticleApi articleApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
   ) =>
-      Repository(postApi, loginApi, profileApi, testApi, preferenceHelper, postDataSource);
+      Repository(postApi, loginApi, profileApi, testApi, articleApi, preferenceHelper, postDataSource);
 }

@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
+import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 import 'package:swallowing_app/models/profile.dart';
 import 'local/constants/db_constants.dart';
+import 'network/apis/article_api.dart';
 import 'network/apis/login_api.dart';
 import 'network/apis/posts/post_api.dart';
 import 'network/apis/test_api.dart';
@@ -20,12 +22,13 @@ class Repository {
   final LoginApi _loginApi;
   final ProfileApi _profileApi;
   final TestApi _testApi;
+  final ArticleApi _articleApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._loginApi, this._profileApi, this._testApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._loginApi, this._profileApi, this._testApi, this._articleApi, this._sharedPrefsHelper, this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -56,7 +59,7 @@ class Repository {
   // Test:-----------------------------------------------------------------
   Future<bool> submitTestScore(List<int> score) async {
     try {
-      var token = await _sharedPrefsHelper.authToken;
+      String token = await _sharedPrefsHelper.authToken;
       bool submitSuccess = await _testApi.submitTestScore(token, score);
       if (submitSuccess) {
         await _sharedPrefsHelper.updatePatientScore(score);
@@ -64,6 +67,16 @@ class Repository {
       return submitSuccess;
     } catch (e) {
       return false;
+    }
+  }
+
+  // Article:-------------------------------------------------------------------
+  Future<ArticleList> getArticleList() async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      return await _articleApi.getArticleList(token);
+    } catch (e) {
+      rethrow;
     }
   }
 
