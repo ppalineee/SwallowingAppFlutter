@@ -50,7 +50,18 @@ class _TestScreenState extends State<TestScreen> {
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        _buildMainContent(),
+        Container(
+          color: AppColors.lightgray,
+          width: MediaQuery.of(context).size.width,
+        ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: !_profileStore.loading && _profileStore.success,
+              child: _buildMainContent(),
+            );
+          },
+        ),
         Observer(
           builder: (context) {
             return Visibility(
@@ -64,18 +75,6 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   Widget _buildMainContent() {
-    return Stack(
-        children: <Widget>[
-          Container(
-            color: AppColors.lightgray,
-            width: MediaQuery.of(context).size.width,
-          ),
-          _buildTestWidget(),
-        ]
-    );
-  }
-
-  Widget _buildTestWidget() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: 12,
@@ -161,7 +160,7 @@ class _TestScreenState extends State<TestScreen> {
                             builder: (context) {
                               return Radio(
                                 value: 0,
-                                groupValue: _profileStore.score[index],
+                                groupValue: _profileStore.score[index] ?? 0,
                                 activeColor: AppColors.deepblue,
                                 onChanged: (int value) {
                                   setState(() {
@@ -190,7 +189,7 @@ class _TestScreenState extends State<TestScreen> {
                             builder: (context) {
                               return Radio(
                                 value: 1,
-                                groupValue: _profileStore.score[index],
+                                groupValue: _profileStore.score[index] ?? 0,
                                 activeColor: AppColors.deepblue,
                                 onChanged: (int value) {
                                   setState(() {
@@ -219,7 +218,7 @@ class _TestScreenState extends State<TestScreen> {
                             builder: (context) {
                               return Radio(
                                 value: 2,
-                                groupValue: _profileStore.score[index],
+                                groupValue: _profileStore.score[index] ?? 0,
                                 activeColor: AppColors.deepblue,
                                 onChanged: (int value) {
                                   setState(() {
@@ -248,7 +247,7 @@ class _TestScreenState extends State<TestScreen> {
                             builder: (context) {
                               return Radio(
                                 value: 3,
-                                groupValue: _profileStore.score[index],
+                                groupValue: _profileStore.score[index] ?? 0,
                                 activeColor: AppColors.deepblue,
                                 onChanged: (int value) {
                                   setState(() {
@@ -277,7 +276,7 @@ class _TestScreenState extends State<TestScreen> {
                             builder: (context) {
                               return Radio(
                                 value: 4,
-                                groupValue: _profileStore.score[index],
+                                groupValue: _profileStore.score[index] ?? 0,
                                 activeColor: AppColors.deepblue,
                                 onChanged: (int value) {
                                   setState(() {
