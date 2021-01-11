@@ -18,12 +18,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ProfileStore _profileStore;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     _profileStore = Provider.of<ProfileStore>(context);
 
     if (!_profileStore.loading) {
-      _profileStore.getPatientProfile();
+      await _profileStore.getPatientProfile();
     }
   }
 
@@ -143,39 +143,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(
           width: 20,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                _profileStore.profile.hnNumber,
-                style: TextStyle(fontSize: 17)),
-            _space(),
-            Text(
-                _profileStore.profile.firstName,
-                style: TextStyle(fontSize: 17)),
-            _space(),
-            Text(
-                _profileStore.profile.lastName,
-                style: TextStyle(fontSize: 17)),
-            _space(),
-            Text(
-                _profileStore.profile.gender,
-                style: TextStyle(fontSize: 17)),
-            _space(),
-            Text(
-                _changeDateFormat(_profileStore.profile.birthdate),
-                style: TextStyle(fontSize: 17)),
-            _space(),
-            Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width-200,
-                  child: Text(
-                      'ผู้ดูแล',
-                      style: TextStyle(fontSize: 17)),
+        Observer(
+          builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    _profileStore.profile.hnNumber,
+                    style: TextStyle(fontSize: 17)),
+                _space(),
+                Text(
+                    _profileStore.profile.firstName,
+                    style: TextStyle(fontSize: 17)),
+                _space(),
+                Text(
+                    _profileStore.profile.lastName,
+                    style: TextStyle(fontSize: 17)),
+                _space(),
+                Text(
+                    _profileStore.profile.gender,
+                    style: TextStyle(fontSize: 17)),
+                _space(),
+                Text(
+                    _changeDateFormat(_profileStore.profile.birthdate),
+                    style: TextStyle(fontSize: 17)),
+                _space(),
+                Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width-200,
+                      child: Text(
+                          'ผู้ดูแล',
+                          style: TextStyle(fontSize: 17)),
+                    )
                 )
-            )
-          ],
-        ),
+              ],
+            );
+          },
+        )
       ],
     );
   }

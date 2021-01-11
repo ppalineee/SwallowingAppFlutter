@@ -18,8 +18,6 @@ class TestScreen extends StatefulWidget {
 
 class _TestScreenState extends State<TestScreen> {
   ProfileStore _profileStore;
-
-  List<int> _score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   List<String> _question = ['ปัญหาการกลืนทำให้น้ำหนักตัวของฉันลดลง',
                             'ปัญหาการกลืนของฉันรบกวนการออกไปรับประทานอาหารนอกบ้าน',
                             'ฉันต้องใช้ความพยายามมากกว่าปกติเพื่อกลืนของเหลว',
@@ -32,13 +30,12 @@ class _TestScreenState extends State<TestScreen> {
                             'การกลืนทําให้ฉันรู้สึกเครียด'];
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     _profileStore = Provider.of<ProfileStore>(context);
 
     if (!_profileStore.loading) {
-      _profileStore.getPatientProfile();
-      _score = _profileStore.score;
+      await _profileStore.getPatientProfile();
     }
   }
 
@@ -160,14 +157,18 @@ class _TestScreenState extends State<TestScreen> {
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: Radio(
-                            value: 0,
-                            groupValue: _score[index],
-                            activeColor: AppColors.deepblue,
-                            onChanged: (int value) {
-                              setState(() {
-                                _score[index] = value;
-                              });
+                          child: Observer(
+                            builder: (context) {
+                              return Radio(
+                                value: 0,
+                                groupValue: _profileStore.score[index],
+                                activeColor: AppColors.deepblue,
+                                onChanged: (int value) {
+                                  setState(() {
+                                    _profileStore.score[index] = value;
+                                  });
+                                },
+                              );
                             },
                           )
                       ),
@@ -185,14 +186,18 @@ class _TestScreenState extends State<TestScreen> {
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: Radio(
-                            value: 1,
-                            groupValue: _score[index],
-                            activeColor: AppColors.deepblue,
-                            onChanged: (int value) {
-                              setState(() {
-                                _score[index] = value;
-                              });
+                          child: Observer(
+                            builder: (context) {
+                              return Radio(
+                                value: 1,
+                                groupValue: _profileStore.score[index],
+                                activeColor: AppColors.deepblue,
+                                onChanged: (int value) {
+                                  setState(() {
+                                    _profileStore.score[index] = value;
+                                  });
+                                },
+                              );
                             },
                           )
                       ),
@@ -210,14 +215,18 @@ class _TestScreenState extends State<TestScreen> {
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: Radio(
-                            value: 2,
-                            groupValue: _score[index],
-                            activeColor: AppColors.deepblue,
-                            onChanged: (int value) {
-                              setState(() {
-                                _score[index] = value;
-                              });
+                          child: Observer(
+                            builder: (context) {
+                              return Radio(
+                                value: 2,
+                                groupValue: _profileStore.score[index],
+                                activeColor: AppColors.deepblue,
+                                onChanged: (int value) {
+                                  setState(() {
+                                    _profileStore.score[index] = value;
+                                  });
+                                },
+                              );
                             },
                           )
                       ),
@@ -235,14 +244,18 @@ class _TestScreenState extends State<TestScreen> {
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: Radio(
-                            value: 3,
-                            groupValue: _score[index],
-                            activeColor: AppColors.deepblue,
-                            onChanged: (int value) {
-                              setState(() {
-                                _score[index] = value;
-                              });
+                          child: Observer(
+                            builder: (context) {
+                              return Radio(
+                                value: 3,
+                                groupValue: _profileStore.score[index],
+                                activeColor: AppColors.deepblue,
+                                onChanged: (int value) {
+                                  setState(() {
+                                    _profileStore.score[index] = value;
+                                  });
+                                },
+                              );
                             },
                           )
                       ),
@@ -260,14 +273,18 @@ class _TestScreenState extends State<TestScreen> {
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: Radio(
-                            value: 4,
-                            groupValue: _score[index],
-                            activeColor: AppColors.deepblue,
-                            onChanged: (int value) {
-                              setState(() {
-                                _score[index] = value;
-                              });
+                          child: Observer(
+                            builder: (context) {
+                              return Radio(
+                                value: 4,
+                                groupValue: _profileStore.score[index],
+                                activeColor: AppColors.deepblue,
+                                onChanged: (int value) {
+                                  setState(() {
+                                    _profileStore.score[index] = value;
+                                  });
+                                },
+                              );
                             },
                           )
                       ),
@@ -299,11 +316,11 @@ class _TestScreenState extends State<TestScreen> {
           fontSize: 18,
           color: AppColors.white),
         onPressed: () {
-          _profileStore.submitTestScore(_score);
+          _profileStore.submitTestScore(_profileStore.score);
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                int score = _calculateTotalScore(_score);
+                int score = _calculateTotalScore(_profileStore.score);
                 return _buildResultPopUp(score);
               }
           );
@@ -367,10 +384,10 @@ class _TestScreenState extends State<TestScreen> {
     );
   }
 
-  int _calculateTotalScore(_score) {
+  int _calculateTotalScore(List<int> score) {
     int totalScore = 0;
     for (var i = 0; i < 10; i++) {
-      totalScore += _score[i];
+      totalScore += score[i];
     }
     return totalScore;
   }

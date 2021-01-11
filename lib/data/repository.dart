@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
-import 'package:swallowing_app/models/jwt_token.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
@@ -60,7 +59,7 @@ class Repository {
       var token = await _sharedPrefsHelper.authToken;
       bool submitSuccess = await _testApi.submitTestScore(token, score);
       if (submitSuccess) {
-        _sharedPrefsHelper.updatePatientScore(score);
+        await _sharedPrefsHelper.updatePatientScore(score);
       }
       return submitSuccess;
     } catch (e) {
