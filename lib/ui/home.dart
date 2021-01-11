@@ -1,77 +1,69 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
+import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/routes.dart';
-import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swallowing_app/stores/article_store.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  ArticleStore _articleStore;
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    _articleStore = Provider.of<ArticleStore>(context);
+
+    if (!_articleStore.loading) {
+      await _articleStore.getArticleList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar('หน้าหลัก', false),
-      body: _buildBody(context),
+      body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );
   }
 
-  // Widget _buildThemeButton() {
-  //   return Observer(
-  //     builder: (context) {
-  //       return IconButton(
-  //         onPressed: () {
-  //           _themeStore.changeBrightnessToDark(!_themeStore.darkMode);
-  //         },
-  //         icon: Icon(
-  //           _themeStore.darkMode ? Icons.brightness_5 : Icons.brightness_3,
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-  //
-  // Widget _buildLogoutButton() {
-  //   return IconButton(
-  //     onPressed: () {
-  //       SharedPreferences.getInstance().then((preference) {
-  //         preference.setBool(Preferences.is_logged_in, false);
-  //         Navigator.of(context).pushReplacementNamed(Routes.login);
-  //       });
-  //     },
-  //     icon: Icon(
-  //       Icons.power_settings_new,
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _buildLanguageButton() {
-  //   return IconButton(
-  //     onPressed: () {
-  //       _buildLanguageDialog();
-  //     },
-  //     icon: Icon(
-  //       Icons.language,
-  //     ),
-  //   );
-  // }
-
-  Widget _buildBody(context) {
+  Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        // _handleErrorMessage(),
-        _buildMainContent(context),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: !_articleStore.loading && _articleStore.success,
+              child: _buildMainContent(),
+            );
+          },
+        ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: _articleStore.loading || !_articleStore.success,
+              child: CustomProgressIndicatorWidget(),
+            );
+          },
+        )
       ],
     );
   }
 
-  Widget _buildMainContent(context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
+  Widget _buildMainContent() {
+    return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Column(
@@ -79,91 +71,11 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 35,
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 20, right: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          'วิดีโอแนะนำ',
-                          style: TextStyle(
-                            fontFamily: FontFamily.kanit,
-                            fontSize: 26,
-                            color: AppColors.deepblue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushReplacementNamed(Routes.video_playlist);
-                          Navbar.selectedIndex = 1;
-                        },
-                        child: Text(
-                          'ดูทั้งหมด >',
-                          style: TextStyle(
-                            fontFamily: FontFamily.kanit,
-                            fontSize: 14,
-                            color: AppColors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _buildVideoListHeader(),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  height: 160,
-                  child: ListView.separated(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 1,
-                        child: ClipPath(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  width: 190,
-                                  height: 190 * Dimens.video_height / Dimens.video_width,
-                                  color: AppColors.lightgray,
-                                  child: Center(child: Text('Video $index'))
-                              ),
-                              Container(
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    'วิธีการกลืนเบื้องต้น',
-                                    style: TextStyle(
-                                      fontFamily: FontFamily.kanit,
-                                      fontSize: 15,
-                                      color: AppColors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]
-                          ),
-                          clipper: ShapeBorderClipper(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(width: 5);
-                    },
-                  ),
-                ),
+                _buildVideoList(),
               ],
           ),
           SizedBox(
@@ -176,89 +88,45 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    'บทความ',
-                    style: TextStyle(
-                      fontFamily: FontFamily.kanit,
-                      fontSize: 26,
-                      color: AppColors.deepblue,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed(Routes.article_list);
-                    Navbar.selectedIndex = 3;
-                  },
-                  child: Text(
-                    'ดูทั้งหมด >',
-                    style: TextStyle(
-                      fontFamily: FontFamily.kanit,
-                      fontSize: 14,
-                      color: AppColors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildArticleListHeader(),
           SizedBox(
             height: 10,
           ),
+          _buildArticleList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVideoListHeader() {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
           Container(
-            height: 160,
-            child: ListView.separated(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              scrollDirection: Axis.horizontal,
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 1,
-                  child: ClipPath(
-                    child: Column(
-                        children: <Widget>[
-                          Container(
-                              width: 190,
-                              height: 190 * Dimens.video_height / Dimens.video_width,
-                              color: AppColors.lightgray,
-                              child: Center(child: Text('Article $index'))
-                          ),
-                          Container(
-                            height: 40,
-                            child: Center(
-                              child: Text(
-                                'วิธีการกลืนเบื้องต้น',
-                                style: TextStyle(
-                                  fontFamily: FontFamily.kanit,
-                                  fontSize: 15,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                    ),
-                    clipper: ShapeBorderClipper(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0)
-                      ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(width: 5);
-              },
+            child: Text(
+              'วิดีโอแนะนำ',
+              style: TextStyle(
+                fontFamily: FontFamily.kanit,
+                fontSize: 26,
+                color: AppColors.deepblue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(Routes.video_playlist);
+              Navbar.selectedIndex = 1;
+            },
+            child: Text(
+              'ดูทั้งหมด >',
+              style: TextStyle(
+                fontFamily: FontFamily.kanit,
+                fontSize: 14,
+                color: AppColors.black,
+              ),
             ),
           ),
         ],
@@ -266,133 +134,174 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildMainContent() {
-  //   return Observer(
-  //     builder: (context) {
-  //       return _postStore.loading
-  //           ? CustomProgressIndicatorWidget()
-  //           : Material(child: _buildListView());
-  //     },
-  //   );
-  // }
+  Widget _buildVideoList() {
+    return Container(
+      height: 160,
+      child: ListView.separated(
+        padding: EdgeInsets.only(left: 20, right: 20),
+        scrollDirection: Axis.horizontal,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            elevation: 1,
+            child: ClipPath(
+              child: Column(
+                  children: <Widget>[
+                    Container(
+                        width: 190,
+                        height: 190 * Dimens.video_height / Dimens.video_width,
+                        color: AppColors.lightgray,
+                        child: Center(child: Text('Video $index'))
+                    ),
+                    Container(
+                      width: 160,
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'วิธีการกลืนเบื้องต้น',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: FontFamily.kanit,
+                            fontSize: 15,
+                            color: AppColors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]
+              ),
+              clipper: ShapeBorderClipper(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)
+                ),
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(width: 5);
+        },
+      ),
+    );
+  }
 
-  // Widget _buildListView() {
-  //   return _postStore.postList != null
-  //       ? ListView.separated(
-  //     itemCount: _postStore.postList.posts.length,
-  //     separatorBuilder: (context, position) {
-  //       return Divider();
-  //     },
-  //     itemBuilder: (context, position) {
-  //       return _buildListItem(position);
-  //     },
-  //   )
-  //       : Center(
-  //     child: Text(
-  //       AppLocalizations.of(context).translate('home_tv_no_post_found'),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _buildListItem(int position) {
-  //   return ListTile(
-  //     dense: true,
-  //     leading: Icon(Icons.cloud_circle),
-  //     title: Text(
-  //       '${_postStore.postList.posts[position].title}',
-  //       maxLines: 1,
-  //       overflow: TextOverflow.ellipsis,
-  //       softWrap: false,
-  //       style: Theme.of(context).textTheme.title,
-  //     ),
-  //     subtitle: Text(
-  //       '${_postStore.postList.posts[position].body}',
-  //       maxLines: 1,
-  //       overflow: TextOverflow.ellipsis,
-  //       softWrap: false,
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _handleErrorMessage() {
-  //   return Observer(
-  //     builder: (context) {
-  //       if (_postStore.errorStore.errorMessage.isNotEmpty) {
-  //         return _showErrorMessage(_postStore.errorStore.errorMessage);
-  //       }
-  //
-  //       return SizedBox.shrink();
-  //     },
-  //   );
-  // }
-  //
-  // // General Methods:-----------------------------------------------------------
-  // _showErrorMessage(String message) {
-  //   Future.delayed(Duration(milliseconds: 0), () {
-  //     if (message != null && message.isNotEmpty) {
-  //       FlushbarHelper.createError(
-  //         message: message,
-  //         title: AppLocalizations.of(context).translate('home_tv_error'),
-  //         duration: Duration(seconds: 3),
-  //       )..show(context);
-  //     }
-  //   });
-  //
-  //   return SizedBox.shrink();
-  // }
-  //
-  // _buildLanguageDialog() {
-  //   _showDialog<String>(
-  //     context: context,
-  //     child: MaterialDialog(
-  //       borderRadius: 5.0,
-  //       enableFullWidth: true,
-  //       title: Text(
-  //         AppLocalizations.of(context).translate('home_tv_choose_language'),
-  //         style: TextStyle(
-  //           color: Colors.white,
-  //           fontSize: 16.0,
-  //         ),
-  //       ),
-  //       headerColor: Theme.of(context).primaryColor,
-  //       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-  //       closeButtonColor: Colors.white,
-  //       enableCloseButton: true,
-  //       enableBackButton: false,
-  //       onCloseButtonClicked: () {
-  //         Navigator.of(context).pop();
-  //       },
-  //       children: _languageStore.supportedLanguages
-  //           .map(
-  //             (object) => ListTile(
-  //           dense: true,
-  //           contentPadding: EdgeInsets.all(0.0),
-  //           title: Text(
-  //             object.language,
-  //             style: TextStyle(
-  //               color: _languageStore.locale == object.locale
-  //                   ? Theme.of(context).primaryColor
-  //                   : _themeStore.darkMode ? Colors.white : Colors.black,
-  //             ),
-  //           ),
-  //           onTap: () {
-  //             Navigator.of(context).pop();
-  //             // change user language based on selected locale
-  //             _languageStore.changeLanguage(object.locale);
-  //           },
-  //         ),
-  //       )
-  //           .toList(),
-  //     ),
-  //   );
-  // }
-  //
-  // _showDialog<T>({BuildContext context, Widget child}) {
-  //   showDialog<T>(
-  //     context: context,
-  //     builder: (BuildContext context) => child,
-  //   ).then<void>((T value) {
-  //     // The value passed to Navigator.pop() or null.
-  //   });
-  // }
+  Widget _buildArticleListHeader() {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            child: Text(
+              'บทความ',
+              style: TextStyle(
+                fontFamily: FontFamily.kanit,
+                fontSize: 26,
+                color: AppColors.deepblue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(Routes.article_list);
+              Navbar.selectedIndex = 3;
+            },
+            child: Text(
+              'ดูทั้งหมด >',
+              style: TextStyle(
+                fontFamily: FontFamily.kanit,
+                fontSize: 14,
+                color: AppColors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildArticleList() {
+    return Container(
+      height: 160,
+      child: _articleStore.articleList != null
+      ? ListView.separated(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          scrollDirection: Axis.horizontal,
+          itemCount: (_articleStore.articleList.articles.length) < 5
+              ? _articleStore.articleList.articles.length : 5,
+          itemBuilder: (context, index) {
+            Article article = _articleStore.articleList.articles[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              elevation: 1,
+              child: ClipPath(
+                child: Column(
+                    children: <Widget>[
+                      Container(
+                          width: 190,
+                          height: 190 * Dimens.video_height / Dimens.video_width,
+                          color: AppColors.lightgray,
+                          child: Image.network(
+                            article.imgUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                              return Center(
+                                  child: Icon(
+                                    Icons.no_photography_rounded,
+                                    color: AppColors.white,
+                                    size: 30,
+                                  )
+                              );
+                            },
+                          ),
+                      ),
+                      Container(
+                        width: 160,
+                        height: 40,
+                        child: Center(
+                          child: Text(
+                            article.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: FontFamily.kanit,
+                              fontSize: 15,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                ),
+                clipper: ShapeBorderClipper(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)
+                  ),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(width: 5);
+          },
+        )
+        : _handleNoArticlesFound()
+    );
+  }
+
+  Widget _handleNoArticlesFound() {
+    return Center(
+      child: Text(
+        'ไม่พบบทความที่คุณกำลังค้นหา...',
+        style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 17),
+      ),
+    );
+  }
 }
