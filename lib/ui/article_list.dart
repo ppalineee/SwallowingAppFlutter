@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:swallowing_app/constants/colors.dart';
-import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/models/ariticle.dart';
@@ -43,7 +42,18 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        _buildMainContent(),
+        Container(
+          color: AppColors.lightgray,
+          width: MediaQuery.of(context).size.width,
+        ),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: !_articleStore.loading && _articleStore.success,
+              child: _buildMainContent(),
+            );
+          },
+        ),
         Observer(
           builder: (context) {
             return Visibility(
@@ -57,49 +67,20 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   }
 
   Widget _buildMainContent() {
-    return Observer(
-      builder: (context) {
-        return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(top: 5),
-              child: _articleStore.articleList != null
-              ? Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: _articleStore.articleList.articles.length,
-                  itemBuilder: (context, index) {
-                    return _buildArticle(_articleStore.articleList.articles[index], index);
-                  },
-                )
-              )
-              : Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Center(
-                      child: Icon(
-                        Icons.inbox,
-                        size: 50,
-                        color: Colors.black45,
-                      )
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Center(
-                      child: Text(
-                        'ไม่พบบทความที่คุณกำลังค้นหา...',
-                        style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
-                      ),
-                    )
-                  ]
-                )
-              )
+    return SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: 5),
+          child: _articleStore.articleList != null
+          ? ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: _articleStore.articleList.articles.length,
+              itemBuilder: (context, index) {
+                return _buildArticle(_articleStore.articleList.articles[index], index);
+              },
             )
-        );
-      },
-    );
+          : _handleNoArticlesFound()
+        )
+      );
   }
 
   Widget _buildArticle(Article article, int index) {
@@ -114,9 +95,21 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               Expanded(
                 flex: 3,
                 child: Container(
-                    height: MediaQuery.of(context).size.width * Dimens.video_height / Dimens.video_width / 2,
-                    color: AppColors.lightgray,
-                    child: Center(child: Text('Picture $index'))
+                    height: MediaQuery.of(context).size.width * 0.3,
+                    color: AppColors.gray,
+                    child: Image.network(
+                      article.imgUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.no_photography_rounded,
+                            color: AppColors.white,
+                            size: 30,
+                          )
+                        );
+                      },
+                    ),
                 ),
               ),
               Expanded(
@@ -129,6 +122,8 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             article.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: FontFamily.kanit,
                               fontSize: 18,
@@ -145,6 +140,8 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                           child: Text(
                             article.content,
                             textAlign: TextAlign.left,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: FontFamily.kanit,
                               fontSize: 14,
@@ -164,6 +161,31 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _handleNoArticlesFound() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Center(
+              child: Icon(
+                Icons.inbox,
+                size: 50,
+                color: Colors.black45,
+              )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              'ไม่พบบทความที่คุณกำลังค้นหา...',
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
+            ),
+          )
+        ]
     );
   }
 }
