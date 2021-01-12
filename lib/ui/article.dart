@@ -31,13 +31,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          color: AppColors.babyblue,
+          color: AppColors.lightgray,
           width: MediaQuery.of(context).size.width,
           child: Center(
             child: Container(
-              padding: EdgeInsets.all(25),
-              width: MediaQuery.of(context).size.width - 40,
-              height: MediaQuery.of(context).size.height - 128,
+              padding: EdgeInsets.all(30),
+              width: MediaQuery.of(context).size.width - 30,
+              height: MediaQuery.of(context).size.height - 118,
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25)
