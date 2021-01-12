@@ -8,6 +8,7 @@ import 'package:swallowing_app/constants/font_family.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/stores/article_store.dart';
+import 'package:swallowing_app/ui/article.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
@@ -84,17 +85,25 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   }
 
   Widget _buildArticle(Article article, int index) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      elevation: 1,
-      child: ClipPath(
-        child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ArticleScreen(article: article)
+          )
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        elevation: 1,
+        child: ClipPath(
+          child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Container(
                     height: MediaQuery.of(context).size.width * 0.3,
                     color: AppColors.gray,
                     child: Image.network(
@@ -102,65 +111,66 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                       fit: BoxFit.cover,
                       errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
                         return Center(
-                          child: Icon(
-                            Icons.no_photography_rounded,
-                            color: AppColors.white,
-                            size: 30,
-                          )
+                            child: Icon(
+                              Icons.no_photography_rounded,
+                              color: AppColors.white,
+                              size: 30,
+                            )
                         );
                       },
                     ),
-                ),
-              ),
-              Expanded(
-                flex: 7,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                  child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            article.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: FontFamily.kanit,
-                              fontSize: 18,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            article.content,
-                            textAlign: TextAlign.left,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: FontFamily.kanit,
-                              fontSize: 14,
-                              color: AppColors.black,
-                            ),
-                          ),
-                        ),
-                      ]
                   ),
-                )
-              ),
-            ]
-        ),
-        clipper: ShapeBorderClipper(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0)
+                ),
+                Expanded(
+                    flex: 7,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                      child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                article.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: FontFamily.kanit,
+                                  fontSize: 18,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                article.content,
+                                textAlign: TextAlign.left,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: FontFamily.kanit,
+                                  fontSize: 14,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ),
+                          ]
+                      ),
+                    )
+                ),
+              ]
+          ),
+          clipper: ShapeBorderClipper(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0)
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 

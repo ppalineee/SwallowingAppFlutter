@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // TODO: Fix article_store bug -> home_store
   ArticleStore _articleStore;
 
   @override
