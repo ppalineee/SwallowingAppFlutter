@@ -24,18 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    _articleStore = Provider.of<ArticleStore>(context);
-
-    if (!_articleStore.loading) {
-      await _articleStore.getArticleList();
-    }
+    // _articleStore = Provider.of<ArticleStore>(context);
+    //
+    // if (!_articleStore.loading) {
+    //   await _articleStore.getArticleList();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar('หน้าหลัก', false),
-      body: _buildBody(),
+      // body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:swallowing_app/data/local/constants/db_constants.dart';
+import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
@@ -71,6 +72,10 @@ class LocalModule extends NetworkModule {
   @singleton
   PostDataSource providePostDataSource() => PostDataSource(database);
 
+  @provide
+  @singleton
+  ArticleDataSource provideArticleDataSource() => ArticleDataSource(database);
+
   // DataSources End:-----------------------------------------------------------
 
   /// A singleton repository provider.
@@ -86,6 +91,8 @@ class LocalModule extends NetworkModule {
     ArticleApi articleApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
+    ArticleDataSource articleDataSource,
   ) =>
-      Repository(postApi, loginApi, profileApi, testApi, articleApi, preferenceHelper, postDataSource);
+      Repository(postApi, loginApi, profileApi, testApi, articleApi,
+          preferenceHelper, postDataSource, articleDataSource);
 }

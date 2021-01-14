@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
@@ -16,6 +17,7 @@ import 'network/apis/test_api.dart';
 class Repository {
   // data source object
   final PostDataSource _postDataSource;
+  final ArticleDataSource _articleDataSource;
 
   // api objects
   final PostApi _postApi;
@@ -28,7 +30,9 @@ class Repository {
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._loginApi, this._profileApi, this._testApi, this._articleApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
+      this._articleApi, this._sharedPrefsHelper, this._postDataSource,
+      this._articleDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -73,12 +77,28 @@ class Repository {
   // Article:-------------------------------------------------------------------
   Future<ArticleList> getArticleList() async {
     try {
-      String token = await _sharedPrefsHelper.authToken;
-      return await _articleApi.getArticleList(token);
-    } catch (e) {
+      if (await _articleDataSource.count() > 0) {
+        return await _articleDataSource
+          .getArticlesFromDb()
+          .then((articlesList) => articlesList);
+      } else {
+        await _articleDataSource.deleteAll();
+        String token = await _sharedPrefsHelper.authToken;
+        return await _articleApi.getArticleList(token).then((articlesList) {
+          articlesList.articles.forEach((article) {
+            _articleDataSource.insert(article);
+          });
+          return articlesList;
+        });
+      }
+    } catch(e) {
       rethrow;
     }
   }
+
+  Future<int> deleteArticleList() => _articleDataSource
+      .deleteAll()
+      .catchError((error) => throw error);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {

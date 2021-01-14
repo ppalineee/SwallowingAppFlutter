@@ -7,7 +7,7 @@ class ArticleList {
 
   factory ArticleList.fromJson(List<dynamic> json) {
     List<Article> articles = List<Article>();
-    articles = json.map((article) => Article.fromMap(article)).toList();
+    articles = json.map((article) => Article.fromJson(article)).toList();
 
     return ArticleList(
       articles: articles,
@@ -28,11 +28,18 @@ class Article {
     this.imgUrl,
   });
 
-  factory Article.fromMap(Map<String, dynamic> json) => Article(
+  factory Article.fromJson(Map<String, dynamic> json) => Article(
     id: json["_id"],
     title: json["title"],
     content: json["detail"],
     imgUrl: json["photo"],
+  );
+
+  factory Article.fromMap(Map<String, dynamic> json) => Article(
+    id: json["id"],
+    title: json["title"],
+    content: json["content"],
+    imgUrl: json["imgUrl"],
   );
 
   Map<String, dynamic> toMap() => {
