@@ -7,7 +7,6 @@ import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:provider/provider.dart';
-import 'package:swallowing_app/stores/article_store.dart';
 import 'package:swallowing_app/stores/home_store.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
@@ -19,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // TODO: Fix article_store bug -> home_store
   HomeStore _homeStore;
 
   @override
@@ -84,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 15,
           ),
           Divider(
-            thickness: 1.0,
+            thickness: 1.5,
             color: AppColors.lightgray,
           ),
           SizedBox(
@@ -164,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Center(
                         child: Text(
                           'วิธีการกลืนเบื้องต้น',
+                          textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -234,8 +233,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ? ListView.separated(
           padding: EdgeInsets.only(left: 20, right: 20),
           scrollDirection: Axis.horizontal,
-          itemCount: (_homeStore.articleList.articles.length) < 5
-              ? _homeStore.articleList.articles.length : 5,
+          itemCount: (_homeStore.articleList.articles.length) < 6
+              ? _homeStore.articleList.articles.length : 6,
           itemBuilder: (context, index) {
             int i = _homeStore.articleList.articles.length - index - 1;
             Article article = _homeStore.articleList.articles[i];
@@ -271,6 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Center(
                           child: Text(
                             article.title,
+                            textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
