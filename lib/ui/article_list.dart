@@ -76,7 +76,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               scrollDirection: Axis.vertical,
               itemCount: _articleStore.articleList.articles.length,
               itemBuilder: (context, index) {
-                int i = _articleStore.articleList.articles.length - index -1;
+                int i = _articleStore.articleList.articles.length - index - 1;
                 return _buildArticle(_articleStore.articleList.articles[i], i);
               },
             )

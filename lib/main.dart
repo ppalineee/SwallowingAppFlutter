@@ -6,6 +6,7 @@ import 'package:swallowing_app/di/modules/network_module.dart';
 import 'package:swallowing_app/di/modules/preference_module.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/stores/article_store.dart';
+import 'package:swallowing_app/stores/home_store.dart';
 import 'package:swallowing_app/stores/language/language_store.dart';
 import 'package:swallowing_app/stores/post/post_store.dart';
 import 'package:swallowing_app/stores/profile_store.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
   final AuthToken _authToken = AuthToken(appComponent.getRepository());
   final ProfileStore _profileStore = ProfileStore(appComponent.getRepository());
   final ArticleStore _articleStore = ArticleStore(appComponent.getRepository());
+  final HomeStore _homeStore = HomeStore(appComponent.getRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class MyApp extends StatelessWidget {
         Provider<AuthToken>(create: (_) => _authToken),
         Provider<ProfileStore>(create: (_) => _profileStore),
         Provider<ArticleStore>(create: (_) => _articleStore),
+        Provider<HomeStore>(create: (_) => _homeStore),
       ],
       child: Observer(
         name: 'global-observer',

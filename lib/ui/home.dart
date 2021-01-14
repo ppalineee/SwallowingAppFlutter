@@ -8,6 +8,7 @@ import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/article_store.dart';
+import 'package:swallowing_app/stores/home_store.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
@@ -19,23 +20,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // TODO: Fix article_store bug -> home_store
-  ArticleStore _articleStore;
+  HomeStore _homeStore;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    // _articleStore = Provider.of<ArticleStore>(context);
-    //
-    // if (!_articleStore.loading) {
-    //   await _articleStore.getArticleList();
-    // }
+    _homeStore = Provider.of<HomeStore>(context);
+
+    if (!_homeStore.loading) {
+      await _homeStore.getArticleList();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar('หน้าหลัก', false),
-      // body: _buildBody(),
+      body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );
   }
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Observer(
           builder: (context) {
             return Visibility(
-              visible: !_articleStore.loading && _articleStore.success,
+              visible: !_homeStore.loading && _homeStore.success,
               child: _buildMainContent(),
             );
           },
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Observer(
           builder: (context) {
             return Visibility(
-              visible: _articleStore.loading || !_articleStore.success,
+              visible: _homeStore.loading || !_homeStore.success,
               child: CustomProgressIndicatorWidget(),
             );
           },
@@ -229,14 +230,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildArticleList() {
     return Container(
       height: 160,
-      child: _articleStore.articleList != null
+      child: _homeStore.articleList != null
       ? ListView.separated(
           padding: EdgeInsets.only(left: 20, right: 20),
           scrollDirection: Axis.horizontal,
-          itemCount: (_articleStore.articleList.articles.length) < 5
-              ? _articleStore.articleList.articles.length : 5,
+          itemCount: (_homeStore.articleList.articles.length) < 5
+              ? _homeStore.articleList.articles.length : 5,
           itemBuilder: (context, index) {
-            Article article = _articleStore.articleList.articles[index];
+            int i = _homeStore.articleList.articles.length - index - 1;
+            Article article = _homeStore.articleList.articles[i];
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
