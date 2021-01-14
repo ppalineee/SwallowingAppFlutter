@@ -12,6 +12,8 @@ import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 
+import 'article.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -238,15 +240,23 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (context, index) {
             int i = _homeStore.articleList.articles.length - index - 1;
             Article article = _homeStore.articleList.articles[i];
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              elevation: 1,
-              child: ClipPath(
-                child: Column(
-                    children: <Widget>[
-                      Container(
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => ArticleScreen(article: article)
+                    )
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 1,
+                child: ClipPath(
+                  child: Column(
+                      children: <Widget>[
+                        Container(
                           width: 190,
                           height: 190 * Dimens.video_height / Dimens.video_width,
                           color: AppColors.lightgray,
@@ -263,32 +273,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
-                      ),
-                      Container(
-                        width: 160,
-                        height: 40,
-                        child: Center(
-                          child: Text(
-                            article.title,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: FontFamily.kanit,
-                              fontSize: 15,
-                              color: AppColors.black,
+                        ),
+                        Container(
+                          width: 160,
+                          height: 40,
+                          child: Center(
+                            child: Text(
+                              article.title,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: FontFamily.kanit,
+                                fontSize: 15,
+                                color: AppColors.black,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ]
-                ),
-                clipper: ShapeBorderClipper(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)
+                      ]
+                  ),
+                  clipper: ShapeBorderClipper(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0)
+                    ),
                   ),
                 ),
-              ),
+              )
             );
           },
           separatorBuilder: (context, index) {
