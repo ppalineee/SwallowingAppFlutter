@@ -11,6 +11,7 @@ import 'package:swallowing_app/stores/language/language_store.dart';
 import 'package:swallowing_app/stores/post/post_store.dart';
 import 'package:swallowing_app/stores/profile_store.dart';
 import 'package:swallowing_app/stores/theme/theme_store.dart';
+import 'package:swallowing_app/stores/video_store.dart';
 import 'package:swallowing_app/ui/splash.dart';
 import 'package:swallowing_app/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
   final ProfileStore _profileStore = ProfileStore(appComponent.getRepository());
   final ArticleStore _articleStore = ArticleStore(appComponent.getRepository());
   final HomeStore _homeStore = HomeStore(appComponent.getRepository());
+  final VideoStore _videoStore = VideoStore(appComponent.getRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
         Provider<ProfileStore>(create: (_) => _profileStore),
         Provider<ArticleStore>(create: (_) => _articleStore),
         Provider<HomeStore>(create: (_) => _homeStore),
+        Provider<VideoStore>(create: (_) => _videoStore),
       ],
       child: Observer(
         name: 'global-observer',

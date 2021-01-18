@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
+import 'package:swallowing_app/data/network/apis/video_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 import 'package:swallowing_app/models/profile.dart';
+import 'package:swallowing_app/models/video.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/article_api.dart';
 import 'network/apis/login_api.dart';
@@ -25,13 +27,14 @@ class Repository {
   final ProfileApi _profileApi;
   final TestApi _testApi;
   final ArticleApi _articleApi;
+  final VideoApi _videoApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
   Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
-      this._articleApi, this._sharedPrefsHelper, this._postDataSource,
+      this._articleApi, this._videoApi, this._sharedPrefsHelper, this._postDataSource,
       this._articleDataSource);
 
   // AuthToken:-----------------------------------------------------------------
@@ -99,6 +102,30 @@ class Repository {
   Future<int> deleteArticleList() => _articleDataSource
       .deleteAll()
       .catchError((error) => throw error);
+
+  // Video:---------------------------------------------------------------------
+  Future<VideoList> getVideoList() async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      return await _videoApi.getVideoList(token);
+      // if (await _videoDataSource.count() > 0) {
+      //   return await _videoDataSource
+      //       .getVideosFromDb()
+      //       .then((videosList) => videosList);
+      // } else {
+      //   await _videoDataSource.deleteAll();
+      //   String token = await _sharedPrefsHelper.authToken;
+      //   return await _videoApi.getVideoList(token).then((videosList) {
+      //     videosList.videos.forEach((video) {
+      //       _videoDataSource.insert(video);
+      //     });
+      //     return videosList;
+      //   });
+      // }
+    } catch(e) {
+      rethrow;
+    }
+  }
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
