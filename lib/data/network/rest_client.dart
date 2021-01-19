@@ -24,6 +24,8 @@ class RestClient {
             message: response.body, statusCode: statusCode);
       }
 
+      // print('rest: ${_decoder.convert(res)}');
+
       return _decoder.convert(res);
     });
   }
@@ -45,6 +47,8 @@ class RestClient {
         throw NetworkException(
             message: response.body, statusCode: statusCode);
       }
+
+      // print('rest: ${_decoder.convert(res)}');
 
       return _decoder.convert(res);
     });

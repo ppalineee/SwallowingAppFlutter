@@ -115,9 +115,9 @@ class AssignmentScreen extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      VideoWidget(
-                        ratio: 0.55,
-                      ),
+                      // VideoWidget(
+                      //   ratio: 0.55,
+                      // ),
                       SizedBox(
                         height: 25,
                       ),
