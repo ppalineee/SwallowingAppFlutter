@@ -6,6 +6,7 @@ import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/video.dart';
+import 'package:swallowing_app/ui/video.dart';
 
 class VideoWidget extends StatelessWidget {
   final Video video;
@@ -19,11 +20,11 @@ class VideoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push(
-        //     MaterialPageRoute(
-        //         builder: (context) => ArticleScreen(article: article)
-        //     )
-        // );
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) => VideoScreen(video: video)
+            )
+        );
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -48,13 +49,11 @@ class VideoWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(8, 0, 8, 6),
                             child: Text(
-                              // 'Evaluation and Treatment of Dysphagia, Craig Gluckman, MD | UCLAMDChat',
                               video.name,
                               textAlign: TextAlign.left,
                               maxLines: 2,
