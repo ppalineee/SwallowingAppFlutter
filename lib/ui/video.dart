@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
-import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
   final Video video;
