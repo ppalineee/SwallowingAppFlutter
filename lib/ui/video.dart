@@ -34,7 +34,7 @@ class _VideoScreenState extends State<VideoScreen> {
     return Stack(
       children: <Widget>[
         Container(
-          color: AppColors.lightgray,
+          color: AppColors.verylightgray,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: _buildMainContent()
@@ -44,23 +44,23 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildMainContent() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-          children: <Widget>[
-            _buildVideoPlayer(),
-            _buildVideoInfo()
-          ]
-      ),
+    return Column(
+      children: <Widget>[
+        _buildVideoInfo(),
+        _buildVideoPlayer()
+      ]
     );
   }
 
   Widget _buildVideoPlayer() {
-    return AspectRatio(
-      aspectRatio: Dimens.video_width / Dimens.video_height,
-      child: ChewieWidget(
-        videoPlayerController: VideoPlayerController.asset(
-            'assets/videos/Hi.mp4'
+    return Container(
+      color: AppColors.black,
+      child: AspectRatio(
+        aspectRatio: Dimens.video_width / Dimens.video_height,
+        child: ChewieWidget(
+            videoPlayerController: VideoPlayerController.network(
+                widget.video.url
+            )
         )
       )
     );
@@ -68,16 +68,17 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildVideoInfo() {
     return Container(
-        padding: EdgeInsets.all(20),
-        alignment: Alignment.centerLeft,
-        child: Text(
-          widget.video.name,
-          style: TextStyle(
-            color: AppColors.deepblue,
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-          ),
-        )
+      alignment: Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.fromLTRB(25, 32, 25, 30),
+      child: Text(
+        widget.video.name,
+        style: TextStyle(
+          color: AppColors.deepblue,
+          fontWeight: FontWeight.w500,
+          fontSize: 18,
+        ),
+      )
     );
   }
 }
