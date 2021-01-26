@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Column(
             children: <Widget>[
               SizedBox(
-                height: 35,
+                height: 30,
               ),
               _buildVideoListHeader(),
               SizedBox(
@@ -90,6 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Column(
           children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
             _buildArticleListHeader(),
             SizedBox(
               height: 10,

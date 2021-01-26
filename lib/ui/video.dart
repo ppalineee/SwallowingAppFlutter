@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
+import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/chewie_widget.dart';
@@ -55,9 +56,12 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   Widget _buildVideoPlayer() {
-    return ChewieWidget(
-      videoPlayerController: VideoPlayerController.asset(
-        'assets/videos/Hi.mp4'
+    return AspectRatio(
+      aspectRatio: Dimens.video_width / Dimens.video_height,
+      child: ChewieWidget(
+        videoPlayerController: VideoPlayerController.asset(
+            'assets/videos/Hi.mp4'
+        )
       )
     );
   }
