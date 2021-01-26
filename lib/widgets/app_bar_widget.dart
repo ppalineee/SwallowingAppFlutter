@@ -22,7 +22,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 10, 15, 10),
       width: MediaQuery.of(context).size.width,
-      height: 88,
+      height: MediaQuery.of(context).size.height * 0.135,
       decoration: BoxDecoration(
         color: AppColors.deepblue,
         boxShadow: [
@@ -38,21 +38,26 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Row(children: <Widget>[
+            Row(
+              children: <Widget>[
               (visibilityBackIcon)
                   ? Container(
                       alignment: Alignment.bottomCenter,
-                      width: 50.0,
+                      margin: EdgeInsets.only(left: 10),
+                      width: 45,
+                      height: 45,
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios_rounded,
                           size: 25.0,
                           color: AppColors.white,
                         ),
+                        highlightColor: AppColors.lightgray,
                         onPressed: () => Navigator.of(context).pop(),
                       ))
                   : SizedBox(
-                      width: 25,
+                      width: 30,
+                      height: 45,
                     ),
               Container(
                 child: Text(
@@ -70,15 +75,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               alignment: Alignment.center,
               width: 45,
               height: 45,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              ),
               child: IconButton(
                   icon: Icon(
                     Icons.notifications,
                     size: 30,
                     color: AppColors.white,
                   ),
+                  highlightColor: AppColors.lightgray,
                   onPressed: () {
                     Navigator.of(context).pushNamed(Routes.notification);
                   }),

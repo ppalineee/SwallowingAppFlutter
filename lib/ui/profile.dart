@@ -58,7 +58,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: AppColors.lightgray,
           width: MediaQuery.of(context).size.width,
         ),
-        Center(
+        Container(
+          padding: EdgeInsets.only(bottom: 100),
+          alignment: Alignment.center,
           child: Container(
             height: 390,
             child: Stack(
@@ -66,22 +68,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    margin: EdgeInsets.only(top: 60),
-                    padding: EdgeInsets.fromLTRB(20, 75, 20, 20),
-                    width: MediaQuery.of(context).size.width-80,
-                    height: 390,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Observer(
-                      builder: (context) {
-                        return Visibility(
-                          visible: _profileStore.success,
-                          child: _fetchProfileData()
-                        );
-                      },
-                    )
+                      margin: EdgeInsets.only(top: 60),
+                      padding: EdgeInsets.fromLTRB(20, 75, 20, 20),
+                      width: MediaQuery.of(context).size.width - 80,
+                      height: 390,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Observer(
+                        builder: (context) {
+                          return Visibility(
+                              visible: _profileStore.success,
+                              child: _fetchProfileData()
+                          );
+                        },
+                      )
                   ),
                 ),
                 Align(
@@ -102,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               ],
             ),
-          )
+          ),
         )
       ]
     );

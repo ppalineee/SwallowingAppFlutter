@@ -37,7 +37,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
             child: Container(
               padding: EdgeInsets.all(30),
               width: MediaQuery.of(context).size.width - 30,
-              height: MediaQuery.of(context).size.height - 118,
+              height: MediaQuery.of(context).size.height * 0.865 - 30,
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25)

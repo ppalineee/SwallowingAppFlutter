@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:swallowing_app/constants/colors.dart';
@@ -65,38 +66,41 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainContent() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 35,
-                ),
-                _buildVideoListHeader(),
-                SizedBox(
-                  height: 10,
-                ),
-                _buildVideoList(),
-              ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Divider(
-            thickness: 1.5,
-            color: AppColors.lightgray,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _buildArticleListHeader(),
-          SizedBox(
-            height: 10,
-          ),
-          _buildArticleList(),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Column(
+            children: <Widget>[
+              SizedBox(
+                height: 35,
+              ),
+              _buildVideoListHeader(),
+              SizedBox(
+                height: 10,
+              ),
+              _buildVideoList(),
+              SizedBox(
+                height: 15,
+              ),
+            ],
+        ),
+        Divider(
+          thickness: 1.5,
+          color: AppColors.lightgray,
+        ),
+        Column(
+          children: <Widget>[
+            _buildArticleListHeader(),
+            SizedBox(
+              height: 10,
+            ),
+            _buildArticleList(),
+          ],
+        ),
+        SizedBox(
+          height: 15,
+        )
+      ]
     );
   }
 
