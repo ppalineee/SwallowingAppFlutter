@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
+import 'package:swallowing_app/widgets/chewie_widget.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
   final Video video;
@@ -45,16 +47,20 @@ class _VideoScreenState extends State<VideoScreen> {
       scrollDirection: Axis.vertical,
       child: Column(
           children: <Widget>[
-            // _buildVideoPlayer(),
+            _buildVideoPlayer(),
             _buildVideoInfo()
           ]
       ),
     );
   }
 
-  // Widget _buildVideoPlayer() {
-  //   return ;
-  // }
+  Widget _buildVideoPlayer() {
+    return ChewieWidget(
+      videoPlayerController: VideoPlayerController.asset(
+        'assets/videos/Hi.mp4'
+      )
+    );
+  }
 
   Widget _buildVideoInfo() {
     return Container(
