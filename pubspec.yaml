@@ -73,10 +73,28 @@ dependencies:
       path: package/inject
       ref: 7c3cbf6
 
+  # A highly configurable navigation bar with emphasis for the selected item.
   ff_navigation_bar: ^0.1.5
+
+  # A Flutter plugin for launching a URL in the mobile platform.
   url_launcher: ^5.7.10
+
+  # A Flutter plugin for iOS, Android and Web for playing back video on a Widget surface.
   video_player: ^1.0.1
+
+  # The video player for Flutter with a heart of gold.
   chewie: ^0.12.2
+
+  # This plugin generates thumbnail from video file or URL. It returns image in memory or writes
+  # into a file. It offers rich options to control the image format, resolution and quality.
+  video_thumbnail: ^0.2.5+1
+
+  # A Flutter plugin for iOS and Android for picking images from the image library, and taking
+  # new pictures with the camera.
+  image_picker: ^0.6.7+22
+
+  # A Flutter plugin for finding commonly used locations on the filesystem.
+  path_provider: ^1.6.27
 
 dev_dependencies:
   flutter_test:
