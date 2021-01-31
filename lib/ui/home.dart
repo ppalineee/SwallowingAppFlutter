@@ -2,16 +2,22 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/ariticle.dart';
+import 'package:swallowing_app/models/thumbnail.dart';
+import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/home_store.dart';
+import 'package:swallowing_app/ui/video.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
+import 'package:swallowing_app/widgets/thumbnail_widget.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'article.dart';
 
@@ -22,13 +28,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeStore _homeStore;
+  String _tempDir;
+
+  @override
+  void initState() {
+    super.initState();
+    getTemporaryDirectory().then((d) => _tempDir = d.path);
+  }
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     _homeStore = Provider.of<HomeStore>(context);
 
-    if (!_homeStore.loading) {
+    if (!_homeStore.video_loading) {
+      await _homeStore.getVideoList();
+    }
+    if (!_homeStore.article_loading) {
       await _homeStore.getArticleList();
     }
   }
@@ -48,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Observer(
           builder: (context) {
             return Visibility(
-              visible: !_homeStore.loading && _homeStore.success,
+              visible: !_homeStore.video_loading && _homeStore.video_success && !_homeStore.article_loading && _homeStore.article_success,
               child: _buildMainContent(),
             );
           },
@@ -56,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Observer(
           builder: (context) {
             return Visibility(
-              visible: _homeStore.loading || !_homeStore.success,
+              visible: _homeStore.video_loading || !_homeStore.video_success || _homeStore.article_loading || !_homeStore.article_success,
               child: CustomProgressIndicatorWidget(),
             );
           },
@@ -145,57 +161,80 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildVideoList() {
     return Container(
-      height: 160,
-      child: ListView.separated(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            elevation: 1,
-            child: ClipPath(
-              child: Column(
-                  children: <Widget>[
-                    Container(
-                        width: 190,
-                        height: 190 * Dimens.video_height / Dimens.video_width,
-                        color: AppColors.lightgray,
-                        child: Center(child: Text('Video $index'))
-                    ),
-                    Container(
-                      width: 160,
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          'วิธีการกลืนเบื้องต้น',
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: FontFamily.kanit,
-                            fontSize: 15,
-                            color: AppColors.black,
+        height: 160,
+        child: _homeStore.videoList != null
+            ? ListView.separated(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          scrollDirection: Axis.horizontal,
+          itemCount: (_homeStore.videoList.videos.length) < 6
+              ? _homeStore.videoList.videos.length : 6,
+          itemBuilder: (context, index) {
+            int i = _homeStore.videoList.videos.length - index - 1;
+            Video video = _homeStore.videoList.videos[i];
+            GenThumbnailImage _futureImage = GenThumbnailImage(
+                thumbnailRequest: ThumbnailRequest(
+                    video: video.url,
+                    thumbnailPath: _tempDir,
+                    imageFormat: ImageFormat.JPEG,
+                    maxHeight: 0,
+                    maxWidth: 0,
+                    timeMs: 100,
+                    quality: 100));
+            return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => VideoScreen(video: video)
+                      )
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 1,
+                  child: ClipPath(
+                    child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: 190,
+                            height: 190 * Dimens.video_height / Dimens.video_width,
+                            color: AppColors.gray,
+                            child: (_futureImage != null) ? _futureImage : SizedBox()
                           ),
-                        ),
+                          Container(
+                            width: 160,
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                video.name,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: FontFamily.kanit,
+                                  fontSize: 15,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]
+                    ),
+                    clipper: ShapeBorderClipper(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)
                       ),
                     ),
-                  ]
-              ),
-              clipper: ShapeBorderClipper(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)
-                ),
-              ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(width: 5);
-        },
-      ),
+                  ),
+                )
+            );
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(width: 5);
+          },
+        )
+            : _handleNoVideosFound()
     );
   }
 
@@ -266,16 +305,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         Container(
                           width: 190,
                           height: 190 * Dimens.video_height / Dimens.video_width,
-                          color: AppColors.lightgray,
+                          color: AppColors.gray,
                           child: Image.network(
                             article.imgUrl,
                             fit: BoxFit.cover,
                             errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
                               return Center(
                                   child: Icon(
-                                    Icons.no_photography_rounded,
-                                    color: AppColors.white,
-                                    size: 30,
+                                    Icons.no_photography_outlined,
+                                    size: 40,
+                                    color: Colors.white,
                                   )
                               );
                             },
@@ -314,6 +353,15 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         )
         : _handleNoArticlesFound()
+    );
+  }
+
+  Widget _handleNoVideosFound() {
+    return Center(
+      child: Text(
+        'ไม่พบวิดีโอที่คุณกำลังค้นหา...',
+        style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 17),
+      ),
     );
   }
 
