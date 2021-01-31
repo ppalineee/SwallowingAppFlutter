@@ -35,7 +35,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
           width: MediaQuery.of(context).size.width,
           child: Center(
             child: Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
               width: MediaQuery.of(context).size.width - 30,
               height: MediaQuery.of(context).size.height * 0.865 - 30,
               decoration: BoxDecoration(
@@ -55,6 +55,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
       scrollDirection: Axis.vertical,
       child: Column(
         children: <Widget>[
+          SizedBox(
+            height: 20,
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -105,6 +108,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          )
         ]
       ),
     );
