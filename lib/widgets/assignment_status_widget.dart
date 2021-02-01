@@ -38,6 +38,7 @@ class AssignmentStatusTextWidget extends StatelessWidget {
     if (status == 1) return AppColors.deepblue;
     if (status == 2) return AppColors.green;
     if (status == 3) return AppColors.red;
+    return AppColors.white;
   }
 
 }

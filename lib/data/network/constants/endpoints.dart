@@ -9,4 +9,5 @@ class Endpoints {
   static const String submitScore = baseUrl + "/testdone";
   static const String getArticles = baseUrl + "/getallarticle";
   static const String getVideos = baseUrl + "/getpatientvdo";
+  static const String getAssignments = baseUrl + "/getassignmentlist";
 }

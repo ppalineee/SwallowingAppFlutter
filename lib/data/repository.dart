@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
+import 'package:swallowing_app/data/network/apis/assignment_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/network/apis/video_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/models/ariticle.dart';
+import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
@@ -28,14 +30,15 @@ class Repository {
   final TestApi _testApi;
   final ArticleApi _articleApi;
   final VideoApi _videoApi;
+  final AssignmentApi _assignmentApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
   Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
-      this._articleApi, this._videoApi, this._sharedPrefsHelper, this._postDataSource,
-      this._articleDataSource);
+      this._articleApi, this._videoApi, this._assignmentApi, this._sharedPrefsHelper,
+      this._postDataSource, this._articleDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -108,20 +111,17 @@ class Repository {
     try {
       String token = await _sharedPrefsHelper.authToken;
       return await _videoApi.getVideoList(token);
-      // if (await _videoDataSource.count() > 0) {
-      //   return await _videoDataSource
-      //       .getVideosFromDb()
-      //       .then((videosList) => videosList);
-      // } else {
-      //   await _videoDataSource.deleteAll();
-      //   String token = await _sharedPrefsHelper.authToken;
-      //   return await _videoApi.getVideoList(token).then((videosList) {
-      //     videosList.videos.forEach((video) {
-      //       _videoDataSource.insert(video);
-      //     });
-      //     return videosList;
-      //   });
-      // }
+    } catch(e) {
+      rethrow;
+    }
+  }
+
+  // Assignment:----------------------------------------------------------------
+  Future<AssignmentList> getAssignmentList() async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      Profile profile = await _sharedPrefsHelper.patientProfile;
+      return await _assignmentApi.getAssignmentList(token, profile.hnNumber);
     } catch(e) {
       rethrow;
     }
