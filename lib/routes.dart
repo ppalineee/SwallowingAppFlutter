@@ -5,7 +5,6 @@ import 'ui/splash.dart';
 import 'ui/videoplaylist.dart';
 import 'ui/article_list.dart';
 import 'ui/assignment_list.dart';
-import 'ui/assignment.dart';
 import 'ui/assignment_board.dart';
 import 'ui/more.dart';
 import 'ui/test.dart';
@@ -23,7 +22,6 @@ class Routes {
   static const String video_playlist = '/video_playlist';
   static const String article_list = '/article_list';
   static const String assignment_list = '/assignment_list';
-  static const String assignment = '/assignment';
   static const String assignment_board = '/assignment_board';
   static const String more = '/more';
   static const String test = '/test';
@@ -39,7 +37,6 @@ class Routes {
     video_playlist: (BuildContext context) => VideoPlaylistScreen(),
     article_list: (BuildContext context) => ArticleListScreen(),
     assignment_list: (BuildContext context) => AssignmentListScreen(),
-    assignment: (BuildContext context) => AssignmentScreen(),
     assignment_board: (BuildContext context) => AssignmentBoardScreen(),
     more: (BuildContext context) => MoreScreen(),
     test: (BuildContext context) => TestScreen(),

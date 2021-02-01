@@ -23,7 +23,6 @@ class AssignmentApi {
         },
       ).then((dynamic res) => AssignmentList.fromJson(res));
     } catch (e) {
-      print('error: $e');
       rethrow;
     }
   }

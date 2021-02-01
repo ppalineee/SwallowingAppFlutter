@@ -8,6 +8,7 @@ import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
+import 'package:swallowing_app/ui/assignment.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
@@ -157,7 +158,11 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
             Assignment assignment = _assignmentStore.assignmentList.assignments[i];
             return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(Routes.assignment);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => AssignmentScreen(assignment: assignment)
+                      )
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
