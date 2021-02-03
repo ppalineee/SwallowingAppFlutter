@@ -47,4 +47,9 @@ abstract class _AssignmentStore with Store {
       success = false;
     });
   }
+
+  @action
+  Future<AssignmentList> getAssignments() async {
+    return await _repository.getAssignmentList();
+  }
 }

@@ -6,12 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:swallowing_app/constants/colors.dart';
 
-class Comment extends StatelessWidget {
+class CommentWidget extends StatelessWidget {
   final String creator;
   final String message;
   final String timestamp;
 
-  const Comment(
+  const CommentWidget(
       this.creator,
       this.message,
       this.timestamp, {

@@ -4,15 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
+import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
 
-class Post extends StatefulWidget {
+class PostWidget extends StatefulWidget {
+  final Assignment assignment;
+
+  PostWidget({
+    Key key,
+    @required this.assignment,
+  }) : super(key: key);
+
   @override
-  _PostState createState() => _PostState();
+  _PostWidgetState createState() => _PostWidgetState();
 }
 
-class _PostState extends State<Post> {
+class _PostWidgetState extends State<PostWidget> {
   bool isExpanded = false;
   TextEditingController _controller;
 
@@ -51,12 +59,12 @@ class _PostState extends State<Post> {
                           Container(
                             width: MediaQuery.of(context).size.width-108,
                             child: Text(
-                              'ฝึกกระดกลิ้น',
+                              widget.assignment.title,
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.deepblue),
                             ),
                           ),
                           Text(
-                              '00/00/00 00:00',
+                              widget.assignment.timestamp,
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)
                           )
                         ]
@@ -90,7 +98,7 @@ class _PostState extends State<Post> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    AssignmentStatusIconWidget(status: 2),
+                    AssignmentStatusIconWidget(status: widget.assignment.status),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -98,7 +106,7 @@ class _PostState extends State<Post> {
                         });
                       },
                       child: Text(
-                        'ความคิดเห็น',
+                        '${widget.assignment.comments.length} ความคิดเห็น',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
                       ),
                     )
@@ -107,8 +115,8 @@ class _PostState extends State<Post> {
                 SizedBox(
                   height: 5,
                 ),
-                commentBtn(),
-                isExpanded ? commentExpansion(context) : SizedBox.shrink()
+                _buildcommentBtn(),
+                isExpanded ? _buildcommentExpansion() : SizedBox.shrink()
               ]
           ),
         ),
@@ -121,7 +129,7 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget commentBtn() {
+  Widget _buildcommentBtn() {
     return Container(
         decoration: BoxDecoration(
             border: Border(
@@ -157,7 +165,7 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget commentInputField() {
+  Widget _buildcommentInputField() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -230,27 +238,23 @@ class _PostState extends State<Post> {
     );
   }
 
-  Widget commentExpansion(context) {
+  Widget _buildcommentExpansion() {
     return Container(
         child: Column(
           children: <Widget>[
             SizedBox(
               height: 10,
             ),
-            commentInputField(),
+            _buildcommentInputField(),
             SizedBox(
               height: 10,
             ),
-            Column(
-              children: <Widget>[
-                for (var i = 0; i < 2; i++)
-                  Comment(
-                    "Palinee S.",
-                    "เป็นอย่างไรบ้างคะ?",
-                    "00/00/00 00:00"
-                  )
-              ],
-            ),
+            for (var comment in widget.assignment.comments)
+              CommentWidget(
+                comment.commentator,
+                comment.message,
+                comment.timestamp
+              ),
             SizedBox(
               height: 5,
             ),
