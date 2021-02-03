@@ -8,11 +8,11 @@ class AssignmentApi {
 
   AssignmentApi(this._restClient);
 
-  Future<AssignmentList> getAssignmentList(String token, String hnNumber) async {
+  Future<AssignmentList> getAssignmentList(String token, String hnNumber, String option) async {
     try {
       Map<String, String> queryParams = {
         'hn': hnNumber,
-        'option': '0'
+        'option': option
       };
       String queryString = Uri(queryParameters: queryParams).query;
       return await _restClient.get(

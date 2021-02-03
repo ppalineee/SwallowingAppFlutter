@@ -5,6 +5,7 @@ import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/post_widget.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 
 class AssignmentBoardScreen extends StatefulWidget {
   @override
@@ -31,7 +32,10 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        // _handleErrorMessage(),
+        Container(
+          color: AppColors.lightgray,
+          width: MediaQuery.of(context).size.width,
+        ),
         _buildMainContent(),
       ],
     );
@@ -39,40 +43,80 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
 
   Widget _buildMainContent() {
     return FutureBuilder<AssignmentList>(
-      future: _assignmentStore.getAssignments(),
+      future: _assignmentStore.getAssignments('123'),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           final _assignmentList = snapshot.data.assignments;
-          return Stack(
-              children: <Widget>[
-                Container(
-                  color: AppColors.lightgray,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _assignmentList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      int i = _assignmentList.length - index - 1;
-                      return PostWidget(assignment: _assignmentList[i]);
-                    }
-                )
-              ]
-          );
+          if (_assignmentList.length > 0) {
+            return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: _assignmentList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  int i = _assignmentList.length - index - 1;
+                  return PostWidget(assignment: _assignmentList[i]);
+                }
+            );
+          } else {
+            return _handleNoAssignmentsFound();
+          }
         } else if (snapshot.hasError) {
-          return Center(
-              child: Icon(
-                Icons.no_photography_outlined,
-                size: 40,
-                color: Colors.white,
-              )
-          );
+          return _handleErrorMessage();
         } else {
           return Center(
-              child: CircularProgressIndicator()
+              child: CustomProgressIndicatorWidget()
           );
         }
       },
+    );
+  }
+
+  Widget _handleNoAssignmentsFound() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Center(
+              child: Icon(
+                Icons.inbox,
+                size: 50,
+                color: Colors.black45,
+              )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              'ไม่พบแบบฝึกหัดของคุณ...',
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
+            ),
+          )
+        ]
+    );
+  }
+
+  Widget _handleErrorMessage() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+              child: Icon(
+                Icons.wifi_off,
+                size: 50,
+                color: Colors.black45,
+              )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              'เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย',
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
+            ),
+          )
+        ]
     );
   }
 }

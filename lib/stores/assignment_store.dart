@@ -37,7 +37,7 @@ abstract class _AssignmentStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   Future getAssignmentList() async {
-    final future = _repository.getAssignmentList();
+    final future = _repository.getAssignmentList('0123');
     fetchAssignmentListFuture = ObservableFuture(future);
 
     future.then((assignmentList) {
@@ -49,7 +49,7 @@ abstract class _AssignmentStore with Store {
   }
 
   @action
-  Future<AssignmentList> getAssignments() async {
-    return await _repository.getAssignmentList();
+  Future<AssignmentList> getAssignments(String option) async {
+    return await _repository.getAssignmentList(option);
   }
 }

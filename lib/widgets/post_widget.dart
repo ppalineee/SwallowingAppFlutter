@@ -251,7 +251,7 @@ class _PostWidgetState extends State<PostWidget> {
             ),
             for (var comment in widget.assignment.comments)
               CommentWidget(
-                comment.commentator,
+                comment.creator,
                 comment.message,
                 comment.timestamp
               ),

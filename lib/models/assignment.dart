@@ -40,7 +40,11 @@ class Assignment {
 
   factory Assignment.fromJson(Map<String, dynamic> json) {
     List<dynamic> _comments = List<dynamic>();
-    _comments = json["chatLog"].map((comment) => Comment.fromJson(comment)).toList();
+    if (json["chatLog"] != null) {
+      _comments = json["chatLog"].map((comment) => Comment.fromJson(comment)).toList();
+    } else {
+      _comments = [];
+    }
 
     return Assignment(
       id: json["_id"],
@@ -58,18 +62,18 @@ class Assignment {
 
 class Comment {
   String message;
-  String commentator;
+  String creator;
   String timestamp;
 
   Comment({
     this.message,
-    this.commentator,
+    this.creator,
     this.timestamp,
   });
 
   factory Comment.fromJson(List<dynamic> comment) => Comment(
     message: comment[0],
-    commentator: comment[1],
+    creator: comment[1],
     timestamp: comment[2],
   );
 }

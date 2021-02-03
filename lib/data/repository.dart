@@ -117,11 +117,11 @@ class Repository {
   }
 
   // Assignment:----------------------------------------------------------------
-  Future<AssignmentList> getAssignmentList() async {
+  Future<AssignmentList> getAssignmentList(String option) async {
     try {
       String token = await _sharedPrefsHelper.authToken;
       Profile profile = await _sharedPrefsHelper.patientProfile;
-      return await _assignmentApi.getAssignmentList(token, profile.hnNumber);
+      return await _assignmentApi.getAssignmentList(token, profile.hnNumber, option);
     } catch(e) {
       rethrow;
     }
