@@ -24,7 +24,7 @@ class Profile {
         lastName: json['lastname'],
         gender: (json['title'] == 'นาย') ? 'ชาย' : 'หญิง',
         birthdate: json['birthdate'],
-        therapist: json['therapist'],
+        therapist: json['caretaker'],
         score: json['score'].cast<int>()
     );
   }

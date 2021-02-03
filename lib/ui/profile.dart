@@ -174,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width-200,
                       child: Text(
-                          'ผู้ดูแล',
+                          _profileStore.profile.therapist,
                           style: TextStyle(fontSize: 17)),
                     )
                 )
