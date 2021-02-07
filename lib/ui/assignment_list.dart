@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,6 +15,7 @@ import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 import 'package:swallowing_app/widgets/text_button_widget.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 
 class AssignmentListScreen extends StatefulWidget {
   @override
@@ -148,7 +150,7 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
   Widget _buildAssignmentListBody() {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.fromLTRB(15, 7, 15, 0),
+        padding: EdgeInsets.fromLTRB(15, 7, 15, 12),
         child: _assignmentStore.assignmentList != null
         ? ListView.separated(
           scrollDirection: Axis.vertical,
@@ -170,18 +172,29 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
                     Expanded(
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        child: Text(assignment.title, style: TextStyle(fontSize: 15)),
+                        child: Text(
+                            assignment.title,
+                            style: TextStyle(fontSize: 15)
+                        ),
                       ),
                     ),
                     Container(
                       width: 80,
                       alignment: Alignment.center,
-                      child: Text(assignment.timestamp, style: TextStyle(fontSize: 14)),
+                      child: Text(
+                          DateFormats.changeThaiShortFormat(assignment.timestamp),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 15)
+                      ),
                     ),
                     Container(
                       width: 80,
                       alignment: Alignment.center,
-                      child: Text(assignment.dueDate, style: TextStyle(fontSize: 14)),
+                      child: Text(
+                          DateFormats.changeThaiShortFormat(assignment.dueDate),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 15)
+                      ),
                     ),
                     Container(
                       width: 80,

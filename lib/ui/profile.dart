@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/profile_store.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 
@@ -167,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: TextStyle(fontSize: 17)),
                 _space(),
                 Text(
-                    _changeDateFormat(_profileStore.profile.birthdate),
+                    DateFormats.changeThaiFullFormat(_profileStore.profile.birthdate),
                     style: TextStyle(fontSize: 17)),
                 _space(),
                 Expanded(
@@ -188,33 +189,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _space() {
     return SizedBox(height: 10);
-  }
-
-  String _changeDateFormat(String date) {
-    int year;
-    int monthNo;
-    String month;
-    int day;
-
-    try {
-      year = int.parse(date.substring(0,4)) + 543;
-      monthNo = int.parse(date.substring(5,7));
-      if (monthNo == 1) month = 'มกราคม';
-      else if (monthNo == 2) month = 'กุมภาพันธ์';
-      else if (monthNo == 3) month = 'มีนาคม';
-      else if (monthNo == 4) month = 'เมษายน';
-      else if (monthNo == 5) month = 'พฤษภาคม';
-      else if (monthNo == 6) month = 'มิถุนายน';
-      else if (monthNo == 7) month = 'กรกฎาคม';
-      else if (monthNo == 8) month = 'สิงหาคม';
-      else if (monthNo == 9) month = 'กันยายน';
-      else if (monthNo == 10) month = 'ตุลาคม';
-      else if (monthNo == 11) month = 'พฤศจิกายน';
-      else if (monthNo == 12) month = 'ธันวาคม';
-      day = int.parse(date.substring(8,10));
-      return '$day $month $year';
-    } catch (e) {
-      return '';
-    }
   }
 }

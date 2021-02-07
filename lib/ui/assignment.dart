@@ -4,6 +4,7 @@ import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/routes.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/video_widget.dart';
@@ -94,8 +95,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.assignment.timestamp, style: TextStyle(fontSize: 17)),
-                      Text(widget.assignment.dueDate, style: TextStyle(fontSize: 17)),
+                      Text(DateFormats.changeThaiShortFormat(widget.assignment.timestamp), style: TextStyle(fontSize: 17)),
+                      Text(DateFormats.changeThaiShortFormat(widget.assignment.dueDate), style: TextStyle(fontSize: 17)),
                       AssignmentStatusTextWidget(status: widget.assignment.status, fontSize: 17)
                     ],
                   )

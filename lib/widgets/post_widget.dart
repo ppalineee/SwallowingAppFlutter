@@ -64,7 +64,7 @@ class _PostWidgetState extends State<PostWidget> {
                             ),
                           ),
                           Text(
-                              widget.assignment.timestamp,
+                              DateFormats.changeThaiShortFormat(widget.assignment.timestamp),
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)
                           )
                         ]
