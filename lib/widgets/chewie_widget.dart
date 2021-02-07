@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:swallowing_app/constants/dimens.dart';
 import 'package:video_player/video_player.dart';
 
 class ChewieWidget extends StatefulWidget {
@@ -22,7 +23,7 @@ class _ChewieWidgetState extends State<ChewieWidget> {
     super.initState();
     _chewieController = ChewieController(
       videoPlayerController: widget.videoPlayerController,
-      aspectRatio: 16 / 9,
+      aspectRatio: Dimens.video_width / Dimens.video_height,
       autoInitialize: true,
       looping: false,
       errorBuilder: (context, errorMessage) {

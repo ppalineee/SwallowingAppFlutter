@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
-import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/chewie_widget.dart';
@@ -46,17 +45,16 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget _buildMainContent() {
     return Column(
       children: <Widget>[
-        _buildVideoInfo(),
-        _buildVideoPlayer()
+        _buildVideoPlayer(),
+        _buildVideoInfo()
       ]
     );
   }
 
   Widget _buildVideoPlayer() {
-    return Container(
-      color: AppColors.black,
-      child: AspectRatio(
-        aspectRatio: Dimens.video_width / Dimens.video_height,
+    return Expanded(
+      child: Container(
+        color: AppColors.black,
         child: ChewieWidget(
             videoPlayerController: VideoPlayerController.network(
                 widget.video.url
@@ -68,11 +66,14 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Widget _buildVideoInfo() {
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.fromLTRB(25, 32, 25, 30),
+      padding: EdgeInsets.fromLTRB(18, 20, 20, 20),
       child: Text(
         widget.video.name,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: AppColors.deepblue,
           fontWeight: FontWeight.w500,
