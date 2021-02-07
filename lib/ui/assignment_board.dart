@@ -53,7 +53,11 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
                 itemCount: _assignmentList.length,
                 itemBuilder: (BuildContext context, int index) {
                   int i = _assignmentList.length - index - 1;
-                  return PostWidget(assignmentStore: _assignmentStore, assignment: _assignmentList[i]);
+                  return PostWidget(
+                      refresh: () => setState(() {}),
+                      assignmentStore: _assignmentStore,
+                      assignment: _assignmentList[i]
+                  );
                 }
             );
           } else {

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,15 +8,18 @@ import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:swallowing_app/utils/date_format.dart';
+import 'package:swallowing_app/utils/locale/app_localization.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
 
 class PostWidget extends StatefulWidget {
+  final VoidCallback refresh;
   final AssignmentStore assignmentStore;
   final Assignment assignment;
 
   PostWidget({
     Key key,
+    @required this.refresh,
     @required this.assignmentStore,
     @required this.assignment,
   }) : super(key: key);
@@ -49,7 +53,7 @@ class _PostWidgetState extends State<PostWidget> {
       elevation: 1,
       child: ClipPath(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+          padding: EdgeInsets.fromLTRB(15, 10, 15, 3),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -73,15 +77,15 @@ class _PostWidgetState extends State<PostWidget> {
                           )
                         ]
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.of(context).pushReplacementNamed(Routes.home);
-                      },
-                      child: Text(
-                        'เพิ่มเติม >',
-                        style: TextStyle(fontSize: 16, color: AppColors.black),
-                      ),
-                    )
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Navigator.of(context).pushReplacementNamed(Routes.home);
+                    //   },
+                    //   child: Text(
+                    //     'เพิ่มเติม >',
+                    //     style: TextStyle(fontSize: 16, color: AppColors.black),
+                    //   ),
+                    // )
                   ],
                 ),
                 SizedBox(
@@ -174,26 +178,26 @@ class _PostWidgetState extends State<PostWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-
-              },
-              child: Icon(
-                Icons.camera_alt,
-                size: 27,
-                color: Colors.black45,
-              ),
-            ),
-            SizedBox(
-              height: 7,
-            )
-          ]
-        ),
-        SizedBox(
-          width: 10,
-        ),
+        // Column(
+        //   children: <Widget>[
+        //     GestureDetector(
+        //       onTap: () {
+        //
+        //       },
+        //       child: Icon(
+        //         Icons.camera_alt,
+        //         size: 27,
+        //         color: Colors.black45,
+        //       ),
+        //     ),
+        //     SizedBox(
+        //       height: 7,
+        //     )
+        //   ]
+        // ),
+        // SizedBox(
+        //   width: 10,
+        // ),
         Expanded(
           child: TextField(
             controller: _controller,
@@ -214,24 +218,28 @@ class _PostWidgetState extends State<PostWidget> {
         SizedBox(
           width: 10,
         ),
-        Column(
-        children: <Widget>[
-            GestureDetector(
-              onTap: () async {
-                var comment_success = await widget.assignmentStore.sendComment(widget.assignment.id, _controller.text);
-                print('button pressed $comment_success');
-                _controller.clear();
-              },
-              child: Icon(
-                Icons.send,
-                size: 27,
-                color: AppColors.deepblue,
-              ),
+        Container(
+          height: 50,
+          alignment: Alignment.center,
+          child: GestureDetector(
+            onTap: () async {
+              await widget.assignmentStore.sendComment(
+                  widget.assignment.id, _controller.text)
+                  .then((value) async  {
+                  if (value == true) {
+                    widget.refresh();
+                  } else {
+                    _showErrorMessage("เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย");
+                  }
+              });
+              _controller.clear();
+            },
+            child: Icon(
+              Icons.send,
+              size: 27,
+              color: AppColors.deepblue,
             ),
-            SizedBox(
-              height: 7,
-            )
-          ]
+          )
         ),
       ]
     );
@@ -260,5 +268,19 @@ class _PostWidgetState extends State<PostWidget> {
           ],
         )
     );
+  }
+
+  _showErrorMessage(String message) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      if (message != null && message.isNotEmpty) {
+        FlushbarHelper.createError(
+          message: message,
+          title: AppLocalizations.of(context).translate('home_tv_error'),
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }
+    });
+
+    return SizedBox.shrink();
   }
 }
