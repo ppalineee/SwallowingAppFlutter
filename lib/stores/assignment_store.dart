@@ -52,4 +52,9 @@ abstract class _AssignmentStore with Store {
   Future<AssignmentList> getAssignments(String option) async {
     return await _repository.getAssignmentList(option);
   }
+
+  @action
+  Future<bool> sendComment(String postId, String message) async {
+    return await _repository.sendComment(postId, message);
+  }
 }

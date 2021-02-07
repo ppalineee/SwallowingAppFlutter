@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:swallowing_app/constants/colors.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 
 class CommentWidget extends StatelessWidget {
   final String creator;
@@ -41,7 +42,7 @@ class CommentWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  timestamp,
+                  DateFormats.changeThaiShortFormat(timestamp),
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
                 ),
                 Text(

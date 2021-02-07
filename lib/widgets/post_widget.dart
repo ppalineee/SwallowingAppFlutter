@@ -5,14 +5,18 @@ import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/assignment.dart';
+import 'package:swallowing_app/stores/assignment_store.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
 
 class PostWidget extends StatefulWidget {
+  final AssignmentStore assignmentStore;
   final Assignment assignment;
 
   PostWidget({
     Key key,
+    @required this.assignmentStore,
     @required this.assignment,
   }) : super(key: key);
 
@@ -213,15 +217,10 @@ class _PostWidgetState extends State<PostWidget> {
         Column(
         children: <Widget>[
             GestureDetector(
-              onTap: () {
-                return showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(_controller.text),
-                      );
-                    }
-                );
+              onTap: () async {
+                var comment_success = await widget.assignmentStore.sendComment(widget.assignment.id, _controller.text);
+                print('button pressed $comment_success');
+                _controller.clear();
               },
               child: Icon(
                 Icons.send,
@@ -251,9 +250,9 @@ class _PostWidgetState extends State<PostWidget> {
             ),
             for (var comment in widget.assignment.comments)
               CommentWidget(
-                comment.creator,
-                comment.message,
-                comment.timestamp
+                comment.creator ?? '',
+                comment.message ?? '',
+                comment.timestamp ?? ''
               ),
             SizedBox(
               height: 5,

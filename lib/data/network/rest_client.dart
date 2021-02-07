@@ -53,4 +53,28 @@ class RestClient {
       return _decoder.convert(res);
     });
   }
+
+  // Put:-----------------------------------------------------------------------
+  Future<dynamic> put(String url, {Map headers, body}) {
+    return http
+        .put(url, body: body, headers: headers)
+        .then((http.Response response) {
+      final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      print('status code: $statusCode');
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw NetworkException(
+            message: "Error fetching data from server", statusCode: statusCode);
+      } if (statusCode == 400) {
+        throw NetworkException(
+            message: response.body, statusCode: statusCode);
+      }
+
+      // print('rest: ${_decoder.convert(res)}');
+
+      return _decoder.convert(res);
+    });
+  }
 }

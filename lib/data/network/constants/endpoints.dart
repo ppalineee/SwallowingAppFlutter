@@ -10,4 +10,5 @@ class Endpoints {
   static const String getArticles = baseUrl + "/getallarticle";
   static const String getVideos = baseUrl + "/getpatientvdo";
   static const String getAssignments = baseUrl + "/getassignmentlist";
+  static const String sendComment = baseUrl + "/comment";
 }

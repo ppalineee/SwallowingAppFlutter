@@ -127,6 +127,15 @@ class Repository {
     }
   }
 
+  Future<bool> sendComment(String postId, String message) async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      return await _assignmentApi.sendComment(token, postId, message);
+    } catch(e) {
+      return false;
+    }
+  }
+
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
     // check to see if posts are present in database, then fetch from database
