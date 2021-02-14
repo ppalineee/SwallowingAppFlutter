@@ -96,6 +96,9 @@ dependencies:
   # A Flutter plugin for finding commonly used locations on the filesystem.
   path_provider: ^1.6.27
 
+  # A Flutter plugin for iOS and Android allowing access to the device cameras.
+  camera: ^0.7.0+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

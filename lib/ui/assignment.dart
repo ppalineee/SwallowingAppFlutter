@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/models/video.dart';
-import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
+import 'package:swallowing_app/widgets/camera_widget.dart';
 import 'package:swallowing_app/widgets/video_widget.dart';
 
 class AssignmentScreen extends StatefulWidget {
@@ -186,7 +186,11 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
       ),
       elevation: 1,
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(Routes.assignment_board);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => CameraWidget()
+          )
+        );
       },
       child: Container(
           width: 60,

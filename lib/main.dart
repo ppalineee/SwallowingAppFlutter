@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:swallowing_app/constants/app_theme.dart';
 import 'package:swallowing_app/constants/strings.dart';
 import 'package:swallowing_app/di/components/app_component.dart';
@@ -22,12 +23,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:inject/inject.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/utils/authtoken_util.dart';
+import 'package:swallowing_app/widgets/camera_widget.dart';
 
 // global instance for app component
 AppComponent appComponent;
+List<CameraDescription> cameras = [];
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    logError(e.code, e.description);
+  }
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
