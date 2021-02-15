@@ -25,7 +25,6 @@ import 'package:provider/provider.dart';
 import 'package:swallowing_app/utils/authtoken_util.dart';
 import 'package:swallowing_app/widgets/camera_widget.dart';
 
-// global instance for app component
 AppComponent appComponent;
 List<CameraDescription> cameras = [];
 
@@ -37,10 +36,7 @@ void main() async {
     logError(e.code, e.description);
   }
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeRight,
-    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.portraitUp
   ]).then((_) async {
     appComponent = await AppComponent.create(
       NetworkModule(),
@@ -53,9 +49,6 @@ void main() async {
 
 @provide
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  // Create your store as a final variable in a base Widget. This works better
-  // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(appComponent.getRepository());
   final PostStore _postStore = PostStore(appComponent.getRepository());
   final LanguageStore _languageStore =

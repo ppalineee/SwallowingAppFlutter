@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/routes.dart';
@@ -53,7 +54,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                           color: AppColors.white,
                         ),
                         highlightColor: AppColors.lightgray,
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () {
+                          if (title == 'วิดีโอ') {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp
+                            ]);
+                          }
+                          Navigator.of(context).pop();
+                        }
                       ))
                   : SizedBox(
                       width: 30,
