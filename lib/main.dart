@@ -27,15 +27,16 @@ import 'package:swallowing_app/widgets/camera_widget.dart';
 
 // global instance for app component
 AppComponent appComponent;
-List<CameraDescription> cameras = [];
+// List<CameraDescription> cameras = [];
 
 void main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    logError(e.code, e.description);
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  // try {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   cameras = await availableCameras();
+  // } on CameraException catch (e) {
+  //   logError(e.code, e.description);
+  // }
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

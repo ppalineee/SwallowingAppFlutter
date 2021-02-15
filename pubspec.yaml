@@ -99,6 +99,15 @@ dependencies:
   # A Flutter plugin for iOS and Android allowing access to the device cameras.
   camera: ^0.7.0+2
 
+  # Add the dependency for the Firebase Core Flutter SDK
+  firebase_core: ^0.7.0
+
+  # A Flutter plugin to use the Firebase Authentication API.
+  firebase_auth: ^0.20.0+1
+
+  # A Flutter plugin to use the capabilities of Firebase ML.
+  firebase_ml_vision: ^0.10.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

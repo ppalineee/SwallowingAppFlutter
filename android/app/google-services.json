@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "583272278845",
+    "project_id": "swallowingapp",
+    "storage_bucket": "swallowingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583272278845:android:444d843a2b61c9f0aa3354",
+        "android_client_info": {
+          "package_name": "server.chula.swallowing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583272278845-v9mcg3omht9p0sb5fk99p6mfr3cpcgt0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAolgVXYfxqDkuvrEqUmvJzTJtLCRpsTZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583272278845-v9mcg3omht9p0sb5fk99p6mfr3cpcgt0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
