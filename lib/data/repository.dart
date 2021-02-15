@@ -52,9 +52,22 @@ class Repository {
     }
   }
 
+  Future<void> loginGuest() async {
+    try {
+      var json = await _loginApi.loginGuest();
+      await _sharedPrefsHelper.saveAuthToken(json.token);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> logoutPatient() async {
     _sharedPrefsHelper.removeAuthToken();
     _sharedPrefsHelper.removePatientProfile();
+  }
+
+  Future<void> logoutGuest() async {
+    _sharedPrefsHelper.removeAuthToken();
   }
 
   // Profile:-----------------------------------------------------------------

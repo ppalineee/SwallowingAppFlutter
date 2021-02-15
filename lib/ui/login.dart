@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () async {
           if (_store.canLogin) {
             DeviceUtils.hideKeyboard(context);
-            _store.login(context);
+            _store.loginPatient(context);
           }
         },
         child: Text(
@@ -229,7 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(8),
         ),
         onPressed: () {
-          print("Guest log in");
+            DeviceUtils.hideKeyboard(context);
+            _store.loginGuest(context);
         },
         child: Text(
           "เข้าสู่ระบบโดยไม่มีบัญชีผู้ใช้",

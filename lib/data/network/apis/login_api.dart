@@ -23,4 +23,17 @@ class LoginApi {
       rethrow;
     }
   }
+
+  Future<JWTToken> loginGuest() async {
+    try {
+      return await _restClient.get(
+          Endpoints.loginGuest,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          }
+      ).then((dynamic res) => JWTToken.fromJSON(res));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

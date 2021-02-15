@@ -112,7 +112,7 @@ abstract class _FormStore with Store {
   }
 
   @action
-  Future login(BuildContext context) async {
+  Future loginPatient(BuildContext context) async {
     loading = true;
     try {
       AuthToken _authToken = Provider.of<AuthToken>(context, listen: false);
@@ -127,6 +127,22 @@ abstract class _FormStore with Store {
       } else {
         errorStore.errorMessage = "เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย";
       }
+    }
+  }
+
+  @action
+  Future loginGuest(BuildContext context) async {
+    loading = true;
+    try {
+      AuthToken _authToken = Provider.of<AuthToken>(context, listen: false);
+      await _authToken.loginGuest();
+      loading = false;
+      success = true;
+    } catch(e) {
+      print('e: ${e}');
+      loading = false;
+      success = false;
+      errorStore.errorMessage = "เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย";
     }
   }
 

@@ -13,7 +13,19 @@ class AuthToken {
     }
   }
 
+  Future loginGuest() async {
+    try {
+      await _repository.loginGuest();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future logoutPatient() async {
     await _repository.logoutPatient();
+  }
+
+  Future logoutGuest() async {
+    await _repository.logoutGuest();
   }
 }
