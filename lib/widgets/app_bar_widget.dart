@@ -55,11 +55,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         highlightColor: AppColors.lightgray,
                         onPressed: () {
-                          if (title == 'วิดีโอ') {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitUp
-                            ]);
-                          }
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.portraitUp
+                          ]);
                           Navigator.of(context).pop();
                         }
                       ))
@@ -68,8 +66,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 45,
                     ),
               Container(
+                width: MediaQuery.of(context).size.width-130,
                 child: Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: FontFamily.kanit,
                       fontSize: 24,
