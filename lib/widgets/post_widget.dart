@@ -8,6 +8,7 @@ import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:swallowing_app/utils/date_format.dart';
+import 'package:swallowing_app/utils/device/device_utils.dart';
 import 'package:swallowing_app/utils/locale/app_localization.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
@@ -223,6 +224,7 @@ class _PostWidgetState extends State<PostWidget> {
           alignment: Alignment.center,
           child: GestureDetector(
             onTap: () async {
+              DeviceUtils.hideKeyboard(context);
               await widget.assignmentStore.sendComment(
                   widget.assignment.id, _controller.text)
                   .then((value) async  {

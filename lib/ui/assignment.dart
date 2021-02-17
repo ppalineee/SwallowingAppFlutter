@@ -182,11 +182,11 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
     return RaisedButton(
       color: AppColors.deepblue,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(13.0),
       ),
-      elevation: 1,
+      elevation: 1.5,
       onPressed: () {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => CameraWidget()
           )
@@ -194,7 +194,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
       },
       child: Container(
           width: 60,
-          height: 70,
+          height: 80,
           child: Icon(
             Icons.videocam_outlined,
             color: AppColors.white,
