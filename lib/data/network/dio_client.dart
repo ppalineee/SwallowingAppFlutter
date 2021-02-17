@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:swallowing_app/data/network/exceptions/network_exceptions.dart';
 
 class DioClient {
+
   // dio instance
   final Dio _dio;
 
@@ -51,6 +53,38 @@ class DioClient {
         onReceiveProgress: onReceiveProgress,
       );
       return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  // Put:-----------------------------------------------------------------------
+  Future<dynamic> put(
+      String uri, {
+        data,
+        Map<String, dynamic> queryParameters,
+        Options options,
+      }) async {
+    try {
+      final Response response = await _dio.put(
+        uri,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+      );
+
+      final int statusCode = response.statusCode;
+      print('statusCode: $statusCode');
+      if (statusCode < 200 || statusCode > 400) {
+        throw NetworkException(
+            message: "Error fetching data from server", statusCode: statusCode);
+      } if (statusCode == 400) {
+        throw NetworkException(
+            message: response.data, statusCode: statusCode);
+      }
+
+      Map responseBody = response.data;
+      return responseBody;
     } catch (e) {
       throw e;
     }

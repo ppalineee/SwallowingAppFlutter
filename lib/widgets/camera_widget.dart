@@ -4,9 +4,20 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swallowing_app/main.dart';
+import 'package:swallowing_app/models/assignment.dart';
+import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:video_player/video_player.dart';
 
 class CameraWidget extends StatefulWidget {
+  final AssignmentStore assignmentStore;
+  final Assignment assignment;
+
+  CameraWidget({
+    Key key,
+    @required this.assignmentStore,
+    @required this.assignment,
+  }) : super(key: key);
+
   @override
   _CameraWidgetState createState() {
     return _CameraWidgetState();
@@ -433,13 +444,15 @@ class _CameraWidgetState extends State<CameraWidget>
     });
   }
 
-  void onStopButtonPressed() {
-    stopVideoRecording().then((file) {
+  void onStopButtonPressed() async {
+    stopVideoRecording().then((file) async {
       if (mounted) setState(() {});
       if (file != null) {
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
-        _startVideoPlayer();
+        var submitSuccess = await widget.assignmentStore.submitAssignment(widget.assignment.id, videoFile);
+        print('submitSuccess: ${submitSuccess}');
+        // _startVideoPlayer();
       }
     });
   }

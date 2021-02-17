@@ -112,8 +112,8 @@ class NetworkModule extends PreferenceModule {
 
   @provide
   @singleton
-  AssignmentApi provideAssignmentApi(RestClient restClient) =>
-      AssignmentApi(restClient);
+  AssignmentApi provideAssignmentApi(RestClient restClient, DioClient dioClient) =>
+      AssignmentApi(restClient, dioClient);
   // Api Providers End:---------------------------------------------------------
 
 }

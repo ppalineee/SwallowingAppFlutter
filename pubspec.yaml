@@ -99,6 +99,9 @@ dependencies:
   # A Flutter plugin for iOS and Android allowing access to the device cameras.
   camera: ^0.7.0+2
 
+  # A platform-independent package for parsing and serializing various HTTP-related formats.
+  http_parser: ^3.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:swallowing_app/data/repository.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/stores/error/error_store.dart';
@@ -51,6 +52,11 @@ abstract class _AssignmentStore with Store {
   @action
   Future<AssignmentList> getAssignments(String option) async {
     return await _repository.getAssignmentList(option);
+  }
+
+  @action
+  Future<bool> submitAssignment(String id, XFile videoFile) async {
+    return await _repository.submitAssignment(id, videoFile);
   }
 
   @action

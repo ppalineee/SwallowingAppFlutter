@@ -1,13 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:camera/camera.dart';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:swallowing_app/data/network/constants/endpoints.dart';
+import 'package:swallowing_app/data/network/dio_client.dart';
 import 'package:swallowing_app/data/network/rest_client.dart';
 import 'package:swallowing_app/models/assignment.dart';
 
 class AssignmentApi {
   final RestClient _restClient;
+  final DioClient _dioClient;
 
-  AssignmentApi(this._restClient);
+  AssignmentApi(this._restClient, this._dioClient);
 
   Future<AssignmentList> getAssignmentList(String token, String hnNumber, String option) async {
     try {
@@ -25,6 +30,36 @@ class AssignmentApi {
       ).then((dynamic res) => AssignmentList.fromJson(res));
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<bool> submitAssignment(String token, String id, XFile videoFile) async {
+    try {
+      Map<String, String> queryParams = {
+        'id': id,
+        'option': '1'
+      };
+      FormData formData = new FormData.fromMap({
+        'vdoFile': await MultipartFile.fromFile(
+          videoFile.path,
+          filename: '$id.mp4',
+          contentType: MediaType('video','mp4')),
+        'timestamp': DateTime.now().toString(),
+      });
+
+      return await _dioClient.put(
+          Endpoints.submitAssignment,
+          queryParameters: queryParams,
+          options: Options(
+            method: "PUT",
+            headers: {
+              'Authorization': token,
+            },
+          ),
+          data: formData
+      ).then((dynamic res) => (res['message'] == 'Update status Complete!') ? true : false);
+    } catch (e) {
+      return false;
     }
   }
 

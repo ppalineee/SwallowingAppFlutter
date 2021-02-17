@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:camera/camera.dart';
 import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/assignment_api.dart';
@@ -137,6 +138,15 @@ class Repository {
       return await _assignmentApi.getAssignmentList(token, profile.hnNumber, option);
     } catch(e) {
       rethrow;
+    }
+  }
+
+  Future<bool> submitAssignment(String id, XFile videoFile) async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      return await _assignmentApi.submitAssignment(token, id, videoFile);
+    } catch(e) {
+      return false;
     }
   }
 

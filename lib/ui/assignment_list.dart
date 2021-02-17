@@ -162,7 +162,10 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => AssignmentScreen(assignment: assignment)
+                          builder: (context) => AssignmentScreen(
+                            assignment: assignment,
+                            assignmentStore: _assignmentStore,
+                          )
                       )
                   );
                 },
