@@ -35,6 +35,7 @@ class AssignmentApi {
 
   Future<bool> submitAssignment(String token, String id, XFile videoFile) async {
     try {
+      String timestamp = DateTime.now().toString();
       Map<String, String> queryParams = {
         'id': id,
         'option': '1'
@@ -42,9 +43,9 @@ class AssignmentApi {
       FormData formData = new FormData.fromMap({
         'vdoFile': await MultipartFile.fromFile(
           videoFile.path,
-          filename: '$id.mp4',
+          filename: '${id}_$timestamp.mp4',
           contentType: MediaType('video','mp4')),
-        'timestamp': DateTime.now().toString(),
+        'timestamp': timestamp,
       });
 
       return await _dioClient.put(
