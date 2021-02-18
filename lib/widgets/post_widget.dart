@@ -6,12 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/assignment.dart';
+import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/utils/device/device_utils.dart';
 import 'package:swallowing_app/utils/locale/app_localization.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
+import 'package:swallowing_app/widgets/video_player_widget.dart';
 
 class PostWidget extends StatefulWidget {
   final VoidCallback refresh;
@@ -92,13 +94,13 @@ class _PostWidgetState extends State<PostWidget> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.width * 0.5 * Dimens.video_height / Dimens.video_width,
-                    color: AppColors.lightgray,
-                    child: Center(
-                        child: Text('Video')
-                    )
+                VideoPlayerWidget(
+                  video: Video(
+                    id: "",
+                    name: 'วิดีโอของคุณ',
+                    url: widget.assignment.videoPatient,
+                    status: "patient",
+                  )
                 ),
                 SizedBox(
                   height: 5,

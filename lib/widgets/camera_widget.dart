@@ -452,7 +452,7 @@ class _CameraWidgetState extends State<CameraWidget>
         videoFile = file;
         var submitSuccess = await widget.assignmentStore.submitAssignment(widget.assignment.id, videoFile);
         print('submitSuccess: ${submitSuccess}');
-        // _startVideoPlayer();
+        _startVideoPlayer();
       }
     });
   }

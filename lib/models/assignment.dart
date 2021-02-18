@@ -24,6 +24,7 @@ class Assignment {
   String dueDate;
   String videoName;
   String videoUrl;
+  String videoPatient;
   List<dynamic> comments;
 
   Assignment({
@@ -35,6 +36,7 @@ class Assignment {
     this.dueDate,
     this.videoName,
     this.videoUrl,
+    this.videoPatient,
     this.comments,
   });
 
@@ -55,6 +57,7 @@ class Assignment {
       dueDate: json["task"],
       videoName: json["vdoName"],
       videoUrl: json["vdoURL"],
+      videoPatient: json["patientVdo"],
       comments: _comments,
     );
   }
