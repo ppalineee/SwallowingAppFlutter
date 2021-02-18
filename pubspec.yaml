@@ -102,6 +102,9 @@ dependencies:
   # A platform-independent package for parsing and serializing various HTTP-related formats.
   http_parser: ^3.1.4
 
+  # Saves images and videos from network or temporary file to external storage.
+  gallery_saver: ^2.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

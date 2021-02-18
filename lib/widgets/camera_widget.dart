@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:swallowing_app/main.dart';
 import 'package:swallowing_app/models/assignment.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
@@ -450,8 +451,11 @@ class _CameraWidgetState extends State<CameraWidget>
       if (file != null) {
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
-        var submitSuccess = await widget.assignmentStore.submitAssignment(widget.assignment.id, videoFile);
-        print('submitSuccess: ${submitSuccess}');
+        await widget.assignmentStore.submitAssignment(widget.assignment.id, videoFile).then((success) {
+          if (success == true) {
+            GallerySaver.saveVideo(file.path);
+          }
+        });
         _startVideoPlayer();
       }
     });

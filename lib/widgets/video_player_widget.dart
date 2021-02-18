@@ -1,11 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
-import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/thumbnail.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/ui/video.dart';
