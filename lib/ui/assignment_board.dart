@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/models/assignment.dart';
@@ -36,9 +37,13 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
           color: AppColors.lightgray,
           width: MediaQuery.of(context).size.width,
         ),
-        RefreshIndicator(
-          child: _buildMainContent(),
+        LiquidPullToRefresh(
+          height: 80,
+          animSpeedFactor: 2,
+          color: AppColors.deepblue,
+          showChildOpacityTransition: false,
           onRefresh: _refresh,
+          child: _buildMainContent()
         )
       ],
     );

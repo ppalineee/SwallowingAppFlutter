@@ -35,18 +35,9 @@ abstract class _AssignmentStore with Store {
   @computed
   bool get loading => fetchAssignmentListFuture.status == FutureStatus.pending;
 
-  // actions:-------------------------------------------------------------------
   @action
-  Future getAssignmentList() async {
-    final future = _repository.getAssignmentList('0123');
-    fetchAssignmentListFuture = ObservableFuture(future);
-
-    future.then((assignmentList) {
-      this.assignmentList = assignmentList;
-      success = true;
-    }).catchError((error) {
-      success = false;
-    });
+  Future<AssignmentList> getAssignmentList() async {
+    return await _repository.getAssignmentList('0123');
   }
 
   @action

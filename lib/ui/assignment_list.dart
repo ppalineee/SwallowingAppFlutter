@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/font_family.dart';
@@ -29,10 +29,6 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     _assignmentStore = Provider.of<AssignmentStore>(context);
-
-    if (!_assignmentStore.loading) {
-      await _assignmentStore.getAssignmentList();
-    }
   }
 
   @override
@@ -45,29 +41,6 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        Observer(
-          builder: (context) {
-            return Visibility(
-              visible: !_assignmentStore.loading && _assignmentStore.success,
-              child: _buildMainContent(),
-            );
-          },
-        ),
-        Observer(
-          builder: (context) {
-            return Visibility(
-              visible: _assignmentStore.loading || !_assignmentStore.success,
-              child: CustomProgressIndicatorWidget(),
-            );
-          },
-        )
-      ],
-    );
-  }
-
-  Widget _buildMainContent() {
     return SafeArea(
         child: Column(
           children: <Widget>[
@@ -79,11 +52,21 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
               height: 12,
             ),
             _buildAssignmentListHeader(),
-            _buildAssignmentListBody()
+            Expanded(
+              child: LiquidPullToRefresh(
+                height: 80,
+                animSpeedFactor: 2,
+                color: AppColors.lightgray,
+                showChildOpacityTransition: false,
+                onRefresh: _refresh,
+                child: _buildAssignmentListBody()
+              ),
+            )
           ],
         )
     );
   }
+
   Widget _buildAssignmentBoardBtn() {
     return Align(
       alignment: Alignment.center,
@@ -148,78 +131,92 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
   }
 
   Widget _buildAssignmentListBody() {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(15, 7, 15, 12),
-        child: _assignmentStore.assignmentList != null
-        ? ListView.separated(
-          scrollDirection: Axis.vertical,
-          itemCount: _assignmentStore.assignmentList.assignments.length,
-          itemBuilder: (context, index) {
-            int i = _assignmentStore.assignmentList.assignments.length - index - 1;
-            Assignment assignment = _assignmentStore.assignmentList.assignments[i];
-            return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => AssignmentScreen(
-                            assignment: assignment,
-                            assignmentStore: _assignmentStore,
-                          )
-                      )
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                            assignment.title,
-                            style: TextStyle(fontSize: 15)
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 80,
-                      alignment: Alignment.center,
-                      child: Text(
-                          DateFormats.changeThaiShortFormat(assignment.timestamp),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15)
-                      ),
-                    ),
-                    Container(
-                      width: 80,
-                      alignment: Alignment.center,
-                      child: Text(
-                          DateFormats.changeThaiShortFormat(assignment.dueDate),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15)
-                      ),
-                    ),
-                    Container(
-                      width: 80,
-                      alignment: Alignment.center,
-                      child: AssignmentStatusTextWidget(
-                        status: assignment.status,
-                        fontSize: 15
-                      )
-                    )
-                  ],
+    return FutureBuilder<AssignmentList>(
+      future: _assignmentStore.getAssignmentList(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          final _assignmentList = snapshot.data.assignments;
+          if (_assignmentList.length > 0) {
+            return Container(
+                padding: EdgeInsets.fromLTRB(15, 7, 15, 12),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _assignmentList.length,
+                  itemBuilder: (context, index) {
+                    int i = _assignmentList.length - index - 1;
+                    Assignment assignment = _assignmentList[i];
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => AssignmentScreen(
+                                    assignment: assignment,
+                                    assignmentStore: _assignmentStore,
+                                  )
+                              )
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    assignment.title,
+                                    style: TextStyle(fontSize: 15)
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 80,
+                              alignment: Alignment.center,
+                              child: Text(
+                                  DateFormats.changeThaiShortFormat(assignment.timestamp),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 15)
+                              ),
+                            ),
+                            Container(
+                              width: 80,
+                              alignment: Alignment.center,
+                              child: Text(
+                                  DateFormats.changeThaiShortFormat(assignment.dueDate),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 15)
+                              ),
+                            ),
+                            Container(
+                                width: 80,
+                                alignment: Alignment.center,
+                                child: AssignmentStatusTextWidget(
+                                    status: assignment.status,
+                                    fontSize: 15
+                                )
+                            )
+                          ],
+                        )
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      thickness: 0.45,
+                      color: AppColors.gray,
+                    );
+                  },
                 )
             );
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              thickness: 0.45,
-              color: AppColors.gray,
-            );
-          },
-        )
-        : _handleNoAssignmentsFound()
-      ),
+          } else {
+            return _handleNoAssignmentsFound();
+          }
+        } else if (snapshot.hasError) {
+          return _handleErrorMessage();
+        } else {
+          return Center(
+              child: CustomProgressIndicatorWidget()
+          );
+        }
+      },
     );
   }
 
@@ -246,5 +243,34 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
           )
         ]
     );
+  }
+
+  Widget _handleErrorMessage() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+              child: Icon(
+                Icons.wifi_off,
+                size: 50,
+                color: Colors.black45,
+              )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              'เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย',
+              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
+            ),
+          )
+        ]
+    );
+  }
+
+  Future<void> _refresh() async {
+    setState(() {});
   }
 }
