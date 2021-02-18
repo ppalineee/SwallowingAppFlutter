@@ -105,6 +105,9 @@ dependencies:
   # Saves images and videos from network or temporary file to external storage.
   gallery_saver: ^2.0.3
 
+  # A widget provided to the flutter scroll component drop-down refresh and pull up load.
+  pull_to_refresh: 1.6.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

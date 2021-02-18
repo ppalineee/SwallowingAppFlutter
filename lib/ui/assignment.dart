@@ -50,12 +50,13 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
               height: 20
             ),
             _buildAssignmentInfo(),
-            SizedBox(
-              height: 15
-            ),
-            Divider(
-              thickness: 1.3,
-              color: AppColors.gray,
+            Container(
+              height: 15,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 0.8, color: AppColors.gray)
+                ),
+              ),
             ),
             _buildSubmission()
           ],
@@ -65,7 +66,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
 
   Widget _buildAssignmentInfo() {
     return Container(
-        padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+        padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
         child: Column(
           children: <Widget>[
             Row(
@@ -115,7 +116,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
       child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
-              padding: EdgeInsets.fromLTRB(25, 7, 25, 0),
+              padding: EdgeInsets.fromLTRB(25, 12, 25, 0),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: <Widget>[

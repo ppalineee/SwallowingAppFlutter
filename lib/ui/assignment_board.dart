@@ -36,7 +36,10 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
           color: AppColors.lightgray,
           width: MediaQuery.of(context).size.width,
         ),
-        _buildMainContent(),
+        RefreshIndicator(
+          child: _buildMainContent(),
+          onRefresh: _refresh,
+        )
       ],
     );
   }
@@ -122,5 +125,9 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
           )
         ]
     );
+  }
+
+  Future<void> _refresh() async {
+    setState(() {});
   }
 }

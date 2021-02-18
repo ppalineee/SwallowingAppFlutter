@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:swallowing_app/main.dart';
 import 'package:swallowing_app/models/assignment.dart';
+import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:video_player/video_player.dart';
 
@@ -449,11 +450,11 @@ class _CameraWidgetState extends State<CameraWidget>
     stopVideoRecording().then((file) async {
       if (mounted) setState(() {});
       if (file != null) {
-        showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
         await widget.assignmentStore.submitAssignment(widget.assignment.id, videoFile).then((success) {
           if (success == true) {
             GallerySaver.saveVideo(file.path);
+            Navigator.of(context).pushNamedAndRemoveUntil(Routes.assignment_board, ModalRoute.withName(Routes.assignment_list));
           }
         });
         _startVideoPlayer();
