@@ -22,8 +22,6 @@ import 'network/apis/test_api.dart';
 class Repository {
   // data source object
   final PostDataSource _postDataSource;
-  final ArticleDataSource _articleDataSource;
-
   // api objects
   final PostApi _postApi;
   final LoginApi _loginApi;
@@ -39,7 +37,7 @@ class Repository {
   // constructor
   Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
       this._articleApi, this._videoApi, this._assignmentApi, this._sharedPrefsHelper,
-      this._postDataSource, this._articleDataSource);
+      this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -97,28 +95,12 @@ class Repository {
   // Article:-------------------------------------------------------------------
   Future<ArticleList> getArticleList() async {
     try {
-      if (await _articleDataSource.count() > 0) {
-        return await _articleDataSource
-          .getArticlesFromDb()
-          .then((articlesList) => articlesList);
-      } else {
-        await _articleDataSource.deleteAll();
-        String token = await _sharedPrefsHelper.authToken;
-        return await _articleApi.getArticleList(token).then((articlesList) {
-          articlesList.articles.forEach((article) {
-            _articleDataSource.insert(article);
-          });
-          return articlesList;
-        });
-      }
+      String token = await _sharedPrefsHelper.authToken;
+      return await _articleApi.getArticleList(token);
     } catch(e) {
       rethrow;
     }
   }
-
-  Future<int> deleteArticleList() => _articleDataSource
-      .deleteAll()
-      .catchError((error) => throw error);
 
   // Video:---------------------------------------------------------------------
   Future<VideoList> getVideoList() async {

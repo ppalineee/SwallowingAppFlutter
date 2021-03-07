@@ -74,10 +74,6 @@ class LocalModule extends NetworkModule {
   @singleton
   PostDataSource providePostDataSource() => PostDataSource(database);
 
-  @provide
-  @singleton
-  ArticleDataSource provideArticleDataSource() => ArticleDataSource(database);
-
   // DataSources End:-----------------------------------------------------------
 
   /// A singleton repository provider.
@@ -95,8 +91,7 @@ class LocalModule extends NetworkModule {
     AssignmentApi assignmentApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
-    ArticleDataSource articleDataSource,
   ) =>
       Repository(postApi, loginApi, profileApi, testApi, articleApi, videoApi,
-          assignmentApi, preferenceHelper, postDataSource, articleDataSource);
+          assignmentApi, preferenceHelper, postDataSource);
 }
