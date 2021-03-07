@@ -64,8 +64,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                     child: (_futureImage != null) ? _futureImage : SizedBox()
                 ),
                 Center(
-                    child: Icon(
+                    child: (_futureImage != null) ?
+                    Icon(
                       Icons.play_circle_outline,
+                      color: AppColors.white,
+                      size: 45,
+                    )
+                    : Icon(
+                      Icons.no_photography_outlined,
                       color: AppColors.white,
                       size: 45,
                     )
