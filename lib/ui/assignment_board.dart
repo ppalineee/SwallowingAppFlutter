@@ -38,11 +38,14 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
           width: MediaQuery.of(context).size.width,
         ),
         LiquidPullToRefresh(
-          height: 80,
-          animSpeedFactor: 2,
-          color: AppColors.deepblue,
+          height: 65,
+          animSpeedFactor: 1.4,
+          color: AppColors.lightgray,
+          backgroundColor: AppColors.deepblue.withOpacity(0.9),
           showChildOpacityTransition: false,
-          onRefresh: _refresh,
+          onRefresh: () async {
+            setState(() {});
+          },
           child: _buildMainContent()
         )
       ],
@@ -130,9 +133,5 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
           )
         ]
     );
-  }
-
-  Future<void> _refresh() async {
-    setState(() {});
   }
 }

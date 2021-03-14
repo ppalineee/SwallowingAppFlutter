@@ -54,11 +54,14 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
             _buildAssignmentListHeader(),
             Expanded(
               child: LiquidPullToRefresh(
-                height: 80,
-                animSpeedFactor: 2,
-                color: AppColors.lightgray,
+                height: 60,
+                animSpeedFactor: 1.6,
+                color: AppColors.verylightgray.withOpacity(0.3),
+                backgroundColor: AppColors.deepblue.withOpacity(0.9),
                 showChildOpacityTransition: false,
-                onRefresh: _refresh,
+                onRefresh: () async {
+                  setState(() {});
+                },
                 child: _buildAssignmentListBody()
               ),
             )
@@ -268,9 +271,5 @@ class _AssignmentListScreenState extends State<AssignmentListScreen> {
           )
         ]
     );
-  }
-
-  Future<void> _refresh() async {
-    setState(() {});
   }
 }
