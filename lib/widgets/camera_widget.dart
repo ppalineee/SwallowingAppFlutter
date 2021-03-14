@@ -457,7 +457,7 @@ class _CameraWidgetState extends State<CameraWidget>
             Navigator.of(context).pushNamedAndRemoveUntil(Routes.assignment_board, ModalRoute.withName(Routes.assignment_list));
           }
         });
-        _startVideoPlayer();
+        // _startVideoPlayer();
       }
     });
   }
