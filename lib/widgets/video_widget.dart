@@ -8,7 +8,7 @@ import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
 import 'package:swallowing_app/models/thumbnail.dart';
 import 'package:swallowing_app/models/video.dart';
-import 'package:swallowing_app/ui/video.dart';
+import 'package:swallowing_app/ui/exercise.dart';
 import 'package:swallowing_app/widgets/thumbnail_widget.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -59,7 +59,7 @@ class _VideoWidgetState extends State<VideoWidget> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => VideoScreen(video: widget.video)
+                        builder: (context) => ExerciseScreen(video: widget.video)
                       )
                     );
                   },
