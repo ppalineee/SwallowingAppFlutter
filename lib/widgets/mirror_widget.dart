@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swallowing_app/main.dart';
-import 'package:video_player/video_player.dart';
 
 class MirrorWidget extends StatefulWidget {
   MirrorWidget({Key key}) : super(key: key);
@@ -19,13 +17,6 @@ void logError(String code, String message) =>
 class _MirrorWidgetState extends State<MirrorWidget>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   CameraController controller;
-  XFile imageFile;
-  XFile videoFile;
-  VideoPlayerController videoController;
-  VoidCallback videoPlayerListener;
-  bool enableAudio = true;
-  AnimationController _flashModeControlRowAnimationController;
-  Animation<double> _flashModeControlRowAnimation;
   double _minAvailableZoom;
   double _maxAvailableZoom;
   double _currentScale = 1.0;
@@ -39,22 +30,12 @@ class _MirrorWidgetState extends State<MirrorWidget>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _flashModeControlRowAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _flashModeControlRowAnimation = CurvedAnimation(
-      parent: _flashModeControlRowAnimationController,
-      curve: Curves.easeInCubic,
-    );
     onNewCameraSelected(cameras[_currentCamera]);
-    onVideoRecordButtonPressed();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _flashModeControlRowAnimationController.dispose();
     super.dispose();
   }
 
@@ -77,12 +58,25 @@ class _MirrorWidgetState extends State<MirrorWidget>
 
   @override
   Widget build(BuildContext context) {
+    var width_size = MediaQuery.of(context).size.width;
     return Container(
-      height: MediaQuery.of(context).size.height/2,
-      color: Colors.black,
-      child: Center(
-        child: _cameraPreviewWidget(),
-      ),
+        width: width_size,
+        height: MediaQuery.of(context).size.height/2,
+        color: Colors.black,
+        child: ClipRect(
+          child: OverflowBox(
+            alignment: Alignment.center,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: width_size,
+                child: Center(
+                  child: _cameraPreviewWidget(),
+                )
+              ),
+            ),
+          ),
+        ),
     );
   }
 
@@ -126,193 +120,6 @@ class _MirrorWidgetState extends State<MirrorWidget>
     await controller.setZoomLevel(_currentScale);
   }
 
-  /// Display a bar with buttons to change the flash mode
-  Widget _modeControlRowWidget() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(enableAudio ? Icons.volume_up : Icons.volume_mute),
-              color: Colors.white,
-              onPressed: controller != null ? onAudioModeButtonPressed : null,
-            ),
-            IconButton(
-              icon: Icon(Icons.flash_on),
-              color: Colors.white,
-              onPressed: controller != null ? onFlashModeButtonPressed : null,
-            ),
-            IconButton(
-              icon: Icon(Icons.clear),
-              color: Colors.white,
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        ),
-        _flashModeControlRowWidget(),
-      ],
-    );
-  }
-
-  Widget _flashModeControlRowWidget() {
-    return SizeTransition(
-      sizeFactor: _flashModeControlRowAnimation,
-      child: ClipRect(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            IconButton(
-              icon: Icon(Icons.flash_off),
-              color: controller?.value?.flashMode == FlashMode.off
-                  ? Colors.yellow
-                  : Colors.white,
-              onPressed: controller != null
-                  ? () => onSetFlashModeButtonPressed(FlashMode.off)
-                  : null,
-            ),
-            IconButton(
-              icon: Icon(Icons.flash_auto),
-              color: controller?.value?.flashMode == FlashMode.auto
-                  ? Colors.yellow
-                  : Colors.white,
-              onPressed: controller != null
-                  ? () => onSetFlashModeButtonPressed(FlashMode.auto)
-                  : null,
-            ),
-            IconButton(
-              icon: Icon(Icons.flash_on),
-              color: controller?.value?.flashMode == FlashMode.always
-                  ? Colors.yellow
-                  : Colors.white,
-              onPressed: controller != null
-                  ? () => onSetFlashModeButtonPressed(FlashMode.always)
-                  : null,
-            ),
-            IconButton(
-              icon: Icon(Icons.highlight),
-              color: controller?.value?.flashMode == FlashMode.torch
-                  ? Colors.yellow
-                  : Colors.white,
-              onPressed: controller != null
-                  ? () => onSetFlashModeButtonPressed(FlashMode.torch)
-                  : null,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Display the control bar with buttons to take pictures and record videos.
-  Widget _captureControlWidget() {
-    return SizedBox(
-        width: 80,
-        height: 80,
-        child: (controller.value.isRecordingVideo)
-            ? GestureDetector(
-            onTap: controller != null &&
-                controller.value.isInitialized &&
-                controller.value.isRecordingVideo
-                ? onStopButtonPressed
-                : null,
-            child: Stack(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.circle,
-                      size: 73,
-                      color: Colors.white,
-                    )
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.circle,
-                      size: 63,
-                      color: Colors.black,
-                    )
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.stop,
-                      size: 50,
-                      color: Colors.red,
-                    )
-                ),
-              ],
-            )
-        )
-            : GestureDetector(
-            onTap: controller != null &&
-                controller.value.isInitialized &&
-                !controller.value.isRecordingVideo
-                ? onVideoRecordButtonPressed
-                : null,
-            child: Stack(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.circle,
-                      size: 73,
-                      color: Colors.white,
-                    )
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.circle,
-                      size: 63,
-                      color: Colors.black,
-                    )
-                ),
-                Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.circle,
-                      size: 55,
-                      color: Colors.red,
-                    )
-                ),
-              ],
-            )
-        )
-    );
-  }
-
-  /// Display a row of toggle to select the camera (or a message if no camera is available).
-  Widget _cameraTogglesWidget() {
-    if (cameras.isEmpty) {
-      return const Text('No camera found');
-    }
-
-    return SizedBox(
-        width: 64,
-        child: IconButton(
-          icon: Icon(
-              Icons.flip_camera_ios,
-              color: Colors.white,
-              size: 35
-          ),
-          onPressed: () {
-            if (controller == null || !controller.value.isRecordingVideo) {
-              setState(() {
-                _currentCamera = (_currentCamera+1)%cameras.length;
-              });
-              onNewCameraSelected(cameras[_currentCamera]);
-            }
-          },
-        )
-    );
-  }
-
-  String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
-
   void showInSnackBar(String message) {
     // ignore: deprecated_member_use
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
@@ -333,7 +140,7 @@ class _MirrorWidgetState extends State<MirrorWidget>
     controller = CameraController(
       cameraDescription,
       ResolutionPreset.medium,
-      enableAudio: enableAudio,
+      enableAudio: false,
       imageFormatGroup: ImageFormatGroup.jpeg,
     );
 
@@ -357,138 +164,6 @@ class _MirrorWidgetState extends State<MirrorWidget>
 
     if (mounted) {
       setState(() {});
-    }
-  }
-
-  void onTakePictureButtonPressed() {
-    takePicture().then((XFile file) {
-      if (mounted) {
-        setState(() {
-          imageFile = file;
-          videoController?.dispose();
-          videoController = null;
-        });
-        if (file != null) showInSnackBar('Picture saved to ${file.path}');
-      }
-    });
-  }
-
-  void onFlashModeButtonPressed() {
-    if (_flashModeControlRowAnimationController.value == 1) {
-      _flashModeControlRowAnimationController.reverse();
-    } else {
-      _flashModeControlRowAnimationController.forward();
-    }
-  }
-
-  void onAudioModeButtonPressed() {
-    enableAudio = !enableAudio;
-    if (controller != null) {
-      onNewCameraSelected(controller.description);
-    }
-  }
-
-  void onSetFlashModeButtonPressed(FlashMode mode) {
-    setFlashMode(mode).then((_) {
-      if (mounted) setState(() {});
-      showInSnackBar('Flash mode set to ${mode.toString().split('.').last}');
-    });
-  }
-
-  void onVideoRecordButtonPressed() {
-    startVideoRecording().then((_) {
-      if (mounted) setState(() {});
-    });
-  }
-
-  void onStopButtonPressed() async {
-    stopVideoRecording().then((file) async {
-      if (mounted) setState(() {});
-
-    });
-  }
-
-  Future<void> startVideoRecording() async {
-    if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
-      return;
-    }
-
-    if (controller.value.isRecordingVideo) {
-      // A recording is already started, do nothing.
-      return;
-    }
-
-    try {
-      await controller.startVideoRecording();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      return;
-    }
-  }
-
-  Future<XFile> stopVideoRecording() async {
-    if (!controller.value.isRecordingVideo) {
-      return null;
-    }
-
-    try {
-      return controller.stopVideoRecording();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      return null;
-    }
-  }
-
-  Future<void> setFlashMode(FlashMode mode) async {
-    try {
-      await controller.setFlashMode(mode);
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      rethrow;
-    }
-  }
-
-  Future<void> _startVideoPlayer() async {
-    final VideoPlayerController vController =
-    VideoPlayerController.file(File(videoFile.path));
-    videoPlayerListener = () {
-      if (videoController != null && videoController.value.size != null) {
-        // Refreshing the state to update video player with the correct ratio.
-        if (mounted) setState(() {});
-        videoController.removeListener(videoPlayerListener);
-      }
-    };
-    vController.addListener(videoPlayerListener);
-    await vController.setLooping(true);
-    await vController.initialize();
-    await videoController?.dispose();
-    if (mounted) {
-      setState(() {
-        imageFile = null;
-        videoController = vController;
-      });
-    }
-    await vController.play();
-  }
-
-  Future<XFile> takePicture() async {
-    if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
-      return null;
-    }
-
-    if (controller.value.isTakingPicture) {
-      // A capture is already pending, do nothing.
-      return null;
-    }
-
-    try {
-      XFile file = await controller.takePicture();
-      return file;
-    } on CameraException catch (e) {
-      _showCameraException(e);
-      return null;
     }
   }
 

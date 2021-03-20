@@ -31,8 +31,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       children: <Widget>[
         Column(
           children: <Widget>[
-            _buildVideoPlayer(),
-            MirrorWidget(),
+            Expanded(
+                child: _buildVideoPlayer()
+            ),
+            Expanded(
+                child: MirrorWidget()
+            ),
           ],
         ),
         _buildBackBtn(),
@@ -43,13 +47,20 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Widget _buildBackBtn() {
     return SafeArea(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.clear),
-            color: Colors.white,
+          RawMaterialButton(
             onPressed: () => Navigator.of(context).pop(),
+            elevation: 2.0,
+            fillColor: AppColors.white.withOpacity(0.7),
+            child: Icon(
+              Icons.clear,
+              color: AppColors.black,
+            ),
+            shape: CircleBorder(),
+            padding: EdgeInsets.all(3),
+            constraints: BoxConstraints(minWidth: 65)
           )
         ],
       )
@@ -58,7 +69,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   Widget _buildVideoPlayer() {
     return Container(
-        height: MediaQuery.of(context).size.height/2,
         color: AppColors.black,
         child: ChewieWidget(
             videoPlayerController: VideoPlayerController.network(
