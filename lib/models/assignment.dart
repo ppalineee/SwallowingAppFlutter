@@ -67,16 +67,28 @@ class Comment {
   String message;
   String creator;
   String timestamp;
+  bool isPatient;
 
   Comment({
     this.message,
     this.creator,
     this.timestamp,
+    this.isPatient
   });
 
-  factory Comment.fromJson(List<dynamic> comment) => Comment(
-    message: comment[0],
-    creator: comment[1],
-    timestamp: comment[2],
-  );
+  factory Comment.fromJson(List<dynamic> comment) {
+    bool _isPatient;
+    if (comment.length < 4) {
+      _isPatient = false;
+    } else {
+      _isPatient = (comment[3] != 'Therapist') ? true : false;
+    }
+
+    return Comment(
+      message: comment[0],
+      creator: comment[1],
+      timestamp: comment[2],
+      isPatient: _isPatient,
+    );
+  }
 }

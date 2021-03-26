@@ -263,7 +263,8 @@ class _PostWidgetState extends State<PostWidget> {
               CommentWidget(
                 comment.creator ?? '',
                 comment.message ?? '',
-                comment.timestamp ?? ''
+                comment.timestamp ?? '',
+                comment.isPatient ?? false
               ),
             SizedBox(
               height: 5,
