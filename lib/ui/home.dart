@@ -12,7 +12,7 @@ import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/stores/home_store.dart';
-import 'package:swallowing_app/ui/video.dart';
+import 'package:swallowing_app/ui/exercise.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => VideoScreen(video: video)
+                          builder: (context) => ExerciseScreen(video: video)
                       )
                   );
                 },
