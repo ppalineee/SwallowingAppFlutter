@@ -40,7 +40,9 @@ class _VideoWidgetState extends State<VideoWidget> {
       maxHeight: 0,
       maxWidth: 0,
       timeMs: 100,
-      quality: 100));
+      quality: 100),
+      parentWidget: 'VideoWidget'
+    );
   }
 
   @override

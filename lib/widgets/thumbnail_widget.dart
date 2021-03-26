@@ -8,8 +8,9 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 class GenThumbnailImage extends StatefulWidget {
   final ThumbnailRequest thumbnailRequest;
+  final String parentWidget;
 
-  const GenThumbnailImage({Key key, this.thumbnailRequest}) : super(key: key);
+  const GenThumbnailImage({Key key, this.thumbnailRequest, this.parentWidget}) : super(key: key);
 
   @override
   _GenThumbnailImageState createState() => _GenThumbnailImageState();
@@ -28,17 +29,21 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
             child: _image,
           );
         } else if (snapshot.hasError) {
-          return Center(
+          return (widget.parentWidget == 'VideoWidget')
+          ? Center(
             child: Icon(
               Icons.no_photography_outlined,
               size: 40,
               color: Colors.white,
             )
-          );
+          )
+          : SizedBox.shrink();
         } else {
-          return Center(
-            child: CircularProgressIndicator()
-          );
+          return (widget.parentWidget == 'VideoWidget')
+            ? Center(
+              child: CircularProgressIndicator()
+            )
+            : SizedBox.shrink();
         }
       },
     );

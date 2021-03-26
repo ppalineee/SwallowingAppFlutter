@@ -38,7 +38,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             maxHeight: 0,
             maxWidth: 0,
             timeMs: 100,
-            quality: 100));
+            quality: 100),
+        parentWidget: 'VideoPlayerWidget'
+    );
   }
 
   @override
@@ -64,17 +66,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                     child: (_futureImage != null) ? _futureImage : SizedBox()
                 ),
                 Center(
-                    child: (_futureImage != null) ?
-                    Icon(
-                      Icons.play_circle_outline,
-                      color: AppColors.white,
-                      size: 45,
-                    )
-                    : Icon(
-                      Icons.no_photography_outlined,
-                      color: AppColors.white,
-                      size: 45,
-                    )
+                  child: Icon(
+                    Icons.play_circle_outline,
+                    color: AppColors.white,
+                    size: 45,
+                  )
                 )
               ],
             )
