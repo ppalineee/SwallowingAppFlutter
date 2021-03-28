@@ -10,6 +10,7 @@ import 'package:swallowing_app/stores/article_store.dart';
 import 'package:swallowing_app/stores/assignment_store.dart';
 import 'package:swallowing_app/stores/home_store.dart';
 import 'package:swallowing_app/stores/language/language_store.dart';
+import 'package:swallowing_app/stores/notification_store.dart';
 import 'package:swallowing_app/stores/post/post_store.dart';
 import 'package:swallowing_app/stores/profile_store.dart';
 import 'package:swallowing_app/stores/theme/theme_store.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
   final HomeStore _homeStore = HomeStore(appComponent.getRepository());
   final VideoStore _videoStore = VideoStore(appComponent.getRepository());
   final AssignmentStore _assignmentStore = AssignmentStore(appComponent.getRepository());
+  final NotificationStore _notificationStore = NotificationStore(appComponent.getRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,7 @@ class MyApp extends StatelessWidget {
         Provider<HomeStore>(create: (_) => _homeStore),
         Provider<VideoStore>(create: (_) => _videoStore),
         Provider<AssignmentStore>(create: (_) => _assignmentStore),
+        Provider<NotificationStore>(create: (_) => _notificationStore),
       ],
       child: Observer(
         name: 'global-observer',

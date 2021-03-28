@@ -5,6 +5,7 @@ import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/assignment_api.dart';
+import 'package:swallowing_app/data/network/apis/notification_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/apis/login_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
@@ -89,9 +90,10 @@ class LocalModule extends NetworkModule {
     ArticleApi articleApi,
     VideoApi videoApi,
     AssignmentApi assignmentApi,
+    NotificationApi notificationApi,
     SharedPreferenceHelper preferenceHelper,
     PostDataSource postDataSource,
   ) =>
       Repository(postApi, loginApi, profileApi, testApi, articleApi, videoApi,
-          assignmentApi, preferenceHelper, postDataSource);
+          assignmentApi, notificationApi, preferenceHelper, postDataSource);
 }

@@ -13,4 +13,6 @@ class Endpoints {
   static const String getAssignments = baseUrl + "/getassignmentlist";
   static const String submitAssignment = baseUrl + "/assignment";
   static const String sendComment = baseUrl + "/comment";
+  static const String getNotification = baseUrl + "/getnotification";
+  static const String readNotification = baseUrl + "/readnotification";
 }

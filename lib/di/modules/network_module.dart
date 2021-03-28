@@ -1,6 +1,7 @@
 import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/assignment_api.dart';
 import 'package:swallowing_app/data/network/apis/login_api.dart';
+import 'package:swallowing_app/data/network/apis/notification_api.dart';
 import 'package:swallowing_app/data/network/apis/posts/post_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/network/apis/test_api.dart';
@@ -114,6 +115,11 @@ class NetworkModule extends PreferenceModule {
   @singleton
   AssignmentApi provideAssignmentApi(RestClient restClient, DioClient dioClient) =>
       AssignmentApi(restClient, dioClient);
+
+  @provide
+  @singleton
+  NotificationApi provideNotificationApi(RestClient restClient, DioClient dioClient) =>
+      NotificationApi(restClient);
   // Api Providers End:---------------------------------------------------------
 
 }

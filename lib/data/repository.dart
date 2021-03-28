@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:camera/camera.dart';
-import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/assignment_api.dart';
+import 'package:swallowing_app/data/network/apis/notification_api.dart';
 import 'package:swallowing_app/data/network/apis/profile_api.dart';
 import 'package:swallowing_app/data/network/apis/video_api.dart';
 import 'package:swallowing_app/data/sharedpref/shared_preference_helper.dart';
 import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/models/assignment.dart';
+import 'package:swallowing_app/models/notification.dart';
 import 'package:swallowing_app/models/post/post.dart';
 import 'package:swallowing_app/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
@@ -30,14 +31,15 @@ class Repository {
   final ArticleApi _articleApi;
   final VideoApi _videoApi;
   final AssignmentApi _assignmentApi;
+  final NotificationApi _notificationApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
   Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
-      this._articleApi, this._videoApi, this._assignmentApi, this._sharedPrefsHelper,
-      this._postDataSource);
+      this._articleApi, this._videoApi, this._assignmentApi, _notificationApi,
+      this._sharedPrefsHelper, this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------
   Future<void> loginPatient(username, password) async {
@@ -136,6 +138,27 @@ class Repository {
     try {
       String token = await _sharedPrefsHelper.authToken;
       return await _assignmentApi.sendComment(token, postId, message);
+    } catch(e) {
+      return false;
+    }
+  }
+
+  // Notification:--------------------------------------------------------------
+  Future<NotificationList> getNotification() async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      Profile profile = await _sharedPrefsHelper.patientProfile;
+      return await _notificationApi.getNotification(token, profile.hnNumber);
+    } catch(e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> readNotification() async {
+    try {
+      String token = await _sharedPrefsHelper.authToken;
+      Profile profile = await _sharedPrefsHelper.patientProfile;
+      return await _notificationApi.readNotification(token, profile.hnNumber);
     } catch(e) {
       return false;
     }
