@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('ประวัติของฉัน', true),
+      appBar: MyAppBar(title: 'ประวัติของฉัน', visibilityBackIcon: true),
       body: _buildBody(),
     );
   }

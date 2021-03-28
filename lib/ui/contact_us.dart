@@ -14,7 +14,7 @@ class ContactUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('ติดต่อเรา', true),
+      appBar: MyAppBar(title: 'ติดต่อเรา', visibilityBackIcon: true),
       body: _buildBody(context),
     );
   }

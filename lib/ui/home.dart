@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('หน้าหลัก', false),
+      appBar: MyAppBar(title: 'หน้าหลัก', visibilityBackIcon: false),
       body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );

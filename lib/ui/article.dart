@@ -22,7 +22,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('บทความ', true),
+      appBar: MyAppBar(title: 'บทความ', visibilityBackIcon: true),
       body: _buildBody(),
     );
   }

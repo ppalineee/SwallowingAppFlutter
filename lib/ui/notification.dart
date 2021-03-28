@@ -8,7 +8,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('การแจ้งเตือน', true),
+      appBar: MyAppBar(title: 'การแจ้งเตือน', visibilityBackIcon: true),
       body: _buildBody(context),
     );
   }

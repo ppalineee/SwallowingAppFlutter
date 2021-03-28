@@ -38,7 +38,7 @@ class Repository {
 
   // constructor
   Repository(this._postApi, this._loginApi, this._profileApi, this._testApi,
-      this._articleApi, this._videoApi, this._assignmentApi, _notificationApi,
+      this._articleApi, this._videoApi, this._assignmentApi, this._notificationApi,
       this._sharedPrefsHelper, this._postDataSource);
 
   // AuthToken:-----------------------------------------------------------------

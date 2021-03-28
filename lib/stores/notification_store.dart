@@ -36,6 +36,19 @@ abstract class _NotificationStore with Store {
 
   @action
   Future<NotificationList> getNotification() async {
+    // final future = _repository.getNotification();
+    // fetchNotificationListFuture = ObservableFuture(future);
+    //
+    // future.then((notificationList) {
+    //   print('error');
+    //   this.notificationList = notificationList;
+    //   success = true;
+    //   print('notificationList: $notificationList');
+    //   return notificationList;
+    // }).catchError((error) {
+    //   success = false;
+    //   return ;
+    // });
     return await _repository.getNotification();
   }
 

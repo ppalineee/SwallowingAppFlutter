@@ -34,7 +34,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('บทความ', false),
+      appBar: MyAppBar(title: 'บทความ', visibilityBackIcon: false),
       body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );

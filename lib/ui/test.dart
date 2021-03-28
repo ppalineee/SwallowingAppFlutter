@@ -42,7 +42,7 @@ class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('แบบทดสอบ', true),
+      appBar: MyAppBar(title: 'แบบทดสอบ', visibilityBackIcon: true),
       body: _buildBody(),
     );
   }

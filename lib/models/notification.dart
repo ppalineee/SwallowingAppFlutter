@@ -1,6 +1,6 @@
 class NotificationList {
   int warningCount;
-  final List<Notification> notifications;
+  final List<dynamic> notifications;
 
   NotificationList({
     this.warningCount,
@@ -12,7 +12,7 @@ class NotificationList {
     _notifications = json["notiList"].map((notiList) => Notification.fromJson(notiList)).toList();
 
     return NotificationList(
-      warningCount: int.parse(json["warningCount"]),
+      warningCount: json["warningCount"],
       notifications: _notifications,
     );
   }
@@ -31,8 +31,7 @@ class Notification {
 
   factory Notification.fromJson(List<dynamic> notiList) => Notification(
     message: notiList[0],
-    type: int.parse(notiList[1]),
+    type: notiList[1],
     timestamp: notiList[2],
   );
-
 }

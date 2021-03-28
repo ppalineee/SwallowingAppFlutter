@@ -22,7 +22,7 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(widget.video.name, true),
+      appBar: MyAppBar(title: widget.video.name, visibilityBackIcon: true),
       body: _buildBody(),
     );
   }

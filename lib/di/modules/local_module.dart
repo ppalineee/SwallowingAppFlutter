@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:swallowing_app/data/local/constants/db_constants.dart';
-import 'package:swallowing_app/data/local/datasources/article_datasource.dart';
 import 'package:swallowing_app/data/local/datasources/post/post_datasource.dart';
 import 'package:swallowing_app/data/network/apis/article_api.dart';
 import 'package:swallowing_app/data/network/apis/assignment_api.dart';

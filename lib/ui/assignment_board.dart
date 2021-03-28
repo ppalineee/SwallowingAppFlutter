@@ -25,7 +25,7 @@ class _AssignmentBoardScreenState extends State<AssignmentBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('กระดานแบบฝึกหัด', true),
+      appBar: MyAppBar(title: 'กระดานแบบฝึกหัด', visibilityBackIcon: true),
       body: _buildBody(),
     );
   }

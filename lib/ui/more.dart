@@ -12,7 +12,7 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('เพิ่มเติม', false),
+      appBar: MyAppBar(title: 'เพิ่มเติม', visibilityBackIcon: false),
       body: _buildBody(context),
       bottomNavigationBar: Navbar(),
     );

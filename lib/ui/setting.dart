@@ -14,7 +14,7 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('ตั้งค่า', true),
+      appBar: MyAppBar(title: 'ตั้งค่า', visibilityBackIcon: true),
       body: _buildBody(context)
     );
   }

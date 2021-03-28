@@ -15,7 +15,8 @@ class NotificationApi {
       };
       String queryString = Uri(queryParameters: queryParams).query;
       return await _restClient.get(
-        Endpoints.getNotification + '?' + queryString,
+        // Endpoints.getNotification + '?' + queryString,
+        Endpoints.getNotification + '/1d1',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': token,

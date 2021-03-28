@@ -29,7 +29,7 @@ class _VideoPlaylistScreenState extends State<VideoPlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar('รายการวิดีโอ', false),
+      appBar: MyAppBar(title: 'รายการวิดีโอ', visibilityBackIcon: false),
       body: _buildBody(),
       bottomNavigationBar: Navbar(),
     );
