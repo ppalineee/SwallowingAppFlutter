@@ -10,13 +10,9 @@ class NotificationApi {
 
   Future<NotificationList> getNotification(String token, String hnNumber) async {
     try {
-      Map<String, String> queryParams = {
-        'hn': hnNumber,
-      };
-      String queryString = Uri(queryParameters: queryParams).query;
+      String queryString = Uri.encodeComponent(hnNumber);
       return await _restClient.get(
-        // Endpoints.getNotification + '?' + queryString,
-        Endpoints.getNotification + '/1d1',
+        Endpoints.getNotification + '/' + queryString,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': token,
@@ -29,12 +25,9 @@ class NotificationApi {
 
   Future<bool> readNotification(String token, String hnNumber) async {
     try {
-      Map<String, String> queryParams = {
-        'hn': hnNumber,
-      };
-      String queryString = Uri(queryParameters: queryParams).query;
+      String queryString = Uri.encodeComponent(hnNumber);
       return await _restClient.get(
-        Endpoints.getNotification + '?' + queryString,
+        Endpoints.readNotification + '/' + queryString,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': token,

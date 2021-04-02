@@ -8,8 +8,8 @@ class NotificationList {
   });
 
   factory NotificationList.fromJson(Map<String, dynamic> json) {
-    List<dynamic> _notifications = List<Notification>();
-    _notifications = json["notiList"].map((notiList) => Notification.fromJson(notiList)).toList();
+    List<dynamic> _notifications = List<NotificationMessage>();
+    _notifications = json["notiList"].map((notiList) => NotificationMessage.fromJson(notiList)).toList();
 
     return NotificationList(
       warningCount: json["warningCount"],
@@ -18,18 +18,18 @@ class NotificationList {
   }
 }
 
-class Notification {
+class NotificationMessage {
   String message;
   int type;
   String timestamp;
 
-  Notification({
+  NotificationMessage({
     this.message,
     this.type,
     this.timestamp,
   });
 
-  factory Notification.fromJson(List<dynamic> notiList) => Notification(
+  factory NotificationMessage.fromJson(List<dynamic> notiList) => NotificationMessage(
     message: notiList[0],
     type: notiList[1],
     timestamp: notiList[2],

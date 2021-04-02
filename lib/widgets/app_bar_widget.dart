@@ -105,8 +105,6 @@ class _MyAppBarState extends State<MyAppBar> {
         if (snapshot.hasData) {
           final int warningCount = snapshot.data.warningCount;
           if (warningCount > 0) {
-            // print('warningCount $warningCount');
-            // print('warningCount ${snapshot.data.notifications}');
             return _buildNotificationIcon(warningCount);
           } else {
             return _buildNotificationIcon(0);

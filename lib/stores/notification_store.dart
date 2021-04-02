@@ -11,45 +11,17 @@ abstract class _NotificationStore with Store {
   // repository instance
   Repository _repository;
 
-  // store for handling errors
-  final ErrorStore errorStore = ErrorStore();
-
   // constructor:---------------------------------------------------------------
   _NotificationStore(Repository repository) : this._repository = repository;
 
   // store variables:-----------------------------------------------------------
-  static ObservableFuture<NotificationList> emptyNotificationListResponse =
-  ObservableFuture.value(null);
-
-  @observable
-  ObservableFuture<NotificationList> fetchNotificationListFuture =
-  ObservableFuture<NotificationList>(emptyNotificationListResponse);
-
   @observable
   NotificationList notificationList;
 
-  @observable
-  bool success = false;
-
-  @computed
-  bool get loading => fetchNotificationListFuture.status == FutureStatus.pending;
-
   @action
   Future<NotificationList> getNotification() async {
-    // final future = _repository.getNotification();
-    // fetchNotificationListFuture = ObservableFuture(future);
-    //
-    // future.then((notificationList) {
-    //   print('error');
-    //   this.notificationList = notificationList;
-    //   success = true;
-    //   print('notificationList: $notificationList');
-    //   return notificationList;
-    // }).catchError((error) {
-    //   success = false;
-    //   return ;
-    // });
-    return await _repository.getNotification();
+    notificationList = await _repository.getNotification();
+    return notificationList;
   }
 
   @action
