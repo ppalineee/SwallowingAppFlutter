@@ -133,6 +133,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 highlightColor: AppColors.lightgray,
                 onPressed: () {
                   Navigator.of(context).pushNamed(Routes.notification);
+                  _notificationStore.readNotification().then((value) => setState(() {}));
                 }),
             (warningCount > 0)
             ? Container(
