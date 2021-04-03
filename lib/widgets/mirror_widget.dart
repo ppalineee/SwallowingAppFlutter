@@ -21,7 +21,7 @@ class _MirrorWidgetState extends State<MirrorWidget>
   double _maxAvailableZoom;
   double _currentScale = 1.0;
   double _baseScale = 1.0;
-  int _currentCamera = 0;
+  int _currentCamera = 1;
 
   // Counting pointers (number of user fingers on screen)
   int _pointers = 0;

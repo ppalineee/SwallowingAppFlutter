@@ -110,7 +110,6 @@ class _MyAppBarState extends State<MyAppBar> {
             return _buildNotificationIcon(0);
           }
         } else {
-          print(snapshot.hasData);
           return _buildNotificationIcon(0);
         }
       },

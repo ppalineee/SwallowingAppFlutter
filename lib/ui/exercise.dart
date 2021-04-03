@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swallowing_app/constants/colors.dart';
+import 'package:swallowing_app/main.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/widgets/chewie_widget.dart';
 import 'package:swallowing_app/widgets/mirror_widget.dart';
@@ -34,9 +35,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             Expanded(
                 child: _buildVideoPlayer()
             ),
-            Expanded(
+            (cameras.length > 1)
+            ? Expanded(
                 child: MirrorWidget()
-            ),
+            )
+            : SizedBox.shrink()
           ],
         ),
         _buildBackBtn(),
