@@ -45,7 +45,7 @@ class Repository {
   Future<void> loginPatient(username, password) async {
     try {
       var json = await _loginApi.loginPatient(username, password);
-      await _sharedPrefsHelper.saveAuthToken(json.token);
+      await _sharedPrefsHelper.saveAuthToken(json.token, json.type);
       Profile profile =  await _profileApi.getPatientProfile(json.token);
       await _sharedPrefsHelper.savePatientProfile(profile);
     } catch (e) {
@@ -56,7 +56,7 @@ class Repository {
   Future<void> loginGuest() async {
     try {
       var json = await _loginApi.loginGuest();
-      await _sharedPrefsHelper.saveAuthToken(json.token);
+      await _sharedPrefsHelper.saveAuthToken(json.token, json.type);
     } catch (e) {
       rethrow;
     }

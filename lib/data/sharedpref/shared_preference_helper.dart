@@ -18,9 +18,10 @@ class SharedPreferenceHelper {
     });
   }
 
-  Future<void> saveAuthToken(String authToken) async {
+  Future<void> saveAuthToken(String authToken, String role) async {
     return _sharedPreference.then((preference) {
       preference.setString(Preferences.auth_token, authToken);
+      preference.setString(Preferences.role, role);
     });
   }
 
