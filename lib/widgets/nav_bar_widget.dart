@@ -9,6 +9,7 @@ import 'package:swallowing_app/routes.dart';
 
 class Navbar extends StatefulWidget {
   static var selectedIndex = 0;
+  static var role;
 
   @override
   _NavbarState createState() => _NavbarState();
@@ -39,6 +40,7 @@ class _NavbarState extends State<Navbar> {
           onSelectTab: (index) {
             setState(() {
               Navbar.selectedIndex = index;
+              Navbar.role = _role;
             });
             if (Navbar.selectedIndex == 0) {
               Navigator.of(context).pushReplacementNamed(Routes.home);
@@ -60,6 +62,7 @@ class _NavbarState extends State<Navbar> {
           onSelectTab: (index) {
             setState(() {
               Navbar.selectedIndex = index;
+              Navbar.role = _role;
             });
             if (Navbar.selectedIndex == 0) {
               Navigator.of(context).pushReplacementNamed(Routes.home);

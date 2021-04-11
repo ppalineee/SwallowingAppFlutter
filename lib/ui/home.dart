@@ -258,7 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacementNamed(Routes.article_list);
-              Navbar.selectedIndex = 3;
+              if (Navbar.role == 'Patient') {
+                Navbar.selectedIndex = 3;
+              } else {
+                Navbar.selectedIndex = 2;
+              }
             },
             child: Text(
               'ดูทั้งหมด >',
