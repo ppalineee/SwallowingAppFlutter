@@ -37,7 +37,7 @@ class ContactUsScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: 3,
+            itemCount: 1,
             itemBuilder: (context, index) {
               return Align(
                 child: Container(
