@@ -62,13 +62,9 @@ class Repository {
     }
   }
 
-  Future<void> logoutPatient() async {
+  Future<void> logout() async {
     _sharedPrefsHelper.removeAuthToken();
     _sharedPrefsHelper.removePatientProfile();
-  }
-
-  Future<void> logoutGuest() async {
-    _sharedPrefsHelper.removeAuthToken();
   }
 
   // Profile:-----------------------------------------------------------------

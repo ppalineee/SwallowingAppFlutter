@@ -1,3 +1,4 @@
+import 'package:path_provider/path_provider.dart';
 import 'package:swallowing_app/data/repository.dart';
 
 class AuthToken {
@@ -21,11 +22,27 @@ class AuthToken {
     }
   }
 
-  Future logoutPatient() async {
-    await _repository.logoutPatient();
+  Future logout() async {
+    await _repository.logout();
+    await _deleteCacheDir();
+    await _deleteAppDir();
   }
 
-  Future logoutGuest() async {
-    await _repository.logoutGuest();
+  /// this will delete cache
+  Future<void> _deleteCacheDir() async {
+    final cacheDir = await getTemporaryDirectory();
+
+    if (cacheDir.existsSync()) {
+      cacheDir.deleteSync(recursive: true);
+    }
+  }
+
+  /// this will delete app's storage
+  Future<void> _deleteAppDir() async {
+    final appDir = await getApplicationSupportDirectory();
+
+    if(appDir.existsSync()){
+      appDir.deleteSync(recursive: true);
+    }
   }
 }

@@ -47,7 +47,7 @@ class SettingScreen extends StatelessWidget {
       ),
       onTap: () async {
         AuthToken _authToken = Provider.of<AuthToken>(context, listen: false);
-        await _authToken.logoutPatient();
+        await _authToken.logout();
 
         SharedPreferences.getInstance().then((preference) {
           preference.setBool(Preferences.is_logged_in, false);
