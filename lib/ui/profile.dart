@@ -39,7 +39,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        _buildMainContent(),
+        Observer(
+          builder: (context) {
+            return Visibility(
+              visible: !_profileStore.loading && _profileStore.success,
+              child: _buildMainContent(),
+            );
+          },
+        ),
         Observer(
           builder: (context) {
             return Visibility(
