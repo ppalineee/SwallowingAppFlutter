@@ -44,11 +44,16 @@ abstract class _ProfileStore with Store {
     fetchProfileFuture = ObservableFuture(future);
 
     future.then((profile) {
-      this.profile = profile;
-      if (this.profile.score.isEmpty) {
-        this.score = [0,0,0,0,0,0,0,0,0,0];
+      if (profile != null) {
+        this.profile = profile;
+        if (this.profile.score.isEmpty) {
+          this.score = [0,0,0,0,0,0,0,0,0,0];
+        } else {
+          this.score = this.profile.score;
+        }
       } else {
-        this.score = this.profile.score;
+        this.profile = profile;
+        this.score = [0,0,0,0,0,0,0,0,0,0];
       }
       success = true;
     }).catchError((error) {

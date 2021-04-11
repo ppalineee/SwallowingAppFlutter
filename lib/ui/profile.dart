@@ -54,60 +54,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildMainContent() {
     return Stack(
-      children: <Widget>[
-        Container(
-          color: AppColors.lightgray,
-          width: MediaQuery.of(context).size.width,
-        ),
-        Container(
-          padding: EdgeInsets.only(bottom: 40),
-          alignment: Alignment.center,
-          child: Container(
-            height: 390,
-            child: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                      margin: EdgeInsets.only(top: 60),
-                      padding: EdgeInsets.fromLTRB(20, 75, 20, 20),
-                      width: MediaQuery.of(context).size.width - 80,
-                      height: 390,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Observer(
-                        builder: (context) {
-                          return Visibility(
-                              visible: _profileStore.success,
-                              child: _fetchProfileData()
-                          );
-                        },
-                      )
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                        color: AppColors.white,
-                        shape: BoxShape.circle
-                    ),
-                    child: Icon(
-                      Icons.account_circle,
-                      color: AppColors.gray,
-                      size: 100,
-                    ),
-                  ),
-                )
-              ],
-            ),
+        children: <Widget>[
+          Container(
+            color: AppColors.lightgray,
+            width: MediaQuery.of(context).size.width,
           ),
-        )
-      ]
+          Container(
+            padding: EdgeInsets.only(bottom: 40),
+            alignment: Alignment.center,
+            child: Container(
+              height: 390,
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                        margin: EdgeInsets.only(top: 60),
+                        padding: EdgeInsets.fromLTRB(20, 75, 20, 20),
+                        width: MediaQuery.of(context).size.width - 80,
+                        height: 390,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: (_profileStore.profile != null)
+                          ? Observer(
+                            builder: (context) {
+                              return Visibility(
+                                  visible: _profileStore.success,
+                                  child: _fetchProfileData()
+                              );
+                            },
+                          )
+                          : _handleGuestProfile()
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          shape: BoxShape.circle
+                      ),
+                      child: Icon(
+                        Icons.account_circle,
+                        color: AppColors.gray,
+                        size: 100,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ]
     );
   }
 
@@ -184,6 +186,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         )
       ],
+    );
+  }
+
+  Widget _handleGuestProfile() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 40),
+      child: Center(
+        child: Text(
+          'ข้อมูลจะแสดงผล\nเมื่อเข้าสู่ระบบด้วยบัญชีผู้ใช้',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 20),
+        ),
+      )
     );
   }
 

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/font_family.dart';
+import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:swallowing_app/models/notification.dart';
 import 'package:swallowing_app/routes.dart';
 import 'package:swallowing_app/stores/notification_store.dart';
@@ -23,6 +25,7 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _MyAppBarState extends State<MyAppBar> {
   NotificationStore _notificationStore;
+  String _role;
 
   @override
   void didChangeDependencies() async {
@@ -99,20 +102,28 @@ class _MyAppBarState extends State<MyAppBar> {
   }
 
   Widget _showNotification() {
-    return FutureBuilder<NotificationList>(
-      future: _notificationStore.getNotification(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          final int warningCount = snapshot.data.warningCount;
-          if (warningCount > 0) {
-            return _buildNotificationIcon(warningCount);
-          } else {
-            return _buildNotificationIcon(0);
-          }
-        } else {
-          return _buildNotificationIcon(0);
+    return FutureBuilder(
+        future: _getUsersRole(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          _role = snapshot.data ?? 'Guest';
+          return (_role == 'Patient')
+          ? FutureBuilder<NotificationList>(
+            future: _notificationStore.getNotification(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                final int warningCount = snapshot.data.warningCount;
+                if (warningCount > 0) {
+                  return _buildNotificationIcon(warningCount);
+                } else {
+                  return _buildNotificationIcon(0);
+                }
+              } else {
+                return _buildNotificationIcon(0);
+              }
+            },
+          )
+          : SizedBox.shrink();
         }
-      },
     );
   }
 
@@ -163,5 +174,11 @@ class _MyAppBarState extends State<MyAppBar> {
           ],
         )
     );
+  }
+
+  Future<String> _getUsersRole() async {
+    SharedPreferences preference = await SharedPreferences.getInstance();
+    String role = preference.getString(Preferences.role);
+    return role;
   }
 }
