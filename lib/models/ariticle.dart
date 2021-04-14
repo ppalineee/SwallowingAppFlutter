@@ -29,10 +29,10 @@ class Article {
   });
 
   factory Article.fromJson(Map<String, dynamic> json) => Article(
-    id: json["_id"],
-    title: json["title"],
-    content: json["detail"],
-    imgUrl: json["photo"],
+    id: json["_id"] ?? '',
+    title: json["title"] ?? '',
+    content: json["detail"] ?? '',
+    imgUrl: json["photo"] ?? '',
   );
 
   factory Article.fromMap(Map<String, dynamic> json) => Article(
