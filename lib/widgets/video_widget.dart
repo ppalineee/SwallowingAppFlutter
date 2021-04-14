@@ -99,17 +99,17 @@ class _VideoWidgetState extends State<VideoWidget> {
                         child: SizedBox(
                           width: 24,
                           height: 24,
-                          child: IconButton(
-                              padding: EdgeInsets.all(0),
-                              icon: Icon(
-                                Icons.more_vert,
-                                size: 24,
-                                color: Colors.black54,
-                              ),
-                              onPressed: () {
-
-                              }
-                          )
+                          // child: IconButton(
+                          //     padding: EdgeInsets.all(0),
+                          //     icon: Icon(
+                          //       Icons.more_vert,
+                          //       size: 24,
+                          //       color: Colors.black54,
+                          //     ),
+                          //     onPressed: () {
+                          //
+                          //     }
+                          // )
                         )
                       )
                     ],
