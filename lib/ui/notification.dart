@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/stores/notification_store.dart';
+import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/models/notification.dart';
 
@@ -20,15 +21,6 @@ class NotificationScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        _buildMainContent(context),
-      ],
-    );
-  }
-
-  Widget _buildMainContent(BuildContext context) {
     _notificationStore = Provider.of<NotificationStore>(context, listen: false);
     _notificationList = _notificationStore.notificationList;
     return Stack(
@@ -74,13 +66,23 @@ class NotificationScreen extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width-95,
                           child: Text(
-                            notification.message,
-                            style: TextStyle(color: AppColors.black, fontSize: 17),
+                            notification.title,
+                            style: TextStyle(color: AppColors.deepblue, fontSize: 17),
                           ),
                         ),
                         Text(
-                          notification.timestamp,
+                          DateFormats.changeThaiShortFormat(notification.timestamp),
                           style: TextStyle(color: AppColors.black, fontWeight: FontWeight.w300, fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width-95,
+                          child: Text(
+                            notification.message,
+                            style: TextStyle(color: AppColors.black, fontWeight: FontWeight.w300, fontSize: 15),
+                          ),
                         ),
                       ]
                   )

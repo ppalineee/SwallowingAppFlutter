@@ -19,19 +19,22 @@ class NotificationList {
 }
 
 class NotificationMessage {
+  String title;
   String message;
   int type;
   String timestamp;
 
   NotificationMessage({
+    this.title,
     this.message,
     this.type,
     this.timestamp,
   });
 
   factory NotificationMessage.fromJson(List<dynamic> notiList) => NotificationMessage(
-    message: notiList[0],
-    type: notiList[1],
-    timestamp: notiList[2],
+    title: notiList[0],
+    message: notiList[1],
+    type: notiList[2],
+    timestamp: notiList[3],
   );
 }
