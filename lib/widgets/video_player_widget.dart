@@ -7,14 +7,17 @@ import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/models/thumbnail.dart';
 import 'package:swallowing_app/models/video.dart';
 import 'package:swallowing_app/ui/exercise.dart';
+import 'package:swallowing_app/ui/video.dart';
 import 'package:swallowing_app/widgets/thumbnail_widget.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final Video video;
+  final bool hasMirror;
 
   VideoPlayerWidget({
     Key key,
+    this.hasMirror,
     @required this.video,
   }) : super(key: key);
 
@@ -53,7 +56,10 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => ExerciseScreen(video: widget.video)
+                      builder: (context) =>
+                        (widget.hasMirror == true)
+                        ? ExerciseScreen(video: widget.video)
+                        : VideoScreen(video: widget.video)
                   )
               );
             },

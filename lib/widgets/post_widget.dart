@@ -99,7 +99,8 @@ class _PostWidgetState extends State<PostWidget> {
                     name: 'วิดีโอของคุณ',
                     url: widget.assignment.videoPatient,
                     status: "patient",
-                  )
+                  ),
+                  hasMirror: false
                 ),
                 SizedBox(
                   height: 5,

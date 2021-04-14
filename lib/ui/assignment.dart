@@ -130,7 +130,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                       name: widget.assignment.videoName,
                       url: widget.assignment.videoUrl,
                       status: "private",
-                    )
+                    ),
+                    hasMirror: true,
                   ),
                   SizedBox(
                     height: 25,
