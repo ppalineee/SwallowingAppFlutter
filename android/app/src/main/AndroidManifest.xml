@@ -9,8 +9,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="swallowing_app"
-        android:icon="@mipmap/ic_launcher"
+        android:label="Swallowing Therapy"
+        android:icon="@mipmap/logo"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
