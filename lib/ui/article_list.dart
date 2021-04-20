@@ -71,7 +71,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
     return SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: 5),
-          child: _articleStore.articleList != null
+          child: (_articleStore.articleList != null && _articleStore.articleList.articles.length > 0)
           ? ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: _articleStore.articleList.articles.length,

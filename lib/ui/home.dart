@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildVideoList() {
     return Container(
         height: 160,
-        child: _homeStore.videoList != null
+        child: (_homeStore.videoList != null && _homeStore.videoList.videos.length > 0)
             ? ListView.separated(
           padding: EdgeInsets.only(left: 20, right: 20),
           scrollDirection: Axis.horizontal,
@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildArticleList() {
     return Container(
       height: 160,
-      child: _homeStore.articleList != null
+      child: (_homeStore.articleList != null && _homeStore.articleList.articles.length > 0)
       ? ListView.separated(
           padding: EdgeInsets.only(left: 20, right: 20),
           scrollDirection: Axis.horizontal,

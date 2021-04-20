@@ -70,7 +70,7 @@ class _VideoPlaylistScreenState extends State<VideoPlaylistScreen> {
             height: 5,
           ),
           Expanded(
-            child: _videoStore.videoList != null
+            child: (_videoStore.videoList != null && _videoStore.videoList.videos.length > 0)
             ? ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: _videoStore.videoList.videos.length,
