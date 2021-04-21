@@ -12,6 +12,7 @@ import 'package:swallowing_app/utils/device/device_utils.dart';
 import 'package:swallowing_app/utils/locale/app_localization.dart';
 import 'package:swallowing_app/widgets/assignment_status_widget.dart';
 import 'package:swallowing_app/widgets/comment_widget.dart';
+import 'package:swallowing_app/widgets/progress_indicator_widget.dart';
 import 'package:swallowing_app/widgets/video_player_widget.dart';
 
 class PostWidget extends StatefulWidget {
@@ -218,32 +219,30 @@ class _PostWidgetState extends State<PostWidget> {
             maxLines: 8,
           )
         ),
-        SizedBox(
-          width: 10,
-        ),
         Container(
+          width: 35,
           height: 50,
-          alignment: Alignment.center,
-          child: GestureDetector(
-            onTap: () async {
-              DeviceUtils.hideKeyboard(context);
-              await widget.assignmentStore.sendComment(
-                  widget.assignment.id, _controller.text)
-                  .then((value) async  {
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+              icon: Icon(
+                Icons.send,
+                size: 27,
+                color: AppColors.deepblue,
+              ),
+              highlightColor: AppColors.lightgray,
+              onPressed: () async {
+                DeviceUtils.hideKeyboard(context);
+                await widget.assignmentStore.sendComment(
+                    widget.assignment.id, _controller.text)
+                    .then((value) async  {
                   if (value == true) {
                     widget.refresh();
                   } else {
                     _showErrorMessage("เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย");
                   }
-              });
-              _controller.clear();
-            },
-            child: Icon(
-              Icons.send,
-              size: 27,
-              color: AppColors.deepblue,
-            ),
-          )
+                });
+                _controller.clear();
+              }),
         ),
       ]
     );
