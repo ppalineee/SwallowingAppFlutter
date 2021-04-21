@@ -8,6 +8,7 @@ import 'package:swallowing_app/utils/date_format.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/models/notification.dart';
 
+// ignore: must_be_immutable
 class NotificationScreen extends StatelessWidget {
   NotificationStore _notificationStore;
   NotificationList _notificationList;

@@ -40,15 +40,19 @@ abstract class _HomeStore with Store {
   ArticleList articleList;
 
   @observable
+  // ignore: non_constant_identifier_names
   bool video_success = false;
 
   @observable
+  // ignore: non_constant_identifier_names
   bool article_success = false;
 
   @computed
+  // ignore: non_constant_identifier_names
   bool get video_loading => fetchVideoListFuture.status == FutureStatus.pending;
 
   @computed
+  // ignore: non_constant_identifier_names
   bool get article_loading => fetchArticleListFuture.status == FutureStatus.pending;
 
   // actions:-------------------------------------------------------------------

@@ -58,9 +58,9 @@ class _MirrorWidgetState extends State<MirrorWidget>
 
   @override
   Widget build(BuildContext context) {
-    var width_size = MediaQuery.of(context).size.width;
+    var widthSize = MediaQuery.of(context).size.width;
     return Container(
-        width: width_size,
+        width: widthSize,
         height: MediaQuery.of(context).size.height/2,
         color: Colors.black,
         child: ClipRect(
@@ -69,7 +69,7 @@ class _MirrorWidgetState extends State<MirrorWidget>
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
-                width: width_size,
+                width: widthSize,
                 child: Center(
                   child: _cameraPreviewWidget(),
                 )

@@ -1,6 +1,5 @@
 import 'package:swallowing_app/data/repository.dart';
 import 'package:swallowing_app/models/notification.dart';
-import 'package:swallowing_app/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'notification_store.g.dart';

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -503,28 +502,28 @@ class _CameraWidgetState extends State<CameraWidget>
     }
   }
 
-  Future<void> _startVideoPlayer() async {
-    final VideoPlayerController vController =
-    VideoPlayerController.file(File(videoFile.path));
-    videoPlayerListener = () {
-      if (videoController != null && videoController.value.size != null) {
-        // Refreshing the state to update video player with the correct ratio.
-        if (mounted) setState(() {});
-        videoController.removeListener(videoPlayerListener);
-      }
-    };
-    vController.addListener(videoPlayerListener);
-    await vController.setLooping(true);
-    await vController.initialize();
-    await videoController?.dispose();
-    if (mounted) {
-      setState(() {
-        imageFile = null;
-        videoController = vController;
-      });
-    }
-    await vController.play();
-  }
+  // Future<void> _startVideoPlayer() async {
+  //   final VideoPlayerController vController =
+  //   VideoPlayerController.file(File(videoFile.path));
+  //   videoPlayerListener = () {
+  //     if (videoController != null && videoController.value.size != null) {
+  //       // Refreshing the state to update video player with the correct ratio.
+  //       if (mounted) setState(() {});
+  //       videoController.removeListener(videoPlayerListener);
+  //     }
+  //   };
+  //   vController.addListener(videoPlayerListener);
+  //   await vController.setLooping(true);
+  //   await vController.initialize();
+  //   await videoController?.dispose();
+  //   if (mounted) {
+  //     setState(() {
+  //       imageFile = null;
+  //       videoController = vController;
+  //     });
+  //   }
+  //   await vController.play();
+  // }
 
   Future<XFile> takePicture() async {
     if (!controller.value.isInitialized) {

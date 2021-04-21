@@ -2,9 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/routes.dart';
-import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swallowing_app/widgets/app_bar_widget.dart';
 import 'package:swallowing_app/widgets/nav_bar_widget.dart';
 

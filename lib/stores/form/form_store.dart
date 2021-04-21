@@ -139,7 +139,6 @@ abstract class _FormStore with Store {
       loading = false;
       success = true;
     } catch(e) {
-      print('e: ${e}');
       loading = false;
       success = false;
       errorStore.errorMessage = "เครือข่ายขัดข้อง กรุณาเชื่อมต่อเครือข่าย";
