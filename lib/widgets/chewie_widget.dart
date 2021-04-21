@@ -17,30 +17,47 @@ class ChewieWidget extends StatefulWidget {
 
 class _ChewieWidgetState extends State<ChewieWidget> {
   ChewieController _chewieController;
+  Future<void> _future;
+
+  Future<void> initVideoPlayer() async {
+    await widget.videoPlayerController.initialize();
+    setState(() {
+      _chewieController = ChewieController(
+        videoPlayerController: widget.videoPlayerController,
+        aspectRatio: widget.videoPlayerController.value.aspectRatio,
+        autoInitialize: true,
+        looping: false,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Text(
+              errorMessage,
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },
+      );
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _chewieController = ChewieController(
-      videoPlayerController: widget.videoPlayerController,
-      aspectRatio: Dimens.video_width / Dimens.video_height,
-      autoInitialize: true,
-      looping: false,
-      errorBuilder: (context, errorMessage) {
-        return Center(
-          child: Text(
-            errorMessage,
-            style: TextStyle(color: Colors.white),
-          ),
-        );
-      },
-    );
+    _future = initVideoPlayer();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Chewie(
-      controller: _chewieController,
+    return FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          return widget.videoPlayerController.value.initialized
+            ? Chewie(
+              controller: _chewieController,
+            )
+            : Center(
+              child: CircularProgressIndicator()
+            );
+        }
     );
   }
 
