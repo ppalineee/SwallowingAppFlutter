@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swallowing_app/constants/colors.dart';
 import 'package:swallowing_app/constants/dimens.dart';
 import 'package:swallowing_app/constants/font_family.dart';
+import 'package:swallowing_app/data/sharedpref/constants/preferences.dart';
 import 'package:swallowing_app/models/ariticle.dart';
 import 'package:swallowing_app/models/thumbnail.dart';
 import 'package:swallowing_app/models/video.dart';
@@ -256,13 +258,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               Navigator.of(context).pushReplacementNamed(Routes.article_list);
-              if (Navbar.role == 'Patient') {
-                Navbar.selectedIndex = 3;
-              } else {
-                Navbar.selectedIndex = 2;
-              }
+              await SharedPreferences.getInstance().then((preference) {
+                if (preference.getString(Preferences.role) == 'Patient') {
+                  Navbar.selectedIndex = 3;
+                } else {
+                  Navbar.selectedIndex = 2;
+                }
+              });
             },
             child: Text(
               'ดูทั้งหมด >',
