@@ -32,10 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // AppIconWidget(image: Assets.appLogo),
-                  // SizedBox(
-                  //   height: 30,
-                  // ),
+                  AppIconWidget(image: Assets.appLogo),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Text(
                     Strings.appName,
                     style: TextStyle(
