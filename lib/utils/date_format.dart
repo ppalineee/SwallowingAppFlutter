@@ -1,5 +1,13 @@
+import 'package:intl/intl.dart';
+
 class DateFormats {
   DateFormats._();
+
+  static String dateTimeParser(String dateTimeString) {
+    final dateTime = DateTime.parse(dateTimeString);
+    final clockString = DateFormat("yyyy-MM-dd HH:mm").format(dateTime);
+    return clockString;
+  }
 
   static String changeThaiFullFormat(String date) {
     int year;
@@ -8,6 +16,7 @@ class DateFormats {
     int day;
 
     try {
+      date = dateTimeParser(date);
       year = int.parse(date.substring(0,4)) + 543;
       monthNo = int.parse(date.substring(5,7));
       if (monthNo == 1) month = 'มกราคม';
@@ -38,6 +47,7 @@ class DateFormats {
     String minute;
 
     try {
+      date = dateTimeParser(date);
       year = (int.parse(date.substring(0,4)) + 543).toString().substring(2,);
       monthNo = int.parse(date.substring(5,7));
       if (monthNo == 1) month = 'ม.ค';
