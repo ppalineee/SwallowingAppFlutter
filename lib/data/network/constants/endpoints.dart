@@ -1,7 +1,7 @@
 class Endpoints {
   Endpoints._();
 
-  static const String baseUrl = "https://murmuring-reaches-76702.herokuapp.com";
+  static const String baseUrl = "https://peaceful-forest-98729.herokuapp.com";
   static const int receiveTimeout = 5000;
   static const int connectionTimeout = 5000;
   static const String loginPatient = baseUrl + "/loginpatient";
