@@ -204,7 +204,7 @@ class _TestScreenState extends State<TestScreen> {
                         width: 20,
                       ),
                       Text(
-                        '1',
+                        '1 - มีปัญหาเล็กน้อย',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: AppColors.black),
                       ),
                     ],
@@ -233,7 +233,7 @@ class _TestScreenState extends State<TestScreen> {
                         width: 20,
                       ),
                       Text(
-                        '2',
+                        '2 - มีปัญหาปานกลาง',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: AppColors.black),
                       ),
                     ],
@@ -262,7 +262,7 @@ class _TestScreenState extends State<TestScreen> {
                         width: 20,
                       ),
                       Text(
-                        '3',
+                        '3 - มีปัญหามาก',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: AppColors.black),
                       ),
                     ],
