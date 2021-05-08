@@ -30,13 +30,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeStore _homeStore;
-  String _tempDir;
-
-  @override
-  void initState() {
-    super.initState();
-    getTemporaryDirectory().then((d) => _tempDir = d.path);
-  }
 
   @override
   Future<void> didChangeDependencies() async {
@@ -173,64 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (context, index) {
             int i = _homeStore.videoList.videos.length - index - 1;
             Video video = _homeStore.videoList.videos[i];
-            GenThumbnailImage _futureImage = GenThumbnailImage(
-                thumbnailRequest: ThumbnailRequest(
-                    video: video.url,
-                    thumbnailPath: _tempDir,
-                    imageFormat: ImageFormat.JPEG,
-                    maxHeight: 0,
-                    maxWidth: 0,
-                    timeMs: 100,
-                    quality: 100));
-            return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => ExerciseScreen(video: video)
-                      )
-                  );
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 1,
-                  child: ClipPath(
-                    child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 190,
-                            height: 190 * Dimens.video_height / Dimens.video_width,
-                            color: AppColors.gray,
-                            child: (_futureImage != null) ? _futureImage : SizedBox()
-                          ),
-                          Container(
-                            width: 160,
-                            height: 40,
-                            child: Center(
-                              child: Text(
-                                video.name,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: FontFamily.kanit,
-                                  fontSize: 15,
-                                  color: AppColors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                    ),
-                    clipper: ShapeBorderClipper(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0)
-                      ),
-                    ),
-                  ),
-                )
-            );
+            return HomeVideoWidget(video: video);
           },
           separatorBuilder: (context, index) {
             return SizedBox(width: 5);
@@ -379,6 +315,93 @@ class _HomeScreenState extends State<HomeScreen> {
         'ไม่พบบทความที่คุณกำลังค้นหา...',
         style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 17),
       ),
+    );
+  }
+}
+
+class HomeVideoWidget extends StatefulWidget {
+  final Video video;
+
+  HomeVideoWidget({
+    Key key,
+    @required this.video,
+  }) : super(key: key);
+
+  @override
+  _HomeVideoWidgetState createState() => _HomeVideoWidgetState();
+}
+
+class _HomeVideoWidgetState extends State<HomeVideoWidget> {
+  GenThumbnailImage _futureImage;
+  String _tempDir;
+
+  @override
+  void initState() {
+    super.initState();
+    getTemporaryDirectory().then((d) => _tempDir = d.path);
+    _futureImage = GenThumbnailImage(
+        thumbnailRequest: ThumbnailRequest(
+            video: widget.video.url,
+            thumbnailPath: _tempDir,
+            imageFormat: ImageFormat.JPEG,
+            maxHeight: 0,
+            maxWidth: 0,
+            timeMs: 100,
+            quality: 100),
+        parentWidget: 'VideoWidget'
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => ExerciseScreen(video: widget.video)
+              )
+          );
+        },
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          elevation: 1,
+          child: ClipPath(
+            child: Column(
+                children: <Widget>[
+                  Container(
+                      width: 190,
+                      height: 190 * Dimens.video_height / Dimens.video_width,
+                      color: AppColors.gray,
+                      child: (_futureImage != null) ? _futureImage : SizedBox()
+                  ),
+                  Container(
+                    width: 160,
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        widget.video.name,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: FontFamily.kanit,
+                          fontSize: 15,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+            clipper: ShapeBorderClipper(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0)
+              ),
+            ),
+          ),
+        )
     );
   }
 }
