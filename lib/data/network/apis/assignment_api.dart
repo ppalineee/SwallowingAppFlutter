@@ -43,7 +43,7 @@ class AssignmentApi {
       FormData formData = new FormData.fromMap({
         'vdoFile': await MultipartFile.fromFile(
           videoFile.path,
-          filename: '${id}_$timestamp.mp4',
+          filename: '${id}_${timestamp.replaceAll(" ", "-")}.mp4',
           contentType: MediaType('video','mp4')),
         'timestamp': timestamp,
       });
