@@ -77,44 +77,46 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Column(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 30,
+                ),
+                _buildVideoListHeader(),
+                SizedBox(
+                  height: 10,
+                ),
+                _buildVideoList(),
+                SizedBox(
+                  height: 15,
+                ),
+              ],
+          ),
+          Divider(
+            thickness: 1.5,
+            color: AppColors.lightgray,
+          ),
+          Column(
             children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              _buildVideoListHeader(),
               SizedBox(
                 height: 10,
               ),
-              _buildVideoList(),
+              _buildArticleListHeader(),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
+              _buildArticleList(),
             ],
-        ),
-        Divider(
-          thickness: 1.5,
-          color: AppColors.lightgray,
-        ),
-        Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10,
-            ),
-            _buildArticleListHeader(),
-            SizedBox(
-              height: 10,
-            ),
-            _buildArticleList(),
-          ],
-        ),
-        SizedBox(
-          height: 15,
-        )
-      ]
+          ),
+          SizedBox(
+            height: 15,
+          )
+        ]
+      )
     );
   }
 
