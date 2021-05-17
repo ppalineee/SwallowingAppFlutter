@@ -24,8 +24,8 @@ class AuthToken {
 
   Future logout() async {
     await _repository.logout();
-    await _deleteCacheDir();
-    await _deleteAppDir();
+    // await _deleteCacheDir();
+    // await _deleteAppDir();
   }
 
   /// this will delete cache
