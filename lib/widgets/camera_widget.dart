@@ -66,7 +66,7 @@ class _CameraWidgetState extends State<CameraWidget>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _flashModeControlRowAnimationController.dispose();
+    _flashModeControlRowAnimationController?.dispose();
     super.dispose();
   }
 
@@ -372,7 +372,7 @@ class _CameraWidgetState extends State<CameraWidget>
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
     if (controller != null) {
-      await controller.dispose();
+      await controller?.dispose();
     }
     controller = CameraController(
       cameraDescription,

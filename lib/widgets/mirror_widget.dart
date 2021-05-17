@@ -135,7 +135,7 @@ class _MirrorWidgetState extends State<MirrorWidget>
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
     if (controller != null) {
-      await controller.dispose();
+      await controller?.dispose();
     }
     controller = CameraController(
       cameraDescription,
