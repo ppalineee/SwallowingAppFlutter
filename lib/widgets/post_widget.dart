@@ -75,7 +75,7 @@ class _PostWidgetState extends State<PostWidget> {
                             ),
                           ),
                           Text(
-                              DateFormats.changeThaiShortFormat(widget.assignment.timestamp),
+                              DateFormats.changeThaiShortFormat(widget.assignment.videoTimestamp),
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)
                           )
                         ]
